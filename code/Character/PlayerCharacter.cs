@@ -26,7 +26,7 @@ public partial class PlayerCharacter : BaseCharacter
 
 	public override void Respawn()
 	{
-		Camera = new ThirdPersonCamera();
+		Camera = new PlayerCamera();
 		Controller = new WalkController();
 
 		base.Respawn();
