@@ -1,0 +1,27 @@
+{
+  "Title": "Rising",
+  "Type": "game",
+  "Org": "devultj",
+  "Ident": "rising",
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "ResourcePaths": [
+    "/config/*",
+    "/fonts/*",
+    "/ui/*"
+  ],
+  "HasCode": true,
+  "CodePath": "code",
+  "RootNamespace": "Rising",
+  "Metadata": {
+    "MapList": [],
+    "MinPlayers": 1,
+    "MapSelect": 0,
+    "RankType": 0,
+    "PerMapRanking": false,
+    "LeaderboardType": 0,
+    "GameNetworkType": 0,
+    "MaxPlayers": 60
+  }
+}
