@@ -35,7 +35,7 @@ public partial class BaseCharacter : AnimatedEntity
 
 		SetModel( "models/citizen/citizen.vmdl" );
 
-		Animator = new StandardPlayerAnimator();
+		Animator = new CharacterAnimator();
 
 		LifeState = LifeState.Alive;
 		Health = MaxHealth;
