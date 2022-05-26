@@ -1,4 +1,6 @@
 
+using System;
+
 namespace Rising;
 
 public partial class PlayerCamera : CameraMode
@@ -32,6 +34,10 @@ public partial class PlayerCamera : CameraMode
 
 	public override void BuildInput( InputBuilder input )
 	{
+		var pawn = Local.Pawn as PlayerCharacter;
+		if ( !pawn.IsValid() )
+			return;
+
 		if ( input.Down( InputButton.SecondaryAttack ) )
 		{
 			var wheel = input.MouseWheel;
@@ -46,10 +52,25 @@ public partial class PlayerCamera : CameraMode
 				OrbitAngles.yaw += input.AnalogLook.yaw;
 				OrbitAngles.pitch += input.AnalogLook.pitch;
 				OrbitAngles = OrbitAngles.Normal;
-				OrbitAngles.pitch = OrbitAngles.pitch.Clamp( 50, 80 );
+				OrbitAngles.pitch = OrbitAngles.pitch.Clamp( 40, 60 );
 			}
+		}
+		else
+		{
+			var trace = Trace.Ray( input.Cursor.Origin, input.Cursor.Origin + input.Cursor.Direction * 100000f )
+						.WithoutTags( "player" )
+						.Radius( 5f )
+						.Run();
 
-			input.AnalogLook = Angles.Zero;
+			var targetDelta = (trace.HitPosition - pawn.Position);
+			var targetDirection = targetDelta.Normal;
+
+			DebugOverlay.Sphere( trace.HitPosition, 8f, Color.Green );
+
+			input.ViewAngles = new(
+				((float)Math.Asin( targetDirection.z )).RadianToDegree() * -1.0f,
+				((float)Math.Atan2( targetDirection.y, targetDirection.x )).RadianToDegree(),
+				0.0f );
 		}
 
 		// Let players move around at will
