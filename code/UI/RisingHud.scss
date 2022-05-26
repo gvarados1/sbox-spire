@@ -1,0 +1,13 @@
+RisingHud {
+    pointer-events: visible;
+
+    > .main {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    &.camera-movement {
+        pointer-events: none;
+    }
+}
