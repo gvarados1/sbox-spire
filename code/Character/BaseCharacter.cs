@@ -22,6 +22,8 @@ public partial class BaseCharacter : AnimatedEntity
 
 	public DamageInfo LastDamageInfo { get; protected set; }
 
+	public ClothingContainer Clothing = new();
+
 	public BaseCharacter()
 	{
 		Tags.Add( "player" );
@@ -44,6 +46,8 @@ public partial class BaseCharacter : AnimatedEntity
 		LifeState = LifeState.Alive;
 		Health = MaxHealth;
 		Velocity = Vector3.Zero;
+
+		Clothing.DressEntity( this );
 
 		CreateHull();
 		ResetInterpolation();

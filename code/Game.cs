@@ -19,7 +19,7 @@ public partial class Game : Sandbox.Game
 	{
 		cl.Pawn?.Delete();
 
-		var pawn = new PlayerCharacter();
+		var pawn = new PlayerCharacter( cl );
 		cl.Pawn = pawn;
 
 		pawn.Respawn();

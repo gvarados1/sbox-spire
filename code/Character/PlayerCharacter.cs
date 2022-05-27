@@ -24,6 +24,17 @@ public partial class PlayerCharacter : BaseCharacter
 		}
 	}
 
+	public PlayerCharacter()
+	{
+		//
+	}
+
+	public PlayerCharacter( Client cl ) : this()
+	{
+		// Load clothing from client data
+		Clothing.LoadFromClient( cl );
+	}
+
 	public override void Respawn()
 	{
 		Camera = new PlayerCamera();
