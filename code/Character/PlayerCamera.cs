@@ -10,6 +10,9 @@ public partial class PlayerCamera : CameraMode
 	protected float OrbitDistance { get; set; } = 400f;
 	protected float WheelSpeed => 10f;
 
+	protected Range<int> CameraDistance { get; set; } = new( 300, 500 );
+	protected Range<int> PitchClamp { get; set; } = new( 40, 60 );
+
 	public override void Update()
 	{
 		var pawn = Local.Pawn as AnimatedEntity;
@@ -38,22 +41,19 @@ public partial class PlayerCamera : CameraMode
 		if ( !pawn.IsValid() )
 			return;
 
+		var wheel = input.MouseWheel;
+		if ( wheel != 0 )
+		{
+			OrbitDistance -= wheel * WheelSpeed;
+			OrbitDistance = OrbitDistance.Clamp( CameraDistance.Min, CameraDistance.Max );
+		}
+
 		if ( input.Down( InputButton.SecondaryAttack ) )
 		{
-			var wheel = input.MouseWheel;
-
-			if ( wheel != 0 )
-			{
-				OrbitDistance -= wheel * WheelSpeed;
-				OrbitDistance = OrbitDistance.Clamp( 300, 500 );
-			}
-			else
-			{
-				OrbitAngles.yaw += input.AnalogLook.yaw;
-				OrbitAngles.pitch += input.AnalogLook.pitch;
-				OrbitAngles = OrbitAngles.Normal;
-				OrbitAngles.pitch = OrbitAngles.pitch.Clamp( 40, 60 );
-			}
+			OrbitAngles.yaw += input.AnalogLook.yaw;
+			OrbitAngles.pitch += input.AnalogLook.pitch;
+			OrbitAngles = OrbitAngles.Normal;
+			OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.Min, PitchClamp.Max );
 		}
 		else
 		{
