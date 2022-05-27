@@ -8,6 +8,7 @@ public partial class PlayerCamera : CameraMode
 	protected Angles OrbitAngles;
 
 	protected float OrbitDistance { get; set; } = 400f;
+	protected float TargetOrbitDistance { get; set; } = 400f;
 	protected float WheelSpeed => 10f;
 
 	protected Range<int> CameraDistance { get; set; } = new( 300, 500 );
@@ -44,9 +45,11 @@ public partial class PlayerCamera : CameraMode
 		var wheel = input.MouseWheel;
 		if ( wheel != 0 )
 		{
-			OrbitDistance -= wheel * WheelSpeed;
-			OrbitDistance = OrbitDistance.Clamp( CameraDistance.Min, CameraDistance.Max );
+			TargetOrbitDistance -= wheel * WheelSpeed;
+			TargetOrbitDistance = TargetOrbitDistance.Clamp( CameraDistance.Min, CameraDistance.Max );
 		}
+
+		OrbitDistance = OrbitDistance.LerpTo( TargetOrbitDistance, Time.Delta * 10f );
 
 		if ( input.Down( InputButton.SecondaryAttack ) )
 		{
