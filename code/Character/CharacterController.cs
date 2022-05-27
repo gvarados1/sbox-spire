@@ -25,13 +25,11 @@ public partial class CharacterController : BasePlayerController
 	public bool Swimming { get; set; } = false;
 	[Net] public bool AutoJump { get; set; } = false;
 
-	public Duck Duck;
 	public Unstuck Unstuck;
 
 
 	public CharacterController()
 	{
-		Duck = new Duck( this );
 		Unstuck = new Unstuck( this );
 	}
 
@@ -46,11 +44,6 @@ public partial class CharacterController : BasePlayerController
 
 		return new BBox( mins, maxs );
 	}
-
-
-	// Duck body height 32
-	// Eye Height 64
-	// Duck Eye Height 28
 
 	protected Vector3 mins;
 	protected Vector3 maxs;
@@ -73,8 +66,6 @@ public partial class CharacterController : BasePlayerController
 
 		var mins = new Vector3( -girth, -girth, 0 ) * Pawn.Scale;
 		var maxs = new Vector3( +girth, +girth, BodyHeight ) * Pawn.Scale;
-
-		Duck.UpdateBBox( ref mins, ref maxs, Pawn.Scale );
 
 		SetBBox( mins, maxs );
 	}
@@ -149,10 +140,10 @@ public partial class CharacterController : BasePlayerController
 
 		// if ( underwater ) do underwater movement
 
-		if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
-		{
-			CheckJumpButton();
-		}
+		//if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
+		//{
+		//	CheckJumpButton();
+		//}
 
 		// Fricion is handled before we add in any base velocity. That way, if we are on a conveyor,
 		//  we don't slow when standing still, relative to the conveyor.
@@ -187,8 +178,6 @@ public partial class CharacterController : BasePlayerController
 
 		WishVelocity = WishVelocity.Normal * inSpeed;
 		WishVelocity *= GetWishSpeed();
-
-		Duck.PreTick();
 
 		bool bStayOnGround = false;
 		if ( Swimming )
@@ -251,9 +240,6 @@ public partial class CharacterController : BasePlayerController
 
 	public virtual float GetWishSpeed()
 	{
-		var ws = Duck.GetWishSpeed();
-		if ( ws >= 0 ) return ws;
-
 		if ( Input.Down( InputButton.Run ) ) return SprintSpeed;
 		if ( Input.Down( InputButton.Walk ) ) return WalkSpeed;
 
@@ -446,17 +432,6 @@ public partial class CharacterController : BasePlayerController
 		if ( GroundEntity == null )
 			return;
 
-		/*
-            if ( player->m_Local.m_bDucking && (player->GetFlags() & FL_DUCKING) )
-                return false;
-            */
-
-		/*
-            // Still updating the eye position.
-            if ( player->m_Local.m_nDuckJumpTimeMsecs > 0u )
-                return false;
-            */
-
 		ClearGroundEntity();
 
 		// player->PlayStepSound( (Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, 1.0, true );
@@ -472,9 +447,6 @@ public partial class CharacterController : BasePlayerController
 		float flMul = 268.3281572999747f * 1.2f;
 
 		float startz = Velocity.z;
-
-		if ( Duck.IsActive )
-			flMul *= 0.8f;
 
 		Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
 
