@@ -1,5 +1,8 @@
+@import "/UI/Theme.scss";
+
 SpireHud {
     pointer-events: visible;
+    padding: $safe-zone-y $safe-zone-x $safe-zone-x $safe-zone-y;
 
     > .main {
         position: absolute;
@@ -10,4 +13,11 @@ SpireHud {
     &.camera-movement {
         pointer-events: none;
     }
+}
+
+// Default label properties
+label {
+    font-family: Cinzel;
+    color: white;
+    text-shadow: 1px 1px 2px black;
 }
