@@ -1,8 +1,8 @@
 {
-  "Title": "Rising",
+  "Title": "Spire",
   "Type": "game",
   "Org": "devultj",
-  "Ident": "rising",
+  "Ident": "spire",
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
@@ -13,7 +13,7 @@
   ],
   "HasCode": true,
   "CodePath": "code",
-  "RootNamespace": "Rising",
+  "RootNamespace": "Spire",
   "Metadata": {
     "MapList": [],
     "MinPlayers": 1,
