@@ -57,6 +57,8 @@ public partial class PlayerCamera : CameraMode
 			OrbitAngles.pitch += input.AnalogLook.pitch;
 			OrbitAngles = OrbitAngles.Normal;
 			OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.Min, PitchClamp.Max );
+
+			input.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
 		else
 		{
@@ -67,6 +69,6 @@ public partial class PlayerCamera : CameraMode
 		}
 
 		// Let players move around at will
-		input.InputDirection = input.AnalogMove;
+		input.InputDirection = Rotation.From( OrbitAngles.WithPitch( 0f ) ) * input.AnalogMove;
 	}
 }
