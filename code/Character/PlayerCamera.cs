@@ -60,20 +60,10 @@ public partial class PlayerCamera : CameraMode
 		}
 		else
 		{
-			var trace = Trace.Ray( input.Cursor.Origin, input.Cursor.Origin + input.Cursor.Direction * 100000f )
-						.WithoutTags( "player" )
-						.Radius( 5f )
-						.Run();
+			var direction = Screen.GetDirection( Mouse.Position, FieldOfView, Rotation, Screen.Size );
+			var hitPos = Utils.PlaneIntersectionWithZ( Position, direction, pawn.EyePosition.z );
 
-			var targetDelta = (trace.HitPosition - pawn.Position);
-			var targetDirection = targetDelta.Normal;
-
-			DebugOverlay.Sphere( trace.HitPosition, 8f, Color.Green );
-
-			input.ViewAngles = new(
-				((float)Math.Asin( targetDirection.z )).RadianToDegree() * -1.0f,
-				((float)Math.Atan2( targetDirection.y, targetDirection.x )).RadianToDegree(),
-				0.0f );
+			input.ViewAngles = (hitPos - pawn.EyePosition).EulerAngles;
 		}
 
 		// Let players move around at will

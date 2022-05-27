@@ -4,7 +4,6 @@ namespace Rising;
 
 public partial class BaseCharacter : AnimatedEntity
 {
-
 	[Net, Predicted]
 	public BaseCarriable LastActiveChild { get; set; }
 
