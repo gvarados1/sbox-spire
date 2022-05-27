@@ -23,6 +23,11 @@ public partial class BaseCharacter : AnimatedEntity
 
 	public DamageInfo LastDamageInfo { get; protected set; }
 
+	public BaseCharacter()
+	{
+		Tags.Add( "player" );
+	}
+
 	public override void Simulate( Client cl )
 	{
 		SimulateActiveChild( cl, ActiveChild );
