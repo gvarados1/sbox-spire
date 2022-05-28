@@ -15,7 +15,7 @@ public partial class BaseMeleeWeapon : BaseWeapon
 	public virtual float AttackInflictDelay => 0.35f;
 
 	public virtual float AttackRange => 90f;
-	public virtual float AttackRadius => 20f;
+	public virtual float AttackRadius => 15f;
 	public virtual float BaseDamage => 30f;
 
 	protected virtual async Task DelayedAttack()
@@ -41,7 +41,7 @@ public partial class BaseMeleeWeapon : BaseWeapon
 			.Radius( AttackRadius )
 			.Run();
 
-		DebugOverlay.TraceResultWithRealm( trace );
+		// DebugOverlay.TraceResultWithRealm( trace );
 
 		InflictDamage( GetDamage(), trace );
 	}

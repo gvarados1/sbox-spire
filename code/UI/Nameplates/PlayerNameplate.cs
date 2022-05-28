@@ -9,6 +9,8 @@ public partial class PlayerNameplate : BaseNameplate
 	// @ref
 	public Panel HealthBarFill { get; set; }
 
+	protected float LerpedHealthFraction { get; set; }
+
 	public PlayerNameplate( BaseCharacter character ) : base( character )
 	{
 		BindClass( "local", () => IsLocalPlayer );
@@ -18,9 +20,11 @@ public partial class PlayerNameplate : BaseNameplate
 	{
 		base.Update();
 
+		LerpedHealthFraction = LerpedHealthFraction.LerpTo( HealthFraction, Time.Delta * 10f );
+
 		if ( Character is PlayerCharacter player )
 		{
-			HealthBarFill.Style.Width = Length.Fraction( HealthFraction );
+			HealthBarFill.Style.Width = Length.Fraction( LerpedHealthFraction );
 		}
 	}
 }

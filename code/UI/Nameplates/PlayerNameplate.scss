@@ -1,6 +1,24 @@
 PlayerNameplate {
-    transform: translateX( -50% );
+    transform: translateX( -50% ) translateY( -50% );
     position: absolute;
+
+    &:outro {
+        opacity: 0;
+        transition: all 0.1s ease;
+        transform: scale(2);
+    }
+
+    &.damage {
+        > .main {
+            > .health-bar {
+                > .health-bar-fill {
+                    margin: 1px;
+                    transition: background-color 0.1s ease-out, margin 0.1s ease;
+                    background-color: rgba(128, 128, 128, 0.5);
+                }
+            }
+        }
+    }
 
     > .main {
         width: 186px;

@@ -2,20 +2,25 @@ namespace Spire.UI;
 
 public partial class BaseNameplate : Panel
 {
+	public virtual string NameplateName => "Nameplate";
+
 	protected virtual bool StayOnScreen => false;
-	protected virtual float Health => Character?.Health ?? 100f;
 	protected virtual float MaxHealth => Character?.MaxHealth ?? 100f;
 	protected virtual float HealthFraction => Health / MaxHealth;
-
 	protected virtual Vector2 SafetyBounds => new( 0.1f, 0.1f );
 
-	public BaseCharacter Character { get; protected set; }
-
-	public virtual string NameplateName => "Nameplate";
+	protected BaseCharacter Character { get; set; }
+	protected float Health { get; set; } = 100f;
+	protected float LastHealth { get; set; } = 100f;
 
 	public BaseNameplate( BaseCharacter character )
 	{
 		Character = character;
+	}
+
+	protected virtual float GetCharacterHealth()
+	{
+		return Character?.Health ?? 0f;
 	}
 
 	/// <summary>
@@ -60,5 +65,21 @@ public partial class BaseNameplate : Panel
 	public virtual void Update()
 	{
 		SetupNameplatePosition();
+
+		LastHealth = Health;
+		Health = GetCharacterHealth();
+
+		if ( Health != LastHealth )
+		{
+			OnHealthChanged( LastHealth, Health, Health < LastHealth );
+		}
+	}
+
+	protected virtual void OnHealthChanged( float oldHealth, float newHealth, bool decreased )
+	{
+		if ( decreased )
+		{
+			this.SetTimedClass( "damage", 0.2f );
+		}
 	}
 }

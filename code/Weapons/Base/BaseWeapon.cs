@@ -45,13 +45,14 @@ public partial class BaseWeapon : BaseCarriable
 		var damageInfo = new DamageInfo()
 				.WithPosition( tr.EndPosition )
 				.WithFlag( addedFlags )
-				.WithForce( tr.Direction * AttackForce )
+				.WithForce( Owner.EyeRotation.Forward * AttackForce )
 				.UsingTraceResult( tr )
 				.WithAttacker( Owner )
 				.WithWeapon( this );
 
 		damageInfo.Damage = damage;
 
+		tr.Surface.DoBulletImpact( tr );
 		tr.Entity.TakeDamage( damageInfo );
 	}
 
