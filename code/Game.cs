@@ -1,6 +1,8 @@
 global using Sandbox;
 global using Sandbox.UI;
 
+using Spire.UI;
+
 namespace Spire;
 
 public partial class Game : Sandbox.Game

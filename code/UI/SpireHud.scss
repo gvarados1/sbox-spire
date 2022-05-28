@@ -2,13 +2,6 @@
 
 SpireHud {
     pointer-events: visible;
-    padding: $safe-zone-y $safe-zone-x $safe-zone-x $safe-zone-y;
-
-    > .main {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-    }
 
     &.camera-movement {
         pointer-events: none;
