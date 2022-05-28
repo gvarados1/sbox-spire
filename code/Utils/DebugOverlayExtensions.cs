@@ -1,4 +1,4 @@
-namespace Spire;
+namespace Spire.ExtensionMethods;
 
 public static class DebugOverlayExtensions
 {
