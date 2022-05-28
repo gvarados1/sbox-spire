@@ -35,6 +35,24 @@ public partial class BaseWeapon : BaseCarriable
 
 	}
 
+	protected virtual void InflictDamage( float damage, TraceResult tr, DamageFlags addedFlags = DamageFlags.Slash )
+	{
+		if ( !tr.Hit )
+			return;
+
+		var damageInfo = new DamageInfo()
+				.WithPosition( tr.EndPosition )
+				.WithFlag( addedFlags )
+				.WithForce( tr.Direction * tr.Distance )
+				.UsingTraceResult( tr )
+				.WithAttacker( Owner )
+				.WithWeapon( this );
+
+		damageInfo.Damage = damage;
+
+		tr.Entity.TakeDamage( damageInfo );
+	}
+
 	public override void Simulate( Client player )
 	{
 		if ( !Owner.IsValid() )

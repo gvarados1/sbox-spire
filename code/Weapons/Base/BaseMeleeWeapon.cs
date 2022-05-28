@@ -16,15 +16,21 @@ public partial class BaseMeleeWeapon : BaseWeapon
 
 	public virtual float AttackRange => 90f;
 	public virtual float AttackRadius => 20f;
+	public virtual float BaseDamage => 30f;
 
 	protected virtual async Task DelayedAttack()
 	{
 		await GameTask.DelaySeconds( AttackInflictDelay );
 
-		InflictDamage();
+		RunDamageTrace();
 	}
 
-	protected virtual void InflictDamage()
+	protected virtual float GetDamage()
+	{
+		return BaseDamage;
+	}
+
+	protected virtual void RunDamageTrace()
 	{
 		var startPos = Owner.EyePosition;
 		var direction = Owner.EyeRotation.Forward;
@@ -36,6 +42,8 @@ public partial class BaseMeleeWeapon : BaseWeapon
 			.Run();
 
 		DebugOverlay.TraceResultWithRealm( trace );
+
+		InflictDamage( GetDamage(), trace );
 	}
 
 	public override void AttackPrimary()
