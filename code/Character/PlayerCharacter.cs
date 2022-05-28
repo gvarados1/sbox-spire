@@ -67,6 +67,13 @@ public partial class PlayerCharacter : BaseCharacter
 		Animator?.BuildInput( input );
 	}
 
+	public override void OnKilled()
+	{
+		base.OnKilled();
+
+		TimeSinceDied = 0;
+	}
+
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
