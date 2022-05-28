@@ -9,7 +9,7 @@ public partial class PlayerNameplate : BaseNameplate
 	// @ref
 	public Panel HealthBarFill { get; set; }
 
-	protected float LerpedHealthFraction { get; set; }
+	protected float LerpedHealthFraction { get; set; } = 1f;
 
 	public PlayerNameplate( BaseCharacter character ) : base( character )
 	{
