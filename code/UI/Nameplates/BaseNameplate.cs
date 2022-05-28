@@ -3,6 +3,10 @@ namespace Spire.UI;
 public partial class BaseNameplate : Panel
 {
 	protected virtual bool StayOnScreen => false;
+	protected virtual float Health => Character?.Health ?? 100f;
+	protected virtual float MaxHealth => Character?.MaxHealth ?? 100f;
+	protected virtual float HealthFraction => Health / MaxHealth;
+
 	protected virtual Vector2 SafetyBounds => new( 0.1f, 0.1f );
 
 	public BaseCharacter Character { get; protected set; }

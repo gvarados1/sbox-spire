@@ -4,8 +4,10 @@ namespace Spire.UI;
 public partial class PlayerNameplate : BaseNameplate
 {
 	public override string NameplateName => Character.Client?.Name;
-
 	protected bool IsLocalPlayer => Character == Local.Pawn;
+
+	// @ref
+	public Panel HealthBarFill { get; set; }
 
 	public PlayerNameplate( BaseCharacter character ) : base( character )
 	{
@@ -18,7 +20,7 @@ public partial class PlayerNameplate : BaseNameplate
 
 		if ( Character is PlayerCharacter player )
 		{
-			//
+			HealthBarFill.Style.Width = Length.Fraction( HealthFraction );
 		}
 	}
 }
