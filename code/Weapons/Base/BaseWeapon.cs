@@ -19,6 +19,8 @@ public partial class BaseWeapon : BaseCarriable
 
 	public virtual void AttackPrimary()
 	{
+		TimeSincePrimaryAttack = 0;
+
 		RpcPrimaryAttack();
 	}
 
