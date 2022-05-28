@@ -7,6 +7,8 @@ public partial class BaseWeapon : BaseCarriable
 
 	public virtual float PrimaryRate => 15.0f;
 
+	public virtual float AttackForce => 500f;
+
 	protected virtual bool CanPrimaryAttack()
 	{
 		if ( !Owner.IsValid() || !Input.Down( InputButton.PrimaryAttack ) ) return false;
@@ -35,7 +37,7 @@ public partial class BaseWeapon : BaseCarriable
 
 	}
 
-	protected virtual void InflictDamage( float damage, TraceResult tr, DamageFlags addedFlags = DamageFlags.Slash )
+	protected virtual void InflictDamage( float damage, TraceResult tr, DamageFlags addedFlags = DamageFlags.Bullet )
 	{
 		if ( !tr.Hit )
 			return;
@@ -43,7 +45,7 @@ public partial class BaseWeapon : BaseCarriable
 		var damageInfo = new DamageInfo()
 				.WithPosition( tr.EndPosition )
 				.WithFlag( addedFlags )
-				.WithForce( tr.Direction * tr.Distance )
+				.WithForce( tr.Direction * AttackForce )
 				.UsingTraceResult( tr )
 				.WithAttacker( Owner )
 				.WithWeapon( this );

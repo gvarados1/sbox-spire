@@ -93,6 +93,26 @@ public partial class BaseCharacter : AnimatedEntity
 		ActiveController?.FrameSimulate( cl, this, ActiveAnimator );
 	}
 
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+		if ( Host.IsClient )
+			Nameplate?.Delete();
+	}
+
+	public override void OnKilled()
+	{
+		base.OnKilled();
+
+		BecomeRagdollOnClient(
+			Velocity,
+			LastDamageInfo.Flags,
+			LastDamageInfo.Position,
+			LastDamageInfo.Force,
+			GetHitboxBone( LastDamageInfo.HitboxIndex ) );
+	}
+
 	public virtual void CreateHull()
 	{
 		CollisionGroup = CollisionGroup.Player;
