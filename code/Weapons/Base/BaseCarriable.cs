@@ -16,6 +16,19 @@ public partial class BaseCarriable : Sandbox.BaseCarriable
 		}
 	}
 
+	public override void ActiveStart( Entity ent )
+	{
+		EnableDrawing = true;
+
+		if ( ent is BaseCharacter player )
+		{
+			var animator = player.ActiveAnimator;
+			if ( animator != null )
+			{
+				SimulateAnimator( animator );
+			}
+		}
+	}
 
 	public override void SimulateAnimator( PawnAnimator anim )
 	{
