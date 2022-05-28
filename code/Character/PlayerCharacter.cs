@@ -10,6 +10,9 @@ public partial class PlayerCharacter : BaseCharacter
 	[Net]
 	public PawnController DevController { get; set; }
 
+	[Net, Predicted]
+	public PlayerHotbar Hotbar { get; set; }
+
 	public override PawnController ActiveController => DevController ?? base.ActiveController;
 	public virtual float RespawnTime => 1;
 
@@ -42,6 +45,9 @@ public partial class PlayerCharacter : BaseCharacter
 	{
 		Camera = new PlayerCamera();
 		Controller = new CharacterController();
+		Hotbar = new PlayerHotbar( this );
+
+		Hotbar.SetCurrent( new SwordWeapon() );
 
 		base.Respawn();
 	}
