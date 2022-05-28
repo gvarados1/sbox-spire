@@ -1,12 +1,15 @@
 namespace Spire.UI;
 
-[UseTemplate( "/UI/Nameplates/PlayerNameplate.html" )]
+[UseTemplate]
 public partial class PlayerNameplate : BaseNameplate
 {
-	public override string NameplateName => Character.Client?.Name;
+	public override string NameplateName => IsLocalPlayer ? "" : Character.Client?.Name;
+
+	protected bool IsLocalPlayer => Character == Local.Pawn;
 
 	public PlayerNameplate( BaseCharacter character ) : base( character )
 	{
+		BindClass( "local", () => IsLocalPlayer );
 	}
 
 	public override void Update()
