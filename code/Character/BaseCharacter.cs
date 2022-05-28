@@ -59,11 +59,25 @@ public partial class BaseCharacter : AnimatedEntity
 		Position = Vector3.Zero;
 	}
 
+	[ClientRpc]
+	protected void RpcTakeDamage( Vector3 pos, float damage )
+	{
+		ClientTakeDamage( pos, damage );
+	}
+
+	protected virtual void ClientTakeDamage( Vector3 pos, float damage )
+	{
+		DamageIndicator.Create( pos, damage );
+	}
+
 	public override void TakeDamage( DamageInfo info )
 	{
 		base.TakeDamage( info );
 
 		LastDamageInfo = info;
+
+		if ( Host.IsServer )
+			RpcTakeDamage( info.Position, info.Damage );
 	}
 
 	public virtual void SimulateActiveChild( Client client, BaseCarriable child )
