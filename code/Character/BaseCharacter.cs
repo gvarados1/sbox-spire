@@ -77,10 +77,7 @@ public partial class BaseCharacter : AnimatedEntity
 		if ( !LastActiveChild.IsValid() )
 			return;
 
-		if ( LastActiveChild.IsAuthority )
-		{
-			LastActiveChild.Simulate( client );
-		}
+		LastActiveChild.Simulate( client );
 	}
 
 	public virtual void OnActiveChildChanged( BaseCarriable previous, BaseCarriable next )

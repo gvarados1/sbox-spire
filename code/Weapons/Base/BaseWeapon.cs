@@ -19,6 +19,17 @@ public partial class BaseWeapon : BaseCarriable
 
 	public virtual void AttackPrimary()
 	{
+		RpcPrimaryAttack();
+	}
+
+	[ClientRpc]
+	protected void RpcPrimaryAttack()
+	{
+		ClientPrimaryAttack();
+	}
+
+	protected virtual void ClientPrimaryAttack()
+	{
 
 	}
 

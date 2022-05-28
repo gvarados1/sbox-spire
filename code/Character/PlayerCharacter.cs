@@ -43,13 +43,13 @@ public partial class PlayerCharacter : BaseCharacter
 
 	public override void Respawn()
 	{
+		base.Respawn();
+
 		Camera = new PlayerCamera();
 		Controller = new CharacterController();
 		Hotbar = new PlayerHotbar( this );
 
 		Hotbar.SetCurrent( new SwordWeapon() );
-
-		base.Respawn();
 	}
 
 	public override void BuildInput( InputBuilder input )
