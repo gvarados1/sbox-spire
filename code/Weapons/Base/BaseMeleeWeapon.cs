@@ -17,9 +17,13 @@ public partial class BaseMeleeWeapon : BaseWeapon
 	public virtual float AttackRange => 90f;
 	public virtual float BaseDamage => 30f;
 	public virtual int MaxConeAngle => 75;
+	public virtual string SwingSoundPath => "light_sword_swing";
+	public virtual string HitFleshSoundPath => "stab_sword_flesh";
 
 	protected virtual async Task DelayedAttack()
 	{
+		PlaySound( SwingSoundPath );
+
 		await GameTask.DelaySeconds( AttackInflictDelay );
 
 		ExecuteConeAttack();
@@ -94,6 +98,8 @@ public partial class BaseMeleeWeapon : BaseWeapon
 
 		// Finally, inflict damage on our target
 		entity.TakeDamage( damageInfo );
+
+		PlaySound( HitFleshSoundPath );
 	}
 
 	public override void AttackPrimary()
