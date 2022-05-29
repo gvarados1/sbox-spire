@@ -39,4 +39,12 @@ public partial class Game : Sandbox.Game
 
 		SetupDefaultPawn( cl );
 	}
+
+	[ConCmd.Server( "spire_respawn" )]
+	public static void ForceRespawn()
+	{
+		var cl = ConsoleSystem.Caller;
+
+		Current.SetupDefaultPawn( cl );
+	}
 }
