@@ -15,19 +15,19 @@
 						[
 							{
 								from = "mi_sword_blade_01.vmat"
-								to = "materials/dev/reflectivity_70b.vmat"
+								to = "assets/weapons/sword_parts/sword_blade.vmat"
 							},
 							{
 								from = "mi_sword_crossguard_01.vmat"
-								to = "materials/dev/reflectivity_70b.vmat"
+								to = "assets/weapons/sword_parts/sword_blade.vmat"
 							},
 							{
 								from = "mi_sword_hilt_01.vmat"
-								to = "materials/dev/reflectivity_70b.vmat"
+								to = "assets/weapons/sword_parts/sword_hilt.vmat"
 							},
 							{
 								from = "mi_sword_pommel_05.vmat"
-								to = "materials/dev/reflectivity_70b.vmat"
+								to = "assets/weapons/sword_parts/sword_blade.vmat"
 							},
 						]
 						use_global_default = false
