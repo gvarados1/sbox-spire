@@ -14,7 +14,6 @@ public partial class PlayerCharacter : BaseCharacter
 	public PlayerHotbar Hotbar { get; set; }
 
 	public override PawnController ActiveController => DevController ?? base.ActiveController;
-	public virtual float RespawnTime => 1;
 
 	public virtual CameraMode Camera
 	{
@@ -77,13 +76,5 @@ public partial class PlayerCharacter : BaseCharacter
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
-
-		if ( LifeState == LifeState.Dead )
-		{
-			if ( TimeSinceDied > RespawnTime && IsServer )
-			{
-				Respawn();
-			}
-		}
 	}
 }
