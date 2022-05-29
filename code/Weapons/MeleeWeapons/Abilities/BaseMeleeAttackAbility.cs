@@ -18,7 +18,6 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	public virtual float AttackRange => 90f;
 	public virtual float BaseDamage => 30f;
 	public virtual int MaxConeAngle => 75;
-	public virtual string SwingSoundPath => "light_sword_swing";
 	public virtual string HitFleshSoundPath => "stab_sword_flesh";
 
 	// Extract to a util later?

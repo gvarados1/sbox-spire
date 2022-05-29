@@ -10,6 +10,7 @@ public partial class SwordHeavyAttack : BaseMeleeAttackAbility
 	public override WeaponAbilityType Type => WeaponAbilityType.Special;
 
 	public override float BaseDamage => 60f;
+	public override string HitFleshSoundPath => "heavy_sword_stab";
 
 	public override void Execute()
 	{
