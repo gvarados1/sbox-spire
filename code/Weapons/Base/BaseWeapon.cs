@@ -22,7 +22,7 @@ public partial class BaseWeapon : BaseCarriable
 		foreach ( var ability in Abilities )
 		{
 			var instance = TypeLibrary.Create<WeaponAbility>( ability );
-			instance.Weapon = this;
+			instance.Entity = this;
 
 			_Abilities.Add( instance );
 		}

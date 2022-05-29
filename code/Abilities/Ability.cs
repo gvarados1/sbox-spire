@@ -1,34 +1,30 @@
 namespace Spire.Abilities;
 
-public partial class WeaponAbility : BaseNetworkable
+public partial class Ability : BaseNetworkable
 {
 	// Configuration
 	public virtual float Cooldown => 5f;
-	public virtual string AbilityName => "Weapon Ability";
+	public virtual string AbilityName => "Ability";
 	public virtual string AbilityDescription => "This ability does nothing.";
 	public virtual string AbilityIcon => "";
-	public virtual WeaponAbilityType Type => WeaponAbilityType.Attack;
 	public virtual string AbilityExecuteSound => "";
-
-	[Net]
-	public TimeSince LastUsed { get; protected set; }
-
-	[Net]
-	public TimeUntil NextUse { get; protected set; }
-
-	[Net]
-	public bool InProgress { get; protected set; } = false;
 
 	/// <summary>
 	/// The duration of an ability. If set to 0f, will run <see cref="Execute"/>, otherwise <see cref="AsyncExecute"/>
 	/// </summary>
 	public virtual float AbilityDuration => 0f;
 
-	/// <summary>
-	/// The weapon this ability belongs to.
-	/// </summary>
 	[Net]
-	public BaseWeapon Weapon { get; set; }
+	public TimeSince LastUsed { get; set; }
+
+	[Net]
+	public TimeUntil NextUse { get; set; }
+
+	[Net]
+	public bool InProgress { get; set; } = false;
+
+	[Net]
+	public Entity Entity { get; set; }
 
 	/// <summary>
 	/// Allows you to handle an ability asynchronously.
@@ -49,7 +45,7 @@ public partial class WeaponAbility : BaseNetworkable
 	protected virtual void PreAbilityExecute()
 	{
 		if ( !string.IsNullOrEmpty( AbilityExecuteSound ) )
-			Weapon.PlaySound( AbilityExecuteSound );
+			Entity.PlaySound( AbilityExecuteSound );
 	}
 
 	/// <summary>
