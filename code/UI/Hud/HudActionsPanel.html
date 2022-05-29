@@ -1,6 +1,12 @@
 <link rel="stylesheet" href="HudActionsPanel.scss" />
 
 <div>
+    <div class="player-abilities">
+        <PlayerAbilitypanel type="0" @ref="FirstPLayerAbility" />
+        <PlayerAbilitypanel type="1" @ref="SecondPlayerAbility" />
+        <PlayerAbilitypanel type="2" @ref="UltimatePlayerAbility" />
+    </div>
+
     <div class="weapon-abilities">
         <WeaponAbilityPanel type="Attack" @ref="WeaponAttackAbility" />
         <WeaponAbilityPanel type="Special" @ref="SpecialAttackAbility" />

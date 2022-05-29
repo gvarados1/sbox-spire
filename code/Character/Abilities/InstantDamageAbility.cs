@@ -5,7 +5,7 @@ public partial class InstantDamageAbility : PlayerAbility
 	public override float Cooldown => 5f;
 	public override string AbilityName => "Instant Damage";
 	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/sword_slash.png";
+	public override string AbilityIcon => "ui/ability_icons/bomb.png";
 	public override PlayerAbilityType Type => PlayerAbilityType.Standard;
 
 	public override void Execute()

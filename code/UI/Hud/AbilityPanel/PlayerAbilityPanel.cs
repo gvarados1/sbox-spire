@@ -3,10 +3,10 @@ using Spire.Abilities;
 namespace Spire.UI;
 
 [UseTemplate]
-public partial class WeaponAbilityPanel : Panel
+public partial class PlayerAbilityPanel : Panel
 {
-	public WeaponAbilityType Type { get; set; } = WeaponAbilityType.Attack;
-	public WeaponAbility AbilityRef { get; set; }
+	public int Slot { get; set; } = 0;
+	public PlayerAbility AbilityRef { get; set; }
 
 	// @ref
 	public InputHint InputHint { get; set; }
@@ -26,7 +26,7 @@ public partial class WeaponAbilityPanel : Panel
 		}
 	}
 
-	public WeaponAbilityPanel()
+	public PlayerAbilityPanel()
 	{
 	}
 
@@ -36,8 +36,7 @@ public partial class WeaponAbilityPanel : Panel
 
 		if ( name == "type" )
 		{
-			var enumType = Enum.Parse<WeaponAbilityType>( value, true );
-			Type = enumType;
+			Slot = value.ToInt( 0 );
 		}
 	}
 
@@ -57,12 +56,12 @@ public partial class WeaponAbilityPanel : Panel
 		SetClass( "no-ability", AbilityRef is null );
 		SetClass( "on-cooldown", AbilityRef?.NextUse > 0f );
 
-		InputHint.SetButton( Type.GetButton() );
+		InputHint.SetButton( PlayerAbility.GetInputButtonFromSlot( Slot ) );
 	}
 
-	public void Update( BaseWeapon weapon )
+	public void Update( PlayerCharacter character )
 	{
-		var ability = weapon._Abilities.FirstOrDefault( x => x.Type == Type );
+		var ability = character.GetAbilityFromSlot( Slot );
 
 		if ( AbilityRef == ability )
 		{

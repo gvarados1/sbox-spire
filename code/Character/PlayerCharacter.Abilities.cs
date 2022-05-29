@@ -18,15 +18,10 @@ public partial class PlayerCharacter
 		yield return UltimateAbility;
 	}
 
-	public InputButton GetInputButtonFromSlot( int slotIndex )
+	public PlayerAbility GetAbilityFromSlot( int slot )
 	{
-		return slotIndex switch
-		{
-			0 => InputButton.Slot1,
-			1 => InputButton.Slot2,
-			2 => InputButton.Slot3,
-			_ => InputButton.Slot1
-		};
+		var abilities = GetPlayerAbilities().ToList();
+		return abilities[slot];
 	}
 
 	public void SimulateAbilities( Client cl )
@@ -36,7 +31,7 @@ public partial class PlayerCharacter
 			int i = 0;
 			foreach ( var ability in GetPlayerAbilities() )
 			{
-				if ( Input.Down( GetInputButtonFromSlot( i ) ) )
+				if ( Input.Down( PlayerAbility.GetInputButtonFromSlot( i ) ) )
 				{
 					if ( ability is not null && ability.CanExecute() )
 					{

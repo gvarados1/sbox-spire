@@ -3,6 +3,17 @@ namespace Spire.UI;
 [UseTemplate]
 public partial class HudActionsPanel : Panel
 {
+	// PLAYER ABILITIES 
+
+	// @ref
+	public PlayerAbilityPanel FirstPlayerAbility { get; set; }
+	// @ref
+	public PlayerAbilityPanel SecondPlayerAbility { get; set; }
+	// @ref
+	public PlayerAbilityPanel UltimatePlayerAbility { get; set; }
+
+	/// WEAPON ABILITIES
+
 	// @ref
 	public WeaponAbilityPanel WeaponAttackAbility { get; set; }
 	// @ref
@@ -10,20 +21,19 @@ public partial class HudActionsPanel : Panel
 	// @ref
 	public WeaponAbilityPanel UltimateAttackAbility { get; set; }
 
-	public HudActionsPanel()
-	{
-	}
-
 	public override void Tick()
 	{
 		base.Tick();
 
-		var player = Local.Pawn as PlayerCharacter;
-
-		if ( !player.IsValid() )
+		var character = Local.Pawn as PlayerCharacter;
+		if ( !character.IsValid() )
 			return;
 
-		var weapon = player.ActiveChild as BaseWeapon;
+		FirstPlayerAbility.Update( character );
+		SecondPlayerAbility.Update( character );
+		UltimatePlayerAbility.Update( character );
+
+		var weapon = character.ActiveChild as BaseWeapon;
 		if ( !weapon.IsValid() )
 			return;
 
