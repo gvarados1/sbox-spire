@@ -11,7 +11,8 @@ public partial class SwordWeapon : BaseMeleeWeapon
 	public override List<Type> Abilities => new()
 	{
 		typeof( SwordSlash ),
-		typeof( SwordHeavyAttack )
+		typeof( SwordHeavyAttack ),
+		typeof( SwordHeal )
 	};
 
 	public override void SimulateAnimator( PawnAnimator anim )
