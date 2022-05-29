@@ -37,25 +37,6 @@ public partial class BaseWeapon : BaseCarriable
 
 	}
 
-	protected virtual void InflictDamage( float damage, TraceResult tr, DamageFlags addedFlags = DamageFlags.Bullet )
-	{
-		if ( !tr.Hit )
-			return;
-
-		var damageInfo = new DamageInfo()
-				.WithPosition( tr.EndPosition )
-				.WithFlag( addedFlags )
-				.WithForce( Owner.EyeRotation.Forward * AttackForce )
-				.UsingTraceResult( tr )
-				.WithAttacker( Owner )
-				.WithWeapon( this );
-
-		damageInfo.Damage = damage;
-
-		tr.Surface.DoBulletImpact( tr );
-		tr.Entity.TakeDamage( damageInfo );
-	}
-
 	public override void Simulate( Client player )
 	{
 		if ( !Owner.IsValid() )

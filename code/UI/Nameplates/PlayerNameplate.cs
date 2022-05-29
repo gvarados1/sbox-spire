@@ -21,10 +21,6 @@ public partial class PlayerNameplate : BaseNameplate
 		base.Update();
 
 		LerpedHealthFraction = LerpedHealthFraction.LerpTo( HealthFraction, Time.Delta * 10f );
-
-		if ( Character is PlayerCharacter player )
-		{
-			HealthBarFill.Style.Width = Length.Fraction( LerpedHealthFraction );
-		}
+		HealthBarFill.Style.Width = Length.Fraction( LerpedHealthFraction );
 	}
 }
