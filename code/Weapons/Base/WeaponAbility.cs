@@ -7,8 +7,8 @@ public partial class WeaponAbility : BaseNetworkable
 	public virtual string AbilityName => "Weapon Ability";
 	public virtual string AbilityDescription => "This ability does nothing.";
 	public virtual string AbilityIcon => "";
-
 	public virtual WeaponAbilityType Type => WeaponAbilityType.Attack;
+	public virtual string AbilityExecuteSound => "";
 
 	[Net]
 	public TimeSince LastUsed { get; protected set; }
@@ -47,6 +47,8 @@ public partial class WeaponAbility : BaseNetworkable
 	/// </summary>
 	protected virtual void PreAbilityExecute()
 	{
+		if ( !string.IsNullOrEmpty( AbilityExecuteSound ) )
+			Weapon.PlaySound( AbilityExecuteSound );
 	}
 
 	/// <summary>

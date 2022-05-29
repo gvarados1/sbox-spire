@@ -8,6 +8,7 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	public override string AbilityDescription => "";
 	public override string AbilityIcon => "";
 	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
+	public override string AbilityExecuteSound => "light_sword_swing";
 
 	// BaseMeleeAttackAbility Configuration
 	/// <summary>
