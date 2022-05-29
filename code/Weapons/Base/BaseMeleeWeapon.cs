@@ -5,11 +5,6 @@ namespace Spire;
 public partial class BaseMeleeWeapon : BaseWeapon
 {
 	/// <summary>
-	/// How often we can swing
-	/// </summary>
-	public override float PrimaryRate => 1f;
-
-	/// <summary>
 	/// How long until we try to inflict damage from the weapon after an attack.
 	/// </summary>
 	public virtual float AttackInflictDelay => 0.35f;
@@ -79,6 +74,8 @@ public partial class BaseMeleeWeapon : BaseWeapon
 
 	protected virtual void RunDamageTrace( Entity entity )
 	{
+		const float _attackForce = 1024f;
+
 		// Trace for visual effects
 		var tr = Trace.Ray( Position, entity.EyePosition ).Ignore( Owner ).UseHitboxes( true ).Run();
 
@@ -86,7 +83,7 @@ public partial class BaseMeleeWeapon : BaseWeapon
 		var damageInfo = new DamageInfo()
 				.WithPosition( tr.EndPosition )
 				.WithFlag( DamageFlags.Bullet )
-				.WithForce( Owner.EyeRotation.Forward * AttackForce )
+				.WithForce( Owner.EyeRotation.Forward * _attackForce )
 				.UsingTraceResult( tr )
 				.WithAttacker( Owner )
 				.WithWeapon( this );
@@ -102,12 +99,12 @@ public partial class BaseMeleeWeapon : BaseWeapon
 		PlaySound( HitFleshSoundPath );
 	}
 
-	public override void AttackPrimary()
-	{
-		base.AttackPrimary();
+	//public override void AttackPrimary()
+	//{
+	//	base.AttackPrimary();
 
-		(Owner as AnimatedEntity)?.SetAnimParameter( "b_attack", true );
+	//	(Owner as AnimatedEntity)?.SetAnimParameter( "b_attack", true );
 
-		_ = DelayedAttack();
-	}
+	//	_ = DelayedAttack();
+	//}
 }

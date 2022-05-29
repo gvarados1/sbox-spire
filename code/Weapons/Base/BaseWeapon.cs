@@ -1,3 +1,5 @@
+using Spire.Abilities;
+
 namespace Spire;
 
 public partial class BaseWeapon : BaseCarriable
@@ -5,36 +7,20 @@ public partial class BaseWeapon : BaseCarriable
 	[Net, Predicted]
 	public TimeSince TimeSincePrimaryAttack { get; set; }
 
-	public virtual float PrimaryRate => 15.0f;
+	public virtual List<Type> Abilities => new();
 
-	public virtual float AttackForce => 500f;
+	[Net]
+	public IList<WeaponAbility> _Abilities { get; protected set; }
 
-	protected virtual bool CanPrimaryAttack()
+	public override void Spawn()
 	{
-		if ( !Owner.IsValid() || !Input.Down( InputButton.PrimaryAttack ) ) return false;
+		base.Spawn();
 
-		var rate = PrimaryRate;
-		if ( rate <= 0 ) return true;
-
-		return TimeSincePrimaryAttack > (1 / rate);
-	}
-
-	public virtual void AttackPrimary()
-	{
-		TimeSincePrimaryAttack = 0;
-
-		RpcPrimaryAttack();
-	}
-
-	[ClientRpc]
-	protected void RpcPrimaryAttack()
-	{
-		ClientPrimaryAttack();
-	}
-
-	protected virtual void ClientPrimaryAttack()
-	{
-
+		foreach ( var ability in Abilities )
+		{
+			var instance = TypeLibrary.Create<WeaponAbility>( ability );
+			_Abilities.Add( instance );
+		}
 	}
 
 	public override void Simulate( Client player )
@@ -42,12 +28,15 @@ public partial class BaseWeapon : BaseCarriable
 		if ( !Owner.IsValid() )
 			return;
 
-		if ( CanPrimaryAttack() )
+		using ( LagCompensation() )
 		{
-			using ( LagCompensation() )
+			foreach ( var ability in _Abilities )
 			{
-				TimeSincePrimaryAttack = 0;
-				AttackPrimary();
+				if ( Input.Pressed( ability.Type.GetButton() ) )
+				{
+					if ( ability.CanExecute( this ) )
+						ability.Execute( this );
+				}
 			}
 		}
 	}
