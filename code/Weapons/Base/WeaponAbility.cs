@@ -40,6 +40,7 @@ public partial class WeaponAbility : BaseNetworkable
 		await GameTask.DelaySeconds( AbilityDuration );
 		InProgress = false;
 		NextUse = Cooldown;
+		LastUsed = 0;
 	}
 
 	/// <summary>
@@ -72,6 +73,7 @@ public partial class WeaponAbility : BaseNetworkable
 	/// </summary>
 	public virtual void Execute()
 	{
+		LastUsed = 0;
 		NextUse = Cooldown;
 	}
 
