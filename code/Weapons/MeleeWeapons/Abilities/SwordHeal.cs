@@ -16,6 +16,6 @@ public partial class SwordHeal : WeaponAbility
 		var player = Weapon.Owner as BaseCharacter;
 		player.Health = player.MaxHealth;
 
-		Particles.Create( "particles/example/pull_towards_example/pull_towards_example.vpcf", player, "eyes", true );
+		Particles.Create( "particles/abilities/basic_heal.vpcf", player, "eyes", true );
 	}
 }
