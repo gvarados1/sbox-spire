@@ -1,6 +1,6 @@
 namespace Spire.Abilities;
 
-public partial class SwordHeavyAttack : WeaponAbility
+public partial class SwordHeavyAttack : BaseMeleeAttackAbility
 {
 	// Configuration
 	public override float Cooldown => 10f;
@@ -9,9 +9,11 @@ public partial class SwordHeavyAttack : WeaponAbility
 	public override string AbilityIcon => "";
 	public override WeaponAbilityType Type => WeaponAbilityType.Special;
 
-	public override void Execute( BaseWeapon weapon )
+	public override float BaseDamage => 60f;
+
+	public override void Execute()
 	{
-		base.Execute( weapon );
+		base.Execute();
 
 		Log.Info( "Sword Heavy Attack!" );
 	}

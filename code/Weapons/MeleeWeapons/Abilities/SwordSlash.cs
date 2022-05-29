@@ -1,6 +1,6 @@
 namespace Spire.Abilities;
 
-public partial class SwordSlash : WeaponAbility
+public partial class SwordSlash : BaseMeleeAttackAbility
 {
 	// Configuration
 	public override float Cooldown => 1f;
@@ -9,9 +9,9 @@ public partial class SwordSlash : WeaponAbility
 	public override string AbilityIcon => "";
 	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
 
-	public override void Execute( BaseWeapon weapon )
+	public override void Execute()
 	{
-		base.Execute( weapon );
+		base.Execute();
 
 		Log.Info( "Sword Slash!" );
 	}

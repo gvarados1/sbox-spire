@@ -25,11 +25,16 @@ public partial class WeaponAbility : BaseNetworkable
 	public virtual float AbilityDuration => 0f;
 
 	/// <summary>
+	/// The weapon this ability belongs to.
+	/// </summary>
+	[Net]
+	public BaseWeapon Weapon { get; set; }
+
+	/// <summary>
 	/// Allows you to handle an ability asynchronously.
 	/// </summary>
-	/// <param name="weapon"></param>
 	/// <returns></returns>
-	protected async virtual Task AsyncExecute( BaseWeapon weapon )
+	protected async virtual Task AsyncExecute()
 	{
 		InProgress = true;
 		await GameTask.DelaySeconds( AbilityDuration );
@@ -40,27 +45,22 @@ public partial class WeaponAbility : BaseNetworkable
 	/// <summary>
 	/// Called just before an ability is executed.
 	/// </summary>
-	/// <param name="weapon"></param>
-	protected virtual void PreAbilityExecute( BaseWeapon weapon )
+	protected virtual void PreAbilityExecute()
 	{
-
 	}
 
 	/// <summary>
 	/// Called after the ability has finished. If specified, this will be executed in <paramref name="AbilityDuration"/> seconds.
 	/// </summary>
-	/// <param name="weapon"></param>
-	protected virtual void PostAbilityExecute( BaseWeapon weapon )
+	protected virtual void PostAbilityExecute()
 	{
-
 	}
 
 	/// <summary>
 	/// Returns whether or not an ability can be executed.
 	/// </summary>
-	/// <param name="weapon"></param>
 	/// <returns></returns>
-	public virtual bool CanExecute( BaseWeapon weapon )
+	public virtual bool CanExecute()
 	{
 		return NextUse <= 0 && !InProgress;
 	}
@@ -68,8 +68,7 @@ public partial class WeaponAbility : BaseNetworkable
 	/// <summary>
 	/// Synchronous version of an ability.
 	/// </summary>
-	/// <param name="weapon"></param>
-	public virtual void Execute( BaseWeapon weapon )
+	public virtual void Execute()
 	{
 		NextUse = Cooldown;
 	}
@@ -77,20 +76,19 @@ public partial class WeaponAbility : BaseNetworkable
 	/// <summary>
 	/// Will try to execute an ability
 	/// </summary>
-	/// <param name="weapon"></param>
-	internal void TryExecute( BaseWeapon weapon )
+	internal void TryExecute()
 	{
 		if ( AbilityDuration > 0f )
 		{
-			PreAbilityExecute( weapon );
-			_ = AsyncExecute( weapon );
-			PostAbilityExecute( weapon );
+			PreAbilityExecute();
+			_ = AsyncExecute();
+			PostAbilityExecute();
 		}
 		else
 		{
-			PreAbilityExecute( weapon );
-			Execute( weapon );
-			PostAbilityExecute( weapon );
+			PreAbilityExecute();
+			Execute();
+			PostAbilityExecute();
 		}
 	}
 }

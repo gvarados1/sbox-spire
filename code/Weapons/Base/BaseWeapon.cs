@@ -19,6 +19,8 @@ public partial class BaseWeapon : BaseCarriable
 		foreach ( var ability in Abilities )
 		{
 			var instance = TypeLibrary.Create<WeaponAbility>( ability );
+			instance.Weapon = this;
+
 			_Abilities.Add( instance );
 		}
 	}
@@ -32,10 +34,10 @@ public partial class BaseWeapon : BaseCarriable
 		{
 			foreach ( var ability in _Abilities )
 			{
-				if ( Input.Pressed( ability.Type.GetButton() ) )
+				if ( Input.Down( ability.Type.GetButton() ) )
 				{
-					if ( ability.CanExecute( this ) )
-						ability.Execute( this );
+					if ( ability.CanExecute() )
+						ability.TryExecute();
 				}
 			}
 		}
