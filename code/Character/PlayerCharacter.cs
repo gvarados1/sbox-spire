@@ -1,3 +1,4 @@
+using Spire.Abilities;
 using Spire.UI;
 
 namespace Spire;
@@ -49,6 +50,9 @@ public partial class PlayerCharacter : BaseCharacter
 		Hotbar = new PlayerHotbar( this );
 
 		Hotbar.SetCurrent( new SwordWeapon() );
+
+		FirstAbility = new InstantDamageAbility();
+		FirstAbility.Entity = this;
 	}
 
 	public override void BuildInput( InputBuilder input )
@@ -76,5 +80,7 @@ public partial class PlayerCharacter : BaseCharacter
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
+
+		SimulateAbilities( cl );
 	}
 }
