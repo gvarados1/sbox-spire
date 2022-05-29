@@ -14,6 +14,6 @@ public partial class InstantDamageAbility : PlayerAbility
 
 		Log.Info( "Instant Damage!" );
 
-		Character.TakeDamage( DamageInfo.Generic( 30f ) );
+		Character.TakeDamage( DamageInfo.Generic( 30f ).WithPosition( Character.Position ) );
 	}
 }
