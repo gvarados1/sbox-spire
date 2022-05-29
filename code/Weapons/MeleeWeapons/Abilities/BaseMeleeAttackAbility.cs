@@ -82,6 +82,12 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 		// Finally, inflict damage on our target
 		entity.TakeDamage( damageInfo );
 		entity.PlaySound( HitFleshSoundPath );
+
+		OnTargetDamaged( entity, damageInfo );
+	}
+
+	protected virtual void OnTargetDamaged( Entity entity, DamageInfo damageInfo )
+	{
 	}
 
 	protected async Task StartSwinging()
