@@ -6,7 +6,9 @@ public partial class SpireHud : RootPanel
 	[Event.BuildInput]
 	protected void BuildInput( InputBuilder input )
 	{
+		var devCam = Local.Client.Components.Get<DevCamera>();
+
 		// @TODO: handle this logic elsewhere 
-		SetClass( "camera-movement", input.Down( InputButton.SecondaryAttack ) );
+		SetClass( "camera-movement", input.Down( InputButton.SecondaryAttack ) || devCam is not null );
 	}
 }
