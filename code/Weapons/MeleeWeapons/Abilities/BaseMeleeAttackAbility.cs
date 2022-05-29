@@ -94,6 +94,9 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	{
 		await GameTask.DelaySeconds( AttackInflictDelay );
 
+		if ( !Weapon.IsValid() || !Weapon.Owner.IsValid() )
+			return;
+
 		var ents = Entity.FindInSphere( Weapon.Position, AttackRange )
 			.Where( x => x is BaseCharacter && x != Weapon.Owner )
 			.ToList();
