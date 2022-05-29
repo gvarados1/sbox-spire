@@ -63,11 +63,14 @@ public partial class BaseMeleeWeapon : BaseWeapon
 
 	protected virtual void ExecuteConeAttack()
 	{
-		var ents = FindInSphere( Position, AttackRange );
+		var ents = FindInSphere( Position, AttackRange )
+			.Where( x => x is BaseCharacter && x != Owner )
+			.ToList();
 
-		ents.Where( x => x is BaseCharacter && x != Owner )
-			.ToList()
-			.ForEach( x => TestInCone( x ) );
+		foreach ( var entity in ents )
+		{
+			TestInCone( entity );
+		}
 	}
 
 	protected virtual void RunDamageTrace( Entity entity )
