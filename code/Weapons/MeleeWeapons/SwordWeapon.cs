@@ -6,6 +6,7 @@ public partial class SwordWeapon : BaseMeleeWeapon
 {
 	public override HoldType HoldType => HoldType.Item;
 	public override HoldHandedness HoldHandedness => HoldHandedness.RightHand;
+
 	public override string ModelPath => "assets/weapons/basic_sword.vmdl";
 
 	public override List<Type> Abilities => new()
