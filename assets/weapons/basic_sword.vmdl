@@ -19,7 +19,7 @@
 							},
 							{
 								from = "mi_sword_crossguard_01.vmat"
-								to = "assets/weapons/sword_parts/sword_blade.vmat"
+								to = "assets/weapons/sword_parts/sword_crossguard.vmat"
 							},
 							{
 								from = "mi_sword_hilt_01.vmat"
@@ -27,7 +27,7 @@
 							},
 							{
 								from = "mi_sword_pommel_05.vmat"
-								to = "assets/weapons/sword_parts/sword_blade.vmat"
+								to = "assets/weapons/sword_parts/sword_hilt.vmat"
 							},
 						]
 						use_global_default = false
