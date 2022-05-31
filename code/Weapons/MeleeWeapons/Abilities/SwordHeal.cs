@@ -11,11 +11,6 @@ public partial class SwordHeal : WeaponAbility
 	public override string AbilityIcon => "ui/ability_icons/heal.png";
 	public override WeaponAbilityType Type => WeaponAbilityType.Ultimate;
 
-	protected void CreateParticles( BaseCharacter character )
-	{
-		character.CreateParticle( "particles/abilities/basic_heal.vpcf", true, "eyes" );
-	}
-
 	public override void Execute()
 	{
 		base.Execute();
@@ -23,8 +18,6 @@ public partial class SwordHeal : WeaponAbility
 		if ( Host.IsClient ) return;
 
 		var player = Weapon.Owner as BaseCharacter;
-		player.AddBuff<BaseHealingBuff>()
-			.WithTickAction( CreateParticles )
-			.WithDestroyAction( ( BaseCharacter character ) => Log.State( "Destroyed buff" ) );
+		player.AddBuff<BaseHealingBuff>();
 	}
 }
