@@ -1,11 +1,24 @@
 <link rel="stylesheet" href="HudActionsPanel.scss" />
 
 <div>
+
+    <div class="hotbar">
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+        <PlayerAbilitypanel />
+    </div>
+
     <div class="player-abilities">
-        <PlayerAbilitypanel type="0" @ref="MovementPlayerAbility" />
+        <PlayerAbilitypanel class="movement" type="0" @ref="MovementPlayerAbility" />
         <PlayerAbilitypanel type="1" @ref="FirstPlayerAbility" />
         <PlayerAbilitypanel type="2" @ref="SecondPlayerAbility" />
-        <PlayerAbilitypanel type="3" @ref="UltimatePlayerAbility" />
+        <PlayerAbilitypanel class="ultimate" type="3" @ref="UltimatePlayerAbility" />
     </div>
 
     <div class="weapon-abilities">
