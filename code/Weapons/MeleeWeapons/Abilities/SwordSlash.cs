@@ -12,7 +12,5 @@ public partial class SwordSlash : BaseMeleeAttackAbility
 	public override void Execute()
 	{
 		base.Execute();
-
-		Log.Info( "Sword Slash!" );
 	}
 }
