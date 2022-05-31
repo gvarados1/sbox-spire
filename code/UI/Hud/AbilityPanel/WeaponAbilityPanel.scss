@@ -70,5 +70,12 @@ WeaponAbilityPanel {
 
     &.in-use {
         transform: scale( 1.05 );
+        border: 1px solid rgba( 0, 125, 255 );
+
+        > .on-cooldown-panel {
+            opacity: 1;
+            background-color: rgba( black, 0.6 );
+            border-radius: 8px;
+        }
     }
 }
