@@ -5,6 +5,8 @@ namespace Spire;
 public partial class PlayerCharacter
 {
 	[Net]
+	public PlayerAbility MovementAbility { get; set; }
+	[Net]
 	public PlayerAbility FirstAbility { get; set; }
 	[Net]
 	public PlayerAbility SecondAbility { get; set; }
@@ -13,6 +15,7 @@ public partial class PlayerCharacter
 
 	public IEnumerable<PlayerAbility> GetPlayerAbilities()
 	{
+		yield return MovementAbility;
 		yield return FirstAbility;
 		yield return SecondAbility;
 		yield return UltimateAbility;

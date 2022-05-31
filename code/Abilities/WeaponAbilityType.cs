@@ -15,7 +15,7 @@ public static class WeaponAbilityTypeExtensions
 		{
 			WeaponAbilityType.Attack => InputButton.PrimaryAttack,
 			WeaponAbilityType.Special => InputButton.Menu,
-			WeaponAbilityType.Ultimate => InputButton.Reload,
+			WeaponAbilityType.Ultimate => InputButton.Use,
 			_ => InputButton.PrimaryAttack
 		};
 	}

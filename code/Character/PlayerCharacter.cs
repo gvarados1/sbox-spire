@@ -53,6 +53,9 @@ public partial class PlayerCharacter : BaseCharacter
 
 		FirstAbility = new InstantDamageAbility();
 		FirstAbility.Entity = this;
+
+		MovementAbility = new SpeedWalkAbility();
+		MovementAbility.Entity = this;
 	}
 
 	public override void BuildInput( InputBuilder input )

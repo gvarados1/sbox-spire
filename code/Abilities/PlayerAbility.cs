@@ -9,10 +9,11 @@ public partial class PlayerAbility : Ability
 	{
 		return slotIndex switch
 		{
-			0 => InputButton.Slot1,
-			1 => InputButton.Slot2,
-			2 => InputButton.Slot3,
-			_ => InputButton.Slot1
+			0 => InputButton.Jump, // Movement Ability
+			1 => InputButton.Reload, // First Ability
+			2 => InputButton.View, // Second Ability 
+			3 => InputButton.Flashlight, // Ultimate Ability
+			_ => InputButton.Jump // Fallback
 		};
 	}
 }

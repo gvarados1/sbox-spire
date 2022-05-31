@@ -2,6 +2,7 @@ namespace Spire;
 
 public partial class CharacterController : BasePlayerController
 {
+	[Net] public float SpeedMultiplier { get; set; } = 1f;
 	[Net] public float DefaultSpeed { get; set; } = 190.0f;
 	[Net] public float Acceleration { get; set; } = 10.0f;
 	[Net] public float AirAcceleration { get; set; } = 50.0f;
@@ -238,7 +239,7 @@ public partial class CharacterController : BasePlayerController
 
 	public virtual float GetWishSpeed()
 	{
-		return DefaultSpeed;
+		return DefaultSpeed * SpeedMultiplier;
 	}
 
 	public virtual void WalkMove()

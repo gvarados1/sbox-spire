@@ -32,11 +32,17 @@ public partial class Ability : BaseNetworkable
 	/// <returns></returns>
 	protected async virtual Task AsyncExecute()
 	{
+		PreAbilityExecute();
+
 		InProgress = true;
+
 		await GameTask.DelaySeconds( AbilityDuration );
+
 		InProgress = false;
 		NextUse = Cooldown;
 		LastUsed = 0;
+
+		PostAbilityExecute();
 	}
 
 	/// <summary>
@@ -80,9 +86,7 @@ public partial class Ability : BaseNetworkable
 	{
 		if ( AbilityDuration > 0f )
 		{
-			PreAbilityExecute();
 			_ = AsyncExecute();
-			PostAbilityExecute();
 		}
 		else
 		{

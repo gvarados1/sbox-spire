@@ -6,6 +6,8 @@ public partial class HudActionsPanel : Panel
 	// PLAYER ABILITIES 
 
 	// @ref
+	public PlayerAbilityPanel MovementPlayerAbility { get; set; }
+	// @ref
 	public PlayerAbilityPanel FirstPlayerAbility { get; set; }
 	// @ref
 	public PlayerAbilityPanel SecondPlayerAbility { get; set; }
@@ -29,6 +31,7 @@ public partial class HudActionsPanel : Panel
 		if ( !character.IsValid() )
 			return;
 
+		MovementPlayerAbility.Update( character );
 		FirstPlayerAbility.Update( character );
 		SecondPlayerAbility.Update( character );
 		UltimatePlayerAbility.Update( character );
