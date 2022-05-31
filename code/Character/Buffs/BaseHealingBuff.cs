@@ -4,7 +4,7 @@ public class BaseHealingBuff : Buff
 {
 	public override string Name => "Minor Healing";
 	public override string Description => "";
-	public override float Duration => 10f;
+	public override float Duration => 5f;
 	public override string IconPath => "Some icon path.";
 	public override float TickInterval => 1f;
 

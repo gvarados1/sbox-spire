@@ -13,7 +13,7 @@ public partial class SwordHeal : WeaponAbility
 
 	protected void CreateParticles( BaseCharacter character )
 	{
-		character.CreateParticle( "particles/abilities/basic_heal.vpcf", true );
+		character.CreateParticle( "particles/abilities/basic_heal.vpcf", true, "eyes" );
 	}
 
 	public override void Execute()

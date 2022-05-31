@@ -138,13 +138,4 @@ public partial class BaseCharacter : AnimatedEntity
 		MoveType = MoveType.MOVETYPE_WALK;
 		EnableHitboxes = true;
 	}
-
-	[ClientRpc]
-	public void CreateParticle( string path, bool follow )
-	{
-		if ( follow )
-			Particles.Create( path, this, true );
-		else
-			Particles.Create( path, Position );
-	}
 }
