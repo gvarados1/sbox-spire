@@ -31,6 +31,12 @@ public partial class Game : Sandbox.Game
 		cl.Pawn = pawn;
 
 		pawn.Respawn();
+		pawn.Position = FindSpawnPoint( pawn );
+	}
+
+	protected Vector3 FindSpawnPoint( PlayerCharacter pawn )
+	{
+		return All.OfType<SpawnPoint>().FirstOrDefault()?.Position ?? Vector3.Zero;
 	}
 
 	public override void ClientJoined( Client cl )
