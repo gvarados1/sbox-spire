@@ -56,7 +56,6 @@ public partial class PlayerCamera : CameraMode
 			OrbitAngles.yaw += input.AnalogLook.yaw;
 			OrbitAngles.pitch += input.AnalogLook.pitch;
 			OrbitAngles = OrbitAngles.Normal;
-			OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.Min, PitchClamp.Max );
 
 			input.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
@@ -67,6 +66,8 @@ public partial class PlayerCamera : CameraMode
 
 			input.ViewAngles = (hitPos - pawn.EyePosition).EulerAngles;
 		}
+
+		OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.Min, PitchClamp.Max );
 
 		// Let players move around at will
 		input.InputDirection = Rotation.From( OrbitAngles.WithPitch( 0f ) ) * input.AnalogMove;
