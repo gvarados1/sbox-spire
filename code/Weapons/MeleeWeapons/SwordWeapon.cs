@@ -2,7 +2,7 @@ using Spire.Abilities;
 
 namespace Spire;
 
-public partial class SwordWeapon : BaseMeleeWeapon
+public partial class SwordWeapon : BaseWeapon
 {
 	public override HoldType HoldType => HoldType.Item;
 	public override HoldHandedness HoldHandedness => HoldHandedness.RightHand;
