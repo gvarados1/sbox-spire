@@ -8,6 +8,13 @@
 			m_name = "preview"
 		},
 	]
+	m_PreEmissionOperators = 
+	[
+		{
+			_class = "C_OP_SetSingleControlPointPosition"
+			m_vecCP1Pos = [ 0.0, 0.0, 48.0 ]
+		},
+	]
 	m_Emitters = 
 	[
 		{
@@ -534,6 +541,7 @@
 					m_vDomainMaxs = [ 1.0, 1.0 ]
 				}
 			}
+			m_nControlPointNumber = 1
 		},
 		{
 			_class = "C_OP_CurlNoiseForce"
