@@ -53,4 +53,19 @@ public partial class Game : Sandbox.Game
 
 		Current.SetupDefaultPawn( cl );
 	}
+
+	private async void RespawnPlayerDelayed( Client cl, float seconds = 3f )
+	{
+		await GameTask.DelaySeconds( seconds );
+
+		SetupDefaultPawn( cl );
+	}
+
+	public void RespawnPlayer( Client cl )
+	{
+		if ( !cl.IsValid() )
+			return;
+
+		RespawnPlayerDelayed( cl );
+	}
 }
