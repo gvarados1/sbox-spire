@@ -62,6 +62,12 @@ public partial class WeaponAbilityPanel : Panel
 
 	public void Update( BaseWeapon weapon )
 	{
+		if ( !weapon.IsValid() )
+		{
+			UpdateAbility();
+			return;
+		}
+
 		var ability = weapon._Abilities.FirstOrDefault( x => x.Type == Type );
 
 		if ( AbilityRef == ability )

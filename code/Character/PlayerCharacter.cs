@@ -49,8 +49,10 @@ public partial class PlayerCharacter : BaseCharacter
 		Controller = new CharacterController();
 		Hotbar = new PlayerHotbar( this );
 
-		Hotbar.SetCurrent( new SwordWeapon() );
+		Hotbar.Add( new SwordWeapon() );
 
+
+		// @TODO: Improve this. This is shit
 		FirstAbility = new BombThrowAbility();
 		FirstAbility.Entity = this;
 
@@ -69,6 +71,8 @@ public partial class PlayerCharacter : BaseCharacter
 
 		if ( input.StopProcessing )
 			return;
+
+		Hotbar?.BuildInput( input );
 
 		Animator?.BuildInput( input );
 	}

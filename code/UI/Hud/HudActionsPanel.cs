@@ -37,8 +37,8 @@ public partial class HudActionsPanel : Panel
 		UltimatePlayerAbility.Update( character );
 
 		var weapon = character.ActiveChild as BaseWeapon;
-		if ( !weapon.IsValid() )
-			return;
+
+		Log.Info( weapon );
 
 		WeaponAttackAbility.Update( weapon );
 		SpecialAttackAbility.Update( weapon );
