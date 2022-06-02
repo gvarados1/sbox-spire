@@ -23,8 +23,14 @@ public partial class DamageIndicator : Panel
 
 	protected void Setup( Vector3 worldPos, float damageAmount )
 	{
+		if ( damageAmount.FloorToInt() < 1 )
+		{
+			Delete( true );
+			return;
+		}
+
 		WorldPosition = worldPos;
-		DamageAmount = -damageAmount;
+		DamageAmount = -damageAmount.Floor();
 
 		_ = Fade();
 	}
