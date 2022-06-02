@@ -64,6 +64,8 @@ public partial class WeaponAbilityPanel : Panel
 	{
 		if ( !weapon.IsValid() )
 		{
+			AbilityRef = null;
+
 			UpdateAbility();
 			return;
 		}

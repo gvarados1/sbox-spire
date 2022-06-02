@@ -72,8 +72,6 @@ public partial class PlayerCharacter : BaseCharacter
 		if ( input.StopProcessing )
 			return;
 
-		Hotbar?.BuildInput( input );
-
 		Animator?.BuildInput( input );
 	}
 
@@ -91,5 +89,6 @@ public partial class PlayerCharacter : BaseCharacter
 		base.Simulate( cl );
 
 		SimulateAbilities( cl );
+		Hotbar?.Simulate( cl );
 	}
 }

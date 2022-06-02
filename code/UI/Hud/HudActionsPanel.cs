@@ -38,8 +38,6 @@ public partial class HudActionsPanel : Panel
 
 		var weapon = character.ActiveChild as BaseWeapon;
 
-		Log.Info( weapon );
-
 		WeaponAttackAbility.Update( weapon );
 		SpecialAttackAbility.Update( weapon );
 		UltimateAttackAbility.Update( weapon );
