@@ -26,7 +26,7 @@ public partial class BombThrowAbility : PlayerAbility
 			Attacker = Character,
 			LifeTime = 2.5f,
 			Gravity = 15f,
-			ModelPath = "models/sbox_props/watermelon/watermelon.vmdl"
+			ModelPath = "assets/projectiles/small_bomb.vmdl",
 		};
 
 		var position = Character.EyePosition + Vector3.Down * 25f;
