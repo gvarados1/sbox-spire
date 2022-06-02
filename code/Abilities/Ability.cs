@@ -9,6 +9,8 @@ public partial class Ability : BaseNetworkable
 	public virtual string AbilityIcon => "";
 	public virtual string AbilityExecuteSound => "";
 
+	public virtual string ParticlePath => "";
+
 	/// <summary>
 	/// The duration of an ability. If set to 0f, will run <see cref="Execute"/>, otherwise <see cref="AsyncExecute"/>
 	/// </summary>
@@ -52,6 +54,9 @@ public partial class Ability : BaseNetworkable
 	{
 		if ( !string.IsNullOrEmpty( AbilityExecuteSound ) )
 			Entity.PlaySound( AbilityExecuteSound );
+
+		if ( !string.IsNullOrEmpty( ParticlePath ) )
+			Util.CreateParticle( Entity, ParticlePath, true );
 	}
 
 	/// <summary>
