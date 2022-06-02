@@ -1,6 +1,6 @@
 namespace Spire.Abilities;
 
-public partial class InstantDamageAbility : PlayerAbility
+public partial class BombThrowAbility : PlayerAbility
 {
 	public override float Cooldown => 5f;
 	public override string AbilityName => "Instant Damage";

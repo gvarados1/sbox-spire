@@ -51,7 +51,7 @@ public partial class PlayerCharacter : BaseCharacter
 
 		Hotbar.SetCurrent( new SwordWeapon() );
 
-		FirstAbility = new InstantDamageAbility();
+		FirstAbility = new BombThrowAbility();
 		FirstAbility.Entity = this;
 
 		MovementAbility = new SpeedWalkAbility();
