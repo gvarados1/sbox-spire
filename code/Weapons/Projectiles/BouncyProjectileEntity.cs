@@ -4,6 +4,7 @@ namespace Spire;
 public partial class BouncyProjectileEntity : ProjectileEntity
 {
 	public float Bounciness { get; set; } = 1f;
+	public float ReflectionScale { get; set; } = 1f;
 
 	protected override bool HasHitTarget( TraceResult trace )
 	{
@@ -13,7 +14,7 @@ public partial class BouncyProjectileEntity : ProjectileEntity
 			{
 				var reflectAmount = Vector3.Reflect( Velocity.Normal, trace.Normal );
 				GravityModifier = 0f;
-				Velocity = reflectAmount * Velocity.Length * Bounciness;
+				Velocity = (reflectAmount * ReflectionScale) * Velocity.Length * Bounciness;
 			}
 
 			return false;

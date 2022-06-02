@@ -9,7 +9,7 @@ public partial class BombThrowAbility : PlayerAbility
 	public override PlayerAbilityType Type => PlayerAbilityType.Standard;
 
 	public virtual float ProjectileSpeed => 500f;
-	public virtual float ProjectileRadius => 10f;
+	public virtual float ProjectileRadius => 20f;
 	public virtual float ProjectileThrowStrength => 100f;
 
 	public override void Execute()
@@ -22,6 +22,7 @@ public partial class BombThrowAbility : PlayerAbility
 		var projectile = new BouncyProjectileEntity()
 		{
 			Bounciness = 0.7f,
+			ReflectionScale = 0.5f,
 			IgnoreEntity = Character,
 			Attacker = Character,
 			LifeTime = 2.5f,
