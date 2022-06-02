@@ -5,7 +5,7 @@ namespace Spire.Abilities;
 public partial class SwordHeal : WeaponAbility
 {
 	// Configuration
-	public override float Cooldown => 5f;
+	public override float Cooldown => 30f;
 	public override string AbilityName => "Healing Salve";
 	public override string AbilityDescription => "";
 	public override string AbilityIcon => "ui/ability_icons/heal.png";
