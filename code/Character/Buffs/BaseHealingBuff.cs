@@ -17,7 +17,7 @@ public class BaseHealingBuff : Buff
 
 		character.Health += HealAmountPerTick;
 		character.Health = character.Health.Clamp( 0f, character.MaxHealth );
-		character.CreateParticle( "particles/abilities/basic_heal.vpcf", true, "eyes" );
+		character.CreateParticle( "particles/abilities/basic_heal.vpcf", true );
 	}
 
 	public override void OnDestroy( BaseCharacter character )
