@@ -79,5 +79,11 @@ public partial class PlayerCamera : CameraMode
 
 		// Let players move around at will
 		input.InputDirection = Rotation.From( OrbitAngles.WithPitch( 0f ) ) * input.AnalogMove;
+
+		Sound.Listener = new()
+		{
+			Position = pawn.Position,
+			Rotation = Rotation
+		};
 	}
 }
