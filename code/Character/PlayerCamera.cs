@@ -51,6 +51,14 @@ public partial class PlayerCamera : CameraMode
 
 		OrbitDistance = OrbitDistance.LerpTo( TargetOrbitDistance, Time.Delta * 10f );
 
+		if ( Input.UsingController )
+		{
+			OrbitAngles.yaw += input.AnalogLook.yaw;
+			OrbitAngles.pitch += input.AnalogLook.pitch;
+			OrbitAngles = OrbitAngles.Normal;
+
+			input.ViewAngles = OrbitAngles.WithPitch( 0f );
+		}
 		if ( input.Down( InputButton.SecondaryAttack ) )
 		{
 			OrbitAngles.yaw += input.AnalogLook.yaw;
