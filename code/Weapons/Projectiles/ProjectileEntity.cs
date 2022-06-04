@@ -69,6 +69,8 @@ public partial class ProjectileEntity : ModelEntity
 
 		base.Spawn();
 
+		Tags.Add( "projectile" );
+
 		SetModel( ModelPath );
 	}
 
@@ -126,6 +128,7 @@ public partial class ProjectileEntity : ModelEntity
 			.Size( Radius )
 			.Ignore( this )
 			.Ignore( IgnoreEntity )
+			.WithoutTags( "projectile" )
 			.Run();
 
 		Position = trace.EndPosition;
