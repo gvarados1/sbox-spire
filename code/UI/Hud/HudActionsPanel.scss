@@ -10,28 +10,8 @@ HudActionsPanel {
     align-items: center;
     align-content: center;
 
-    > .hotbar {
-        width: 45%;
-
-        > PlayerAbilityPanel {
-            margin-right: 8px;
-        }
-    }
-
-    > .weapon-abilities {
-        width: 30%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-
-        > WeaponAbilityPanel {
-            margin-right: 8px;
-        }
-    }
-
-    > .player-abilities {
-        width: 20%;
+    > .abilities {
+        width: 100%;
         height: 100%;
         justify-content: center;
         align-items: center;
@@ -45,6 +25,9 @@ HudActionsPanel {
             margin-right: 32px;
         }
 
+        > WeaponAbilityPanel {
+            margin-right: 8px;
+        }
 
         > PlayerAbilityPanel {
             margin-right: 8px;
