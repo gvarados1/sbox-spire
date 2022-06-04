@@ -6,7 +6,7 @@ public partial class BombThrowAbility : PlayerAbility
 	public override string AbilityName => "Instant Damage";
 	public override string AbilityDescription => "";
 	public override string AbilityIcon => "ui/ability_icons/bomb.png";
-	public override PlayerAbilityType Type => PlayerAbilityType.Standard;
+	public override PlayerAbilityType Type => PlayerAbilityType.Ultimate;
 
 	public virtual float ProjectileSpeed => 500f;
 	public virtual float ProjectileRadius => 20f;

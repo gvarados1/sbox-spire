@@ -52,10 +52,12 @@ public partial class PlayerCharacter : BaseCharacter
 		Hotbar.Add( new SwordWeapon() );
 		Hotbar.Add( new CrossbowWeapon(), false );
 
-
 		// @TODO: Improve this. This is shit
-		FirstAbility = new BombThrowAbility();
+		FirstAbility = new SelfHealAbility();
 		FirstAbility.Entity = this;
+
+		UltimateAbility = new BombThrowAbility();
+		UltimateAbility.Entity = this;
 
 		MovementAbility = new SpeedWalkAbility();
 		MovementAbility.Entity = this;
