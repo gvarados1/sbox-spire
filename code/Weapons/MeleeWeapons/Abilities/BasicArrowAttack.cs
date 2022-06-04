@@ -6,7 +6,7 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 	public override float Cooldown => 2f;
 	public override string AbilityName => "Slash";
 	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/sword_slash.png";
+	public override string AbilityIcon => "ui/ability_icons/arrow_attack.png";
 	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
 
 	public virtual float ProjectileSpeed => 800f;
