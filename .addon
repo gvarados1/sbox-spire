@@ -9,7 +9,8 @@
   "ResourcePaths": [
     "/config/*",
     "/fonts/*",
-    "/ui/*"
+    "/ui/*",
+    "/sounds/*"
   ],
   "HasCode": true,
   "CodePath": "code",

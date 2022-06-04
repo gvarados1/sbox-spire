@@ -17,9 +17,18 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 	public virtual float ProjectileThrowStrength => 100f;
 	public virtual bool ManualProjectile => false;
 
+	protected override void PreAbilityExecute()
+	{
+		base.PreAbilityExecute();
+
+		Entity.PlaySound( "bow_draw" );
+	}
+
 	protected virtual void CreateProjectile( float yawOffset = 0f )
 	{
 		if ( Host.IsClient ) return;
+
+		Entity.PlaySound( "rust_crossbow.shoot" );
 
 		var projectile = new ProjectileEntity()
 		{
