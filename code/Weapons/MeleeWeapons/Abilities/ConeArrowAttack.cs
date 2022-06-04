@@ -3,7 +3,7 @@ namespace Spire.Abilities;
 public partial class ConeArrowAttack : BaseMeleeAttackAbility
 {
 	// Configuration
-	public override float Cooldown => 2f;
+	public override float Cooldown => 10f;
 	public override string AbilityName => "Cone Attack";
 	public override string AbilityDescription => "";
 	public override string AbilityIcon => "ui/ability_icons/arrow_cone_attack.png";

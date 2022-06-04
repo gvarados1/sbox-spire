@@ -3,7 +3,7 @@ namespace Spire.Abilities;
 public partial class ExplosiveArrowAttack : BaseMeleeAttackAbility
 {
 	// Configuration
-	public override float Cooldown => 2f;
+	public override float Cooldown => 20f;
 	public override string AbilityName => "Slash";
 	public override string AbilityDescription => "";
 	public override string AbilityIcon => "ui/ability_icons/explosive_arrow.png";
