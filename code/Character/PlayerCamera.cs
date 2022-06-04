@@ -59,7 +59,7 @@ public partial class PlayerCamera : CameraMode
 
 			input.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
-		if ( input.Down( InputButton.SecondaryAttack ) )
+		else if ( input.Down( InputButton.SecondaryAttack ) )
 		{
 			OrbitAngles.yaw += input.AnalogLook.yaw;
 			OrbitAngles.pitch += input.AnalogLook.pitch;
