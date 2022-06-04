@@ -15,9 +15,11 @@
   "CodePath": "code",
   "RootNamespace": "Spire",
   "Metadata": {
-    "MapList": [],
+    "MapList": [
+      "devultj.spire_meadows"
+    ],
     "MinPlayers": 1,
-    "MapSelect": 0,
+    "MapSelect": 2,
     "RankType": 0,
     "PerMapRanking": false,
     "LeaderboardType": 0,
