@@ -1,7 +1,14 @@
 namespace Spire.Abilities;
 
-public partial class Ability : BaseNetworkable
+// @TODO: These really shouldn't be entities, they were BaseNetworkable
+// but they suck on hotload
+public partial class Ability : Entity
 {
+	public Ability()
+	{
+		Transmit = TransmitType.Always;
+	}
+
 	// Configuration
 	public virtual float Cooldown => 5f;
 	public virtual string AbilityName => "Ability";
