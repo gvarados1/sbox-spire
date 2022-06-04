@@ -50,6 +50,7 @@ public partial class PlayerCharacter : BaseCharacter
 		Hotbar = new PlayerHotbar( this );
 
 		Hotbar.Add( new SwordWeapon() );
+		Hotbar.Add( new CrossbowWeapon(), false );
 
 
 		// @TODO: Improve this. This is shit
