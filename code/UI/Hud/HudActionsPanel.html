@@ -7,10 +7,18 @@
     </div>
 
     <div class="abilities">
-        <PlayerAbilitypanel class="movement" type="0" @ref="MovementPlayerAbility" />
+        <div class="movement">
+            <div class="bg"></div>
+            <PlayerAbilitypanel type="0" @ref="MovementPlayerAbility" />
+        </div>
+
         <PlayerAbilitypanel type="1" @ref="FirstPlayerAbility" />
         <PlayerAbilitypanel type="2" @ref="SecondPlayerAbility" />
-        <PlayerAbilitypanel class="ultimate" type="3" @ref="UltimatePlayerAbility" />
+
+        <div class="ultimate">
+            <div class="bg"></div>
+            <PlayerAbilitypanel type="3" @ref="UltimatePlayerAbility" />
+        </div>
 
         <WeaponAbilityPanel type="Attack" @ref="WeaponAttackAbility" />
         <WeaponAbilityPanel type="Special" @ref="SpecialAttackAbility" />
