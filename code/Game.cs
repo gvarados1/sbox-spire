@@ -15,12 +15,18 @@ public partial class Game : Sandbox.Game
 {
 	public static new Game Current => Sandbox.Game.Current as Game;
 
+	public DayNight.DayNightSystem DayNightSystem { get; protected set; }
+
 	public SpireHud Hud { get; set; }
 
 	public Game()
 	{
 		if ( Host.IsClient )
 			Hud = new();
+		else
+		{
+			DayNightSystem = new();
+		}
 	}
 
 	protected void SetupDefaultPawn( Client cl )
