@@ -14,6 +14,9 @@ public partial class PlayerCamera : CameraMode
 	protected Range<int> CameraDistance { get; set; } = new( 125, 500 );
 	protected Range<int> PitchClamp { get; set; } = new( 40, 60 );
 
+	[ConVar.Client( "spire_camera_farz", Max = 80000f, Min = 1024f, Saved = true )]
+	public static float ZFarPreference { get; set; } = 2048f;
+
 	public override void Update()
 	{
 		var pawn = Local.Pawn as AnimatedEntity;
@@ -31,7 +34,8 @@ public partial class PlayerCamera : CameraMode
 
 		Position = targetPos;
 		FieldOfView = 70f;
-		ZFar = 2048f;
+
+		ZFar = ZFarPreference;
 		Viewer = null;
 	}
 
