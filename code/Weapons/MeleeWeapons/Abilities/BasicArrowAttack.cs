@@ -46,6 +46,8 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 
 	protected void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{
+		if ( !hitEntity.IsValid() ) return;
+
 		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, 30f ) );
 	}
 }
