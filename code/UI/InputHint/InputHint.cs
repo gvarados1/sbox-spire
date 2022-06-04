@@ -50,15 +50,14 @@ public partial class InputHint : Panel
 			if ( glyphTexture != null )
 			{
 				Glyph.Texture = glyphTexture;
-
 			}
 			else
 			{
 				Glyph.Texture = Texture.Load( FileSystem.Mounted, "/ui/Input/invalid_glyph.png" );
 			}
 
-			Glyph.Style.Width = Style.Width;
-			Glyph.Style.Height = Style.Height;
+			Glyph.Style.Width = glyphTexture.Width;
+			Glyph.Style.Height = glyphTexture.Height;
 		}
 	}
 }
