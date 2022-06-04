@@ -10,9 +10,9 @@
 		DistanceMax = 1896.83
 		Sounds = 
 		[
-			resource:"sounds/weapons/sword/light_sword_swing_1.vsnd",
-			resource:"sounds/weapons/sword/light_sword_swing_2.vsnd",
-			resource:"sounds/weapons/sword/light_sword_swing_3.vsnd",
+			"sounds/weapons/sword/light_sword_swing_1.vsnd",
+			"sounds/weapons/sword/light_sword_swing_2.vsnd",
+			"sounds/weapons/sword/light_sword_swing_3.vsnd",
 		]
 		SelectionMode = 3
 	}

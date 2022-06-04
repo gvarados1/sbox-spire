@@ -1,6 +1,6 @@
 namespace Spire.Abilities;
 
-public partial class BasicArrowAttack : BaseMeleeAttackAbility
+public partial class BasicArrowAttack : WeaponAbility
 {
 	// Configuration
 	public override float Cooldown => 2f;

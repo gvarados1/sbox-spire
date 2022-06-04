@@ -10,10 +10,10 @@
 		DistanceMax = 1251.81
 		Sounds = 
 		[
-			resource:"sounds/weapons/sword/stab_sword_flesh_1.vsnd",
-			resource:"sounds/weapons/sword/stab_sword_flesh_2.vsnd",
-			resource:"sounds/weapons/sword/stab_sword_flesh_3.vsnd",
-			resource:"sounds/weapons/sword/stab_sword_flesh_4.vsnd",
+			"sounds/weapons/sword/stab_sword_flesh_1.vsnd",
+			"sounds/weapons/sword/stab_sword_flesh_2.vsnd",
+			"sounds/weapons/sword/stab_sword_flesh_3.vsnd",
+			"sounds/weapons/sword/stab_sword_flesh_4.vsnd",
 		]
 		SelectionMode = 3
 	}
