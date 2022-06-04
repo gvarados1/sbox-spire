@@ -12,6 +12,11 @@ public partial class Ability : BaseNetworkable
 	public virtual string ParticlePath => "";
 
 	/// <summary>
+	/// Apply a speed modifier to the player while the ability is in progress
+	/// </summary>
+	public virtual float PlayerSpeedMultiplier => 1f;
+
+	/// <summary>
 	/// The duration of an ability. If set to 0f, will run <see cref="Execute"/>, otherwise <see cref="AsyncExecute"/>
 	/// </summary>
 	public virtual float AbilityDuration => 0f;
@@ -27,6 +32,24 @@ public partial class Ability : BaseNetworkable
 
 	[Net]
 	public Entity Entity { get; set; }
+
+
+	public virtual BaseCharacter GetCharacter()
+	{
+		if ( Entity is BaseCharacter character )
+		{
+			return character;
+		}
+		else
+		{
+			return Entity.Owner as BaseCharacter;
+		}
+	}
+
+	public virtual void DoPlayerAnimation()
+	{
+		GetCharacter()?.SetAnimParameter( "b_attack", true );
+	}
 
 	/// <summary>
 	/// Allows you to handle an ability asynchronously.
@@ -57,6 +80,10 @@ public partial class Ability : BaseNetworkable
 
 		if ( !string.IsNullOrEmpty( ParticlePath ) )
 			Util.CreateParticle( Entity, ParticlePath, true );
+
+		var character = GetCharacter();
+		if ( character.IsValid() )
+			character.Controller.SpeedMultiplier = PlayerSpeedMultiplier;
 	}
 
 	/// <summary>
@@ -64,6 +91,11 @@ public partial class Ability : BaseNetworkable
 	/// </summary>
 	protected virtual void PostAbilityExecute()
 	{
+		var character = GetCharacter();
+		if ( character.IsValid() )
+			character.Controller.SpeedMultiplier = 1f;
+
+		DoPlayerAnimation();
 	}
 
 	/// <summary>

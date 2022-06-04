@@ -1,56 +1,60 @@
 namespace Spire.Abilities;
 
-public partial class ExplosiveArrowAttack : BaseMeleeAttackAbility
+public partial class ExplosiveArrowAttack : BasicArrowAttack
 {
 	// Configuration
 	public override float Cooldown => 20f;
-	public override string AbilityName => "Slash";
+	public override string AbilityName => "Explosive Arrow";
 	public override string AbilityDescription => "";
 	public override string AbilityIcon => "ui/ability_icons/explosive_arrow.png";
 	public override WeaponAbilityType Type => WeaponAbilityType.Ultimate;
 
-	public virtual float ProjectileSpeed => 800f;
-	public virtual float ProjectileRadius => 10f;
-	public virtual float ProjectileThrowStrength => 100f;
+	public override float AbilityDuration => 0.8f;
+	public override bool ManualProjectile => true;
 
-	public override void Execute()
+	public float AttackDelay => 0.2f;
+	public float AmountOfAttacks => 3;
+
+	protected float StoredAmountOfAttacks = 0;
+
+	protected override void PreAbilityExecute()
 	{
-		base.Execute();
+		base.PreAbilityExecute();
 
-		if ( Host.IsClient )
-			return;
-
-		var projectile = new ProjectileEntity()
-		{
-			FaceDirection = true,
-			IgnoreEntity = Weapon.Owner,
-			Attacker = Weapon.Owner,
-			LifeTime = 2.5f,
-			Gravity = 0f,
-			ModelPath = "weapons/rust_crossbow/rust_crossbow_bolt.vmdl"
-		};
-
-		var position = Weapon.Owner.EyePosition + Vector3.Down * 25f;
-		var forward = Weapon.Owner.EyeRotation.Forward;
-		var endPosition = position + forward * 100000f;
-		var trace = Trace.Ray( position, endPosition )
-			.Ignore( Weapon.Owner )
-			.Run();
-
-		var direction = (trace.EndPosition - position).Normal;
-		direction = direction.Normal;
-
-		var velocity = (direction * ProjectileSpeed) + (forward * ProjectileThrowStrength);
-		projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
+		StoredAmountOfAttacks = 0;
 	}
 
-	protected void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
+	protected override async Task AsyncExecute()
+	{
+		PreAbilityExecute();
+
+		InProgress = true;
+
+		while ( StoredAmountOfAttacks < AmountOfAttacks )
+		{
+			await GameTask.DelaySeconds( AttackDelay );
+			StoredAmountOfAttacks++;
+
+			CreateProjectile();
+		}
+
+		await GameTask.DelaySeconds( AbilityDuration );
+
+		InProgress = false;
+		NextUse = Cooldown;
+		LastUsed = 0;
+
+		PostAbilityExecute();
+	}
+
+
+	protected override void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{
 		new ExplosionEntity
 		{
 			Position = projectile.Position,
 			Radius = 256f,
-			Damage = 50f,
+			Damage = 20f,
 			ForceScale = 1f,
 		}.Explode( projectile );
 	}

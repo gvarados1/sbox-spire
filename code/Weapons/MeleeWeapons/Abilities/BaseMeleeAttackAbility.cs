@@ -111,8 +111,6 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	{
 		base.Execute();
 
-		(Weapon.Owner as AnimatedEntity)?.SetAnimParameter( "b_attack", true );
-
 		_ = StartSwinging();
 	}
 }

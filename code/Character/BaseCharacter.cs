@@ -12,7 +12,7 @@ public partial class BaseCharacter : AnimatedEntity
 	public BaseCarriable ActiveChild { get; set; }
 
 	[Net, Predicted]
-	public PawnController Controller { get; set; }
+	public CharacterController Controller { get; set; }
 
 	[Net, Predicted]
 	protected PawnAnimator Animator { get; set; }

@@ -8,17 +8,18 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 	public override string AbilityDescription => "";
 	public override string AbilityIcon => "ui/ability_icons/arrow_attack.png";
 	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
+	public override float PlayerSpeedMultiplier => 0.1f;
+	public override float AbilityDuration => 0.5f;
+
 
 	public virtual float ProjectileSpeed => 800f;
 	public virtual float ProjectileRadius => 10f;
 	public virtual float ProjectileThrowStrength => 100f;
+	public virtual bool ManualProjectile => false;
 
-	public override void Execute()
+	protected virtual void CreateProjectile( float yawOffset = 0f )
 	{
-		base.Execute();
-
-		if ( Host.IsClient )
-			return;
+		if ( Host.IsClient ) return;
 
 		var projectile = new ProjectileEntity()
 		{
@@ -31,7 +32,11 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 		};
 
 		var position = Weapon.Owner.EyePosition + Vector3.Down * 25f;
-		var forward = Weapon.Owner.EyeRotation.Forward;
+
+		Angles spread = new Angles( 0f, yawOffset, 0f );
+		Rotation rotation = Rotation.From( spread ) * Weapon.Owner.EyeRotation;
+
+		var forward = rotation.Forward;
 		var endPosition = position + forward * 100000f;
 		var trace = Trace.Ray( position, endPosition )
 			.Ignore( Weapon.Owner )
@@ -44,7 +49,18 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 		projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
 	}
 
-	protected void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
+	protected override void PostAbilityExecute()
+	{
+		base.PostAbilityExecute();
+
+		if ( Host.IsClient )
+			return;
+
+		if ( !ManualProjectile )
+			CreateProjectile();
+	}
+
+	protected virtual void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{
 		if ( !hitEntity.IsValid() ) return;
 
