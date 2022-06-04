@@ -30,9 +30,8 @@ public partial class PlayerCamera : CameraMode
 		targetPos = Position + Rotation.Backward * OrbitDistance;
 
 		Position = targetPos;
-
-		FieldOfView = 70;
-
+		FieldOfView = 70f;
+		ZFar = 2048f;
 		Viewer = null;
 	}
 
