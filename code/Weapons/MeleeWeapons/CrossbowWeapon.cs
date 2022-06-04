@@ -12,7 +12,9 @@ public partial class CrossbowWeapon : BaseWeapon
 
 	public override List<Type> Abilities => new()
 	{
-		typeof( BasicArrowAttack )
+		typeof( BasicArrowAttack ),
+		typeof( ExplosiveArrowAttack ),
+		typeof( ConeArrowAttack ),
 	};
 
 	public override void SimulateAnimator( PawnAnimator anim )

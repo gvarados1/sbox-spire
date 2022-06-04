@@ -1,13 +1,13 @@
 namespace Spire.Abilities;
 
-public partial class BasicArrowAttack : BaseMeleeAttackAbility
+public partial class ExplosiveArrowAttack : BaseMeleeAttackAbility
 {
 	// Configuration
 	public override float Cooldown => 2f;
 	public override string AbilityName => "Slash";
 	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/arrow_attack.png";
-	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
+	public override string AbilityIcon => "ui/ability_icons/explosive_arrow.png";
+	public override WeaponAbilityType Type => WeaponAbilityType.Ultimate;
 
 	public virtual float ProjectileSpeed => 800f;
 	public virtual float ProjectileRadius => 10f;
@@ -46,8 +46,12 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 
 	protected void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{
-		if ( !hitEntity.IsValid() ) return;
-
-		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, 30f ) );
+		new ExplosionEntity
+		{
+			Position = projectile.Position,
+			Radius = 256f,
+			Damage = 50f,
+			ForceScale = 1f,
+		}.Explode( projectile );
 	}
 }

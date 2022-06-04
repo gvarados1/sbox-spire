@@ -1,24 +1,21 @@
 namespace Spire.Abilities;
 
-public partial class BasicArrowAttack : BaseMeleeAttackAbility
+public partial class ConeArrowAttack : BaseMeleeAttackAbility
 {
 	// Configuration
 	public override float Cooldown => 2f;
-	public override string AbilityName => "Slash";
+	public override string AbilityName => "Cone Attack";
 	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/arrow_attack.png";
-	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
+	public override string AbilityIcon => "ui/ability_icons/arrow_cone_attack.png";
+	public override WeaponAbilityType Type => WeaponAbilityType.Special;
 
 	public virtual float ProjectileSpeed => 800f;
 	public virtual float ProjectileRadius => 10f;
 	public virtual float ProjectileThrowStrength => 100f;
+	public virtual float ConeSize => 15f;
 
-	public override void Execute()
+	protected void CreateProjectile( float yawOffset )
 	{
-		base.Execute();
-
-		if ( Host.IsClient )
-			return;
 
 		var projectile = new ProjectileEntity()
 		{
@@ -31,7 +28,11 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 		};
 
 		var position = Weapon.Owner.EyePosition + Vector3.Down * 25f;
-		var forward = Weapon.Owner.EyeRotation.Forward;
+
+		Angles spread = new Angles( 0f, yawOffset, 0f );
+		Rotation rotation = Rotation.From( spread ) * Weapon.Owner.EyeRotation;
+
+		var forward = rotation.Forward;
 		var endPosition = position + forward * 100000f;
 		var trace = Trace.Ray( position, endPosition )
 			.Ignore( Weapon.Owner )
@@ -44,10 +45,22 @@ public partial class BasicArrowAttack : BaseMeleeAttackAbility
 		projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
 	}
 
+	public override void Execute()
+	{
+		base.Execute();
+
+		if ( Host.IsClient )
+			return;
+
+		CreateProjectile( -ConeSize );
+		CreateProjectile( 0f );
+		CreateProjectile( ConeSize );
+	}
+
 	protected void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{
 		if ( !hitEntity.IsValid() ) return;
 
-		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, 30f ) );
+		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, 20f ) );
 	}
 }

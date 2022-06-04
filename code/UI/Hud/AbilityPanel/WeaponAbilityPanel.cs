@@ -78,10 +78,7 @@ public partial class WeaponAbilityPanel : Panel
 			return;
 		}
 
-		if ( ability is not null )
-		{
-			UpdateAbility();
-			AbilityRef = ability;
-		}
+		UpdateAbility();
+		AbilityRef = ability;
 	}
 }
