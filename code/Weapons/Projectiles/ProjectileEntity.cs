@@ -148,6 +148,8 @@ public partial class ProjectileEntity : ModelEntity
 
 		if ( HasHitTarget( trace ) )
 		{
+			trace.Surface.DoBulletImpact( trace );
+
 			PlayHitEffects( trace.Normal );
 			OnHitAction?.Invoke( this, trace.Entity );
 			Delete();
@@ -157,7 +159,6 @@ public partial class ProjectileEntity : ModelEntity
 	public bool HasClientProxy()
 	{
 		return !IsClientOnly && Owner.IsValid() && Owner.IsLocalPawn;
-
 	}
 
 	protected virtual bool HasHitTarget( TraceResult trace )
