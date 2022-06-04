@@ -3,7 +3,8 @@ namespace Spire.UI;
 [UseTemplate]
 public partial class PlayerNameplate : BaseNameplate
 {
-	public override string NameplateName => Character.Client?.Name;
+	public string PlayerName => Character.Client?.Name;
+	public override string NameplateName => PlayerName.Truncate( 16, "..." );
 	protected bool IsLocalPlayer => Character == Local.Pawn;
 
 	// @ref
