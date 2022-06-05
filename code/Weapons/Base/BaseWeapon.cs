@@ -33,18 +33,21 @@ public partial class BaseWeapon : BaseCarriable
 		if ( !Owner.IsValid() )
 			return;
 
-		foreach ( var ability in _Abilities )
+		using ( LagCompensation() )
 		{
-			if ( Input.Down( ability.Type.GetButton() ) )
+			foreach ( var ability in _Abilities )
 			{
-				if ( ability.CanExecute() )
+				if ( Input.Down( ability.Type.GetButton() ) )
 				{
-					ability.TryExecute();
-					TimeSinceLastAbility = 0;
+					if ( ability.CanExecute() )
+					{
+						ability.TryExecute();
+						TimeSinceLastAbility = 0;
+					}
 				}
-			}
 
-			ability.Simulate( cl );
+				ability.Simulate( cl );
+			}
 		}
 	}
 
