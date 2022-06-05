@@ -27,6 +27,8 @@ public partial class Game : Sandbox.Game
 		{
 			DayNightSystem = new();
 		}
+
+		Global.TickRate = 20;
 	}
 
 	protected void SetupDefaultPawn( Client cl )
