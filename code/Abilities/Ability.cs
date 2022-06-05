@@ -73,6 +73,8 @@ public partial class Ability : Entity
 		var character = GetCharacter();
 		if ( character.IsValid() )
 		{
+			Log.State( $"PreAbilityExecute: {Time.Now}" );
+
 			character.Controller.SpeedMultiplier = PlayerSpeedMultiplier;
 		}
 	}
@@ -85,6 +87,7 @@ public partial class Ability : Entity
 		var character = GetCharacter();
 		if ( character.IsValid() )
 		{
+			Log.State( $"PostAbilityExecute: {Time.Now}" );
 			character.Controller.SpeedMultiplier = 1f;
 		}
 
