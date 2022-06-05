@@ -24,7 +24,7 @@ public partial class Ability : Entity
 	public virtual float PlayerSpeedMultiplier => 1f;
 
 	/// <summary>
-	/// The duration of an ability. If set to 0f, will run <see cref="Execute"/>, otherwise <see cref="AsyncExecute"/>
+	/// The duration of an ability.
 	/// </summary>
 	public virtual float AbilityDuration => 0f;
 
@@ -58,15 +58,6 @@ public partial class Ability : Entity
 	public virtual void DoPlayerAnimation()
 	{
 		GetCharacter()?.SetAnimParameter( "b_attack", true );
-	}
-
-	/// <summary>
-	/// Allows you to handle an ability asynchronously.
-	/// </summary>
-	/// <returns></returns>
-	protected async virtual Task AsyncExecute()
-	{
-
 	}
 
 	/// <summary>
@@ -133,6 +124,7 @@ public partial class Ability : Entity
 		else
 		{
 			PreAbilityExecute();
+			Execute();
 			PostAbilityExecute();
 		}
 	}
