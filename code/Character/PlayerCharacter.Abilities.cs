@@ -29,21 +29,20 @@ public partial class PlayerCharacter
 
 	public void SimulateAbilities( Client cl )
 	{
-		using ( LagCompensation() )
+		int i = 0;
+		foreach ( var ability in GetPlayerAbilities() )
 		{
-			int i = 0;
-			foreach ( var ability in GetPlayerAbilities() )
+			if ( Input.Down( PlayerAbility.GetInputButtonFromSlot( i ) ) )
 			{
-				if ( Input.Down( PlayerAbility.GetInputButtonFromSlot( i ) ) )
+				if ( ability is not null && ability.CanExecute() )
 				{
-					if ( ability is not null && ability.CanExecute() )
-					{
-						ability.TryExecute();
-					}
+					ability.TryExecute();
 				}
-
-				i++;
 			}
+
+			ability?.Simulate( cl );
+
+			i++;
 		}
 	}
 }

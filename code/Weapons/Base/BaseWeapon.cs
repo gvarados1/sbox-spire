@@ -28,24 +28,23 @@ public partial class BaseWeapon : BaseCarriable
 		}
 	}
 
-	public override void Simulate( Client player )
+	public override void Simulate( Client cl )
 	{
 		if ( !Owner.IsValid() )
 			return;
 
-		using ( LagCompensation() )
+		foreach ( var ability in _Abilities )
 		{
-			foreach ( var ability in _Abilities )
+			if ( Input.Down( ability.Type.GetButton() ) )
 			{
-				if ( Input.Down( ability.Type.GetButton() ) )
+				if ( ability.CanExecute() )
 				{
-					if ( ability.CanExecute() )
-					{
-						ability.TryExecute();
-						TimeSinceLastAbility = 0;
-					}
+					ability.TryExecute();
+					TimeSinceLastAbility = 0;
 				}
 			}
+
+			ability.Simulate( cl );
 		}
 	}
 

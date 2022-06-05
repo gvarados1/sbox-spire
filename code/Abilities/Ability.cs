@@ -28,18 +28,20 @@ public partial class Ability : Entity
 	/// </summary>
 	public virtual float AbilityDuration => 0f;
 
-	[Net]
+	[Net, Predicted]
 	public TimeSince LastUsed { get; set; }
 
-	[Net]
+	[Net, Predicted]
+	public TimeUntil AbilityFinished { get; set; }
+
+	[Net, Predicted]
 	public TimeUntil NextUse { get; set; }
 
-	[Net]
-	public bool InProgress { get; set; } = false;
+	[Net, Predicted]
+	public bool InProgress { get; set; }
 
-	[Net]
+	[Net, Predicted]
 	public Entity Entity { get; set; }
-
 
 	public virtual BaseCharacter GetCharacter()
 	{
@@ -64,17 +66,7 @@ public partial class Ability : Entity
 	/// <returns></returns>
 	protected async virtual Task AsyncExecute()
 	{
-		PreAbilityExecute();
 
-		InProgress = true;
-
-		await GameTask.DelaySeconds( AbilityDuration );
-
-		InProgress = false;
-		NextUse = Cooldown;
-		LastUsed = 0;
-
-		PostAbilityExecute();
 	}
 
 	/// <summary>
@@ -90,7 +82,9 @@ public partial class Ability : Entity
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
+		{
 			character.Controller.SpeedMultiplier = PlayerSpeedMultiplier;
+		}
 	}
 
 	/// <summary>
@@ -100,7 +94,9 @@ public partial class Ability : Entity
 	{
 		var character = GetCharacter();
 		if ( character.IsValid() )
+		{
 			character.Controller.SpeedMultiplier = 1f;
+		}
 
 		DoPlayerAnimation();
 	}
@@ -119,8 +115,6 @@ public partial class Ability : Entity
 	/// </summary>
 	public virtual void Execute()
 	{
-		LastUsed = 0;
-		NextUse = Cooldown;
 	}
 
 	/// <summary>
@@ -128,14 +122,36 @@ public partial class Ability : Entity
 	/// </summary>
 	internal void TryExecute()
 	{
+		AbilityFinished = AbilityDuration;
+		InProgress = true;
+		LastUsed = 0f;
+
 		if ( AbilityDuration > 0f )
 		{
-			_ = AsyncExecute();
+			PreAbilityExecute();
 		}
 		else
 		{
 			PreAbilityExecute();
-			Execute();
+			PostAbilityExecute();
+		}
+	}
+
+	public virtual void Tick()
+	{
+	}
+
+	public override void Simulate( Client cl )
+	{
+		if ( !InProgress ) return;
+
+		Tick();
+
+		if ( AbilityFinished )
+		{
+			InProgress = false;
+			NextUse = Cooldown;
+
 			PostAbilityExecute();
 		}
 	}

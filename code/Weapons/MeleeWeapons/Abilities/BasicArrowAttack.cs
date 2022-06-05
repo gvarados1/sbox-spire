@@ -11,7 +11,6 @@ public partial class BasicArrowAttack : WeaponAbility
 	public override float PlayerSpeedMultiplier => 0.1f;
 	public override float AbilityDuration => 0.5f;
 
-
 	public virtual float ProjectileSpeed => 800f;
 	public virtual float ProjectileRadius => 10f;
 	public virtual float ProjectileThrowStrength => 100f;
