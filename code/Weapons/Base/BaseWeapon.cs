@@ -5,7 +5,8 @@ namespace Spire;
 public partial class BaseWeapon : BaseCarriable
 {
 	[Net, Predicted]
-	public TimeSince TimeSinceLastAbility { get; set; } = 0f;
+	public TimeSince TimeSinceLastAbility { get; set; } = 1f;
+	public virtual float GlobalAbilityCooldown => 1f;
 
 	public virtual List<Type> Abilities => new();
 
@@ -73,7 +74,7 @@ public partial class BaseWeapon : BaseCarriable
 
 		if ( Input.Down( ability.Type.GetButton() ) )
 		{
-			if ( ability.CanExecute() )
+			if ( ability.CanExecute() && TimeSinceLastAbility > GlobalAbilityCooldown )
 			{
 				ability.TryExecute();
 				TimeSinceLastAbility = 0;
