@@ -39,7 +39,7 @@ public partial class BasicArrowAttack : WeaponAbility
 			ModelPath = "weapons/rust_crossbow/rust_crossbow_bolt.vmdl"
 		};
 
-		var position = Weapon.Owner.EyePosition + Vector3.Down * 25f;
+		var position = Weapon.Owner.EyePosition + Vector3.Down * 20f + Weapon.Owner.EyeRotation.Forward * 40f;
 
 		Angles spread = new Angles( 0f, yawOffset, 0f );
 		Rotation rotation = Rotation.From( spread ) * Weapon.Owner.EyeRotation;
