@@ -52,6 +52,9 @@ public partial class ProjectileEntity : ModelEntity
 		OnHitAction = callback;
 		Position = start;
 
+		if ( FaceDirection )
+			Rotation = Rotation.LookAt( Velocity.Normal );
+
 		SetModel( ModelPath );
 
 		if ( IsClientOnly )
