@@ -26,7 +26,7 @@ public partial class BombThrowAbility : PlayerAbility
 			IgnoreEntity = Character,
 			Attacker = Character,
 			LifeTime = 2.5f,
-			Gravity = 15f,
+			Gravity = 30f,
 			ModelPath = "assets/projectiles/small_bomb.vmdl",
 		};
 
