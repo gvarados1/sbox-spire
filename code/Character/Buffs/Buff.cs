@@ -10,7 +10,8 @@ public abstract partial class Buff : BaseNetworkable
 {
 	public Buff()
 	{
-		OnBegin();
+		UntilDestroy = Duration;
+		NextTick = TickInterval;
 	}
 
 	public TimeSince SinceCreation { get; set; } = 0;
@@ -35,10 +36,8 @@ public abstract partial class Buff : BaseNetworkable
 	/// </summary>
 	public virtual float TickInterval => 0f;
 
-	[Net, Predicted]
 	public TimeUntil UntilDestroy { get; set; }
 
-	[Net, Predicted]
 	public TimeUntil NextTick { get; set; }
 
 	protected Action<BaseCharacter> TickAction { get; set; }
@@ -46,8 +45,6 @@ public abstract partial class Buff : BaseNetworkable
 
 	public virtual void OnBegin()
 	{
-		UntilDestroy = Duration;
-		NextTick = TickInterval;
 	}
 
 	public Buff WithTickAction( Action<BaseCharacter> action )

@@ -14,8 +14,6 @@ public partial class SelfHealAbility : PlayerAbility
 	{
 		base.Execute();
 
-		if ( Host.IsClient ) return;
-
 		Character.AddBuff<BaseHealingBuff>();
 	}
 }

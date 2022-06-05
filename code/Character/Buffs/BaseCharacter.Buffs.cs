@@ -4,13 +4,14 @@ namespace Spire;
 
 public partial class BaseCharacter
 {
-	[Net, Local]
-	public IList<Buff> Buffs { get; set; }
+	//	[Net, Predicted]
+	public List<Buff> Buffs { get; set; } = new();
 
 	public Buff AddBuff<T>() where T : Buff, new()
 	{
+		Log.State( $"AddBuff {Time.Now}" );
+
 		var buff = new T();
-		buff.OnBegin();
 
 		Buffs.Add( buff );
 
@@ -22,6 +23,8 @@ public partial class BaseCharacter
 		for ( var i = Buffs.Count - 1; i >= 0; i-- )
 		{
 			var buff = Buffs[i];
+
+			// Log.State( $"NextTick = {buff.NextTick}" );
 
 			if ( buff.NextTick <= 0 )
 			{
