@@ -1,6 +1,5 @@
 namespace Spire;
 
-[Library]
 public partial class ProjectileEntity : ModelEntity
 {
 	// TODO: Find a better way to achieve this without networking all these strings. Use a projectile data class?
@@ -32,7 +31,6 @@ public partial class ProjectileEntity : ModelEntity
 	protected Sound LaunchSound { get; set; }
 	protected Particles Follower { get; set; }
 	protected Particles Trail { get; set; }
-	protected SceneObject ModelSceneObject { get; set; }
 
 	public void Initialize( Vector3 start, Vector3 velocity, float radius, Action<ProjectileEntity, Entity> callback = null )
 	{
@@ -48,11 +46,13 @@ public partial class ProjectileEntity : ModelEntity
 		}
 
 		InitialVelocity = velocity;
+		EnableDrawing = true;
 		StartPosition = start;
-		EnableDrawing = false;
 		Velocity = velocity;
 		OnHitAction = callback;
 		Position = start;
+
+		SetModel( ModelPath );
 
 		if ( IsClientOnly )
 		{
@@ -70,8 +70,6 @@ public partial class ProjectileEntity : ModelEntity
 		base.Spawn();
 
 		Tags.Add( "projectile" );
-
-		SetModel( ModelPath );
 	}
 
 	public override void ClientSpawn()
@@ -104,9 +102,6 @@ public partial class ProjectileEntity : ModelEntity
 
 		if ( !string.IsNullOrEmpty( LaunchSoundName ) )
 			LaunchSound = PlaySound( LaunchSoundName );
-
-		if ( !string.IsNullOrEmpty( ModelPath ) )
-			ModelSceneObject = new SceneObject( Map.Scene, ModelPath );
 	}
 
 	public virtual void Simulate()
@@ -187,15 +182,6 @@ public partial class ProjectileEntity : ModelEntity
 		}
 	}
 
-	[Event.Tick.Client]
-	protected virtual void ClientTick()
-	{
-		if ( ModelSceneObject.IsValid() )
-		{
-			ModelSceneObject.Transform = Transform;
-		}
-	}
-
 	[Event.Tick.Server]
 	protected virtual void ServerTick()
 	{
@@ -211,8 +197,6 @@ public partial class ProjectileEntity : ModelEntity
 
 	private void RemoveEffects()
 	{
-		ModelSceneObject?.Delete();
-		LaunchSound.Stop();
 		Follower?.Destroy();
 		Trail?.Destroy();
 		Trail = null;
