@@ -10,12 +10,11 @@ public partial class CrossbowWeapon : BaseWeapon
 
 	public override string ModelPath => "weapons/rust_crossbow/rust_crossbow.vmdl";
 
-	public override List<Type> Abilities => new()
-	{
-		typeof( BasicArrowAttack ),
-		typeof( ExplosiveArrowAttack ),
-		typeof( ConeArrowAttack ),
-	};
+	// Abilities
+	public override Type AttackAbilityType => typeof( BasicArrowAttack );
+	public override Type SpecialAbilityType => typeof( ConeArrowAttack );
+	public override Type UltimateAbilityType => typeof( ExplosiveArrowAttack );
+	// End of abilities
 
 	public override void SimulateAnimator( PawnAnimator anim )
 	{

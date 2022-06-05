@@ -37,7 +37,6 @@ public partial class Ability : Entity
 	[Net, Predicted]
 	public TimeUntil NextUse { get; set; }
 
-	[Net, Predicted]
 	public bool InProgress { get; set; }
 
 	[Net, Predicted]

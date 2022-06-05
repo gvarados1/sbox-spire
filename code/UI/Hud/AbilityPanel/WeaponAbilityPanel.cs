@@ -69,8 +69,7 @@ public partial class WeaponAbilityPanel : Panel
 			UpdateAbility();
 			return;
 		}
-
-		var ability = weapon._Abilities.FirstOrDefault( x => x.Type == Type );
+		var ability = weapon.GetAbilities().FirstOrDefault( x => x.IsValid() && x.Type == Type );
 
 		if ( AbilityRef == ability )
 		{

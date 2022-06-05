@@ -9,11 +9,10 @@ public partial class SwordWeapon : BaseWeapon
 
 	public override string ModelPath => "assets/weapons/basic_sword.vmdl";
 
-	public override List<Type> Abilities => new()
-	{
-		typeof( SwordSlash ),
-		typeof( SwordHeavyAttack )
-	};
+	// Abilities
+	public override Type AttackAbilityType => typeof( SwordSlash );
+	public override Type SpecialAbilityType => typeof( SwordHeavyAttack );
+	// End of abilities
 
 	public override void SimulateAnimator( PawnAnimator anim )
 	{
