@@ -151,7 +151,7 @@ public abstract partial class Ability : Entity
 	/// <summary>
 	/// Called every tick (shared) while an ability is in progress
 	/// </summary>
-	public virtual void Tick()
+	public virtual void OnTick()
 	{
 	}
 
@@ -160,7 +160,7 @@ public abstract partial class Ability : Entity
 		if ( !InProgress ) 
 			return;
 
-		Tick();
+		OnTick();
 
 		if ( TimeUntilFinish )
 		{
