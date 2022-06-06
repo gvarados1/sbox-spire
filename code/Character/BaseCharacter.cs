@@ -56,9 +56,6 @@ public partial class BaseCharacter : AnimatedEntity
 
 		CreateHull();
 		ResetInterpolation();
-
-		// @TODO: Decide where to spawn
-		Position = Vector3.Zero;
 	}
 
 	[ClientRpc]

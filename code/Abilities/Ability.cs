@@ -105,7 +105,7 @@ public abstract partial class Ability : Entity
 	}
 
 	/// <summary>
-	/// Called after the ability has finished. If specified, this will be executed in <paramref name="AbilityDuration"/> seconds.
+	/// Called after the ability has finished. If specified, this will be executed in <paramref name="Duration"/> seconds.
 	/// </summary>
 	protected virtual void PostRun()
 	{
