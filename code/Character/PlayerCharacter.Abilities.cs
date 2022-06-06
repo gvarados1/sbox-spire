@@ -36,9 +36,9 @@ public partial class PlayerCharacter
 			{
 				if ( Input.Down( PlayerAbility.GetInputButtonFromSlot( i ) ) )
 				{
-					if ( ability is not null && ability.CanExecute() )
+					if ( ability is not null && ability.CanRun() )
 					{
-						ability.TryExecute();
+						ability.Run();
 					}
 				}
 

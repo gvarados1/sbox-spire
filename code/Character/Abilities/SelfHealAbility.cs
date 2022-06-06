@@ -6,13 +6,13 @@ public partial class SelfHealAbility : PlayerAbility
 {
 	// Configuration
 	public override float Cooldown => 30f;
-	public override string AbilityName => "Healing Salve";
-	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/heal.png";
+	public override string Name => "Healing Salve";
+	public override string Description => "";
+	public override string Icon => "ui/ability_icons/heal.png";
 
-	public override void Execute()
+	protected override void PreRun()
 	{
-		base.Execute();
+		base.PreRun();
 
 		Character.AddBuff<BaseHealingBuff>();
 	}

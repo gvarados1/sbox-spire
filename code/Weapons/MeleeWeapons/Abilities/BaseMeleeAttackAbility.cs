@@ -4,11 +4,11 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 {
 	// Configuration
 	public override float Cooldown => 1f;
-	public override string AbilityName => "Slash";
-	public override string AbilityDescription => "";
-	public override string AbilityIcon => "";
+	public override string Name => "Slash";
+	public override string Description => "";
+	public override string Icon => "";
 	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
-	public override string PreAbilityExecuteSound => "light_sword_swing";
+	public override string PreAbilitySound => "light_sword_swing";
 
 	// BaseMeleeAttackAbility Configuration
 	/// <summary>
@@ -53,9 +53,7 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 		);
 
 		if ( bIsInCone )
-		{
 			RunDamageTrace( ent );
-		}
 	}
 
 	protected virtual void RunDamageTrace( Entity entity )
@@ -90,7 +88,7 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	{
 	}
 
-	protected async Task StartSwinging()
+	protected virtual async Task StartMeleeAttack()
 	{
 		await GameTask.DelaySeconds( AttackInflictDelay );
 
@@ -107,10 +105,10 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 		}
 	}
 
-	public override void Execute()
+	protected override void PreRun()
 	{
-		base.Execute();
+		base.PreRun();
 
-		_ = StartSwinging();
+		_ = StartMeleeAttack();
 	}
 }

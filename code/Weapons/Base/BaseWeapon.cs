@@ -74,9 +74,9 @@ public partial class BaseWeapon : BaseCarriable
 
 		if ( Input.Down( ability.Type.GetButton() ) )
 		{
-			if ( ability.CanExecute() && TimeSinceLastAbility > GlobalAbilityCooldown )
+			if ( ability.CanRun() && TimeSinceLastAbility > GlobalAbilityCooldown )
 			{
-				ability.TryExecute();
+				ability.Run();
 				TimeSinceLastAbility = 0;
 			}
 		}

@@ -4,16 +4,16 @@ public partial class ConeArrowAttack : BasicArrowAttack
 {
 	// Configuration
 	public override float Cooldown => 10f;
-	public override string AbilityName => "Cone Attack";
-	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/arrow_cone_attack.png";
+	public override string Name => "Cone Attack";
+	public override string Description => "";
+	public override string Icon => "ui/ability_icons/arrow_cone_attack.png";
 	public override WeaponAbilityType Type => WeaponAbilityType.Special;
-	public override float PlayerSpeedMultiplier => 0.1f;
-	public override float AbilityDuration => 0.5f;
+	public override float PlayerSpeedScale => 0.1f;
+	public override float Duration => 0.5f;
 
-	protected override void PostAbilityExecute()
+	protected override void PostRun()
 	{
-		base.PostAbilityExecute();
+		base.PostRun();
 
 		if ( Host.IsClient )
 			return;

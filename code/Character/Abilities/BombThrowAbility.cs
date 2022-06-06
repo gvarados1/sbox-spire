@@ -3,18 +3,18 @@ namespace Spire.Abilities;
 public partial class BombThrowAbility : PlayerAbility
 {
 	public override float Cooldown => 20f;
-	public override string AbilityName => "Instant Damage";
-	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/bomb.png";
+	public override string Name => "Instant Damage";
+	public override string Description => "";
+	public override string Icon => "ui/ability_icons/bomb.png";
 	public override PlayerAbilityType Type => PlayerAbilityType.Ultimate;
 
 	public virtual float ProjectileSpeed => 500f;
 	public virtual float ProjectileRadius => 20f;
 	public virtual float ProjectileThrowStrength => 100f;
 
-	public override void Execute()
+	protected override void PreRun()
 	{
-		base.Execute();
+		base.PreRun();
 
 		if ( Host.IsClient )
 			return;

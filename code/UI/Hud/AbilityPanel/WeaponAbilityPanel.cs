@@ -15,10 +15,10 @@ public partial class WeaponAbilityPanel : Panel
 	{
 		get
 		{
-			if ( AbilityRef is null || AbilityRef.InProgress || AbilityRef.LastUsed < 1f )
+			if ( AbilityRef is null || AbilityRef.InProgress || AbilityRef.TimeSinceLastUse < 1f )
 				return "";
 
-			var nextUse = (float)AbilityRef.NextUse;
+			var nextUse = (float)AbilityRef.TimeUntilNextUse;
 			if ( nextUse.Floor() <= 0 )
 				return "";
 
@@ -45,8 +45,8 @@ public partial class WeaponAbilityPanel : Panel
 	{
 		if ( AbilityRef is not null )
 		{
-			SetClass( "in-use", AbilityRef.LastUsed < 1f || AbilityRef.InProgress );
-			Style.SetBackgroundImage( AbilityRef.AbilityIcon );
+			SetClass( "in-use", AbilityRef.TimeSinceLastUse < 1f || AbilityRef.InProgress );
+			Style.SetBackgroundImage( AbilityRef.Icon );
 		}
 		else
 		{
@@ -55,7 +55,7 @@ public partial class WeaponAbilityPanel : Panel
 		}
 
 		SetClass( "no-ability", AbilityRef is null );
-		SetClass( "on-cooldown", AbilityRef?.NextUse > 0f );
+		SetClass( "on-cooldown", AbilityRef?.TimeUntilNextUse > 0f );
 
 		InputHint.SetButton( Type.GetButton() );
 	}

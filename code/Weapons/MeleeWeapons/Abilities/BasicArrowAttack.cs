@@ -4,13 +4,13 @@ public partial class BasicArrowAttack : WeaponAbility
 {
 	// Configuration
 	public override float Cooldown => 2f;
-	public override string AbilityName => "Ranged Attack";
-	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/arrow_attack.png";
+	public override string Name => "Ranged Attack";
+	public override string Description => "";
+	public override string Icon => "ui/ability_icons/arrow_attack.png";
 	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
-	public override float PlayerSpeedMultiplier => 0.1f;
-	public override float AbilityDuration => 0.5f;
-	public override string PreAbilityExecuteSound => "bow_draw";
+	public override float PlayerSpeedScale => 0.1f;
+	public override float Duration => 0.5f;
+	public override string PreAbilitySound => "bow_draw";
 
 	public virtual float ProjectileSpeed => 800f;
 	public virtual float ProjectileRadius => 10f;
@@ -51,9 +51,9 @@ public partial class BasicArrowAttack : WeaponAbility
 		projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
 	}
 
-	protected override void PostAbilityExecute()
+	protected override void PostRun()
 	{
-		base.PostAbilityExecute();
+		base.PostRun();
 
 		if ( Host.IsClient )
 			return;

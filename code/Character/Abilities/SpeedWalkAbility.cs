@@ -3,15 +3,15 @@ namespace Spire.Abilities;
 public partial class SpeedWalkAbility : PlayerAbility
 {
 	public override float Cooldown => 10f;
-	public override string AbilityName => "Speed Walk";
-	public override string AbilityDescription => "";
-	public override string AbilityIcon => "ui/ability_icons/speed_walk.png";
+	public override string Name => "Speed Walk";
+	public override string Description => "";
+	public override string Icon => "ui/ability_icons/speed_walk.png";
 	public override PlayerAbilityType Type => PlayerAbilityType.Movement;
-	public override float AbilityDuration => 1f;
+	public override float Duration => 1f;
 
-	protected override void PreAbilityExecute()
+	protected override void PreRun()
 	{
-		base.PreAbilityExecute();
+		base.PreRun();
 
 		var controller = Character.ActiveController as CharacterController;
 		if ( controller is null )
@@ -20,9 +20,9 @@ public partial class SpeedWalkAbility : PlayerAbility
 		controller.SpeedMultiplier = 2f;
 	}
 
-	protected override void PostAbilityExecute()
+	protected override void PostRun()
 	{
-		base.PostAbilityExecute();
+		base.PostRun();
 
 		var controller = Character.ActiveController as CharacterController;
 		if ( controller is null )
