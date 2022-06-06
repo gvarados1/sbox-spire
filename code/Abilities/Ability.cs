@@ -14,9 +14,10 @@ public partial class Ability : Entity
 	public virtual string AbilityName => "Ability";
 	public virtual string AbilityDescription => "This ability does nothing.";
 	public virtual string AbilityIcon => "";
-	public virtual string AbilityExecuteSound => "";
-
 	public virtual string ParticlePath => "";
+
+	public virtual string PreAbilityExecuteSound => "";
+	public virtual string PostAbilityExecuteSound => "";
 
 	/// <summary>
 	/// Apply a speed modifier to the player while the ability is in progress
@@ -64,8 +65,8 @@ public partial class Ability : Entity
 	/// </summary>
 	protected virtual void PreAbilityExecute()
 	{
-		if ( !string.IsNullOrEmpty( AbilityExecuteSound ) )
-			Entity.PlaySound( AbilityExecuteSound );
+		if ( !string.IsNullOrEmpty( PreAbilityExecuteSound ) )
+			Entity.PlaySound( PreAbilityExecuteSound );
 
 		if ( !string.IsNullOrEmpty( ParticlePath ) )
 			Util.CreateParticle( Entity, ParticlePath, true );
@@ -84,6 +85,9 @@ public partial class Ability : Entity
 	/// </summary>
 	protected virtual void PostAbilityExecute()
 	{
+		if ( !string.IsNullOrEmpty( PostAbilityExecuteSound ) )
+			Entity.PlaySound( PostAbilityExecuteSound );
+
 		var character = GetCharacter();
 		if ( character.IsValid() )
 		{
