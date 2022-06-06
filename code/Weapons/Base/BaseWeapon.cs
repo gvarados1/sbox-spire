@@ -29,8 +29,6 @@ public partial class BaseWeapon : BaseCarriable
 		var ability = TypeLibrary.Create<WeaponAbility>( type );
 		ability.Entity = this;
 
-		Log.Info( $"Creating ability of type: {type}" );
-
 		return ability;
 	}
 
@@ -44,13 +42,6 @@ public partial class BaseWeapon : BaseCarriable
 	public override void Spawn()
 	{
 		base.Spawn();
-
-		CreateAbilities();
-	}
-
-	public override void ClientSpawn()
-	{
-		base.ClientSpawn();
 
 		CreateAbilities();
 	}
@@ -99,8 +90,6 @@ public partial class BaseWeapon : BaseCarriable
 		base.SimulateAnimator( anim );
 
 		if ( TimeSinceLastAbility > TimeUntilRelaxed )
-		{
 			anim.SetAnimParameter( "holdtype", (int)RelaxedHoldType );
-		}
 	}
 }
