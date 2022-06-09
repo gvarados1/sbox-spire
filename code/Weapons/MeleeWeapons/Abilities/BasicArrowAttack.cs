@@ -21,7 +21,10 @@ public partial class BasicArrowAttack : WeaponAbility
 	{
 		if ( Host.IsClient ) return;
 
-		Entity.PlaySound( "rust_crossbow.shoot" );
+		using ( Prediction.Off() )
+		{
+			Entity.PlaySound( "rust_crossbow.shoot" );
+		}
 
 		var projectile = new ProjectileEntity()
 		{
