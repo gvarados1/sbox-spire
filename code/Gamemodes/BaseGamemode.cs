@@ -65,4 +65,9 @@ public abstract partial class BaseGamemode : Entity
 	{
 		return null;
 	}
+
+	public virtual bool AllowMovement()
+	{
+		return true;
+	}
 }

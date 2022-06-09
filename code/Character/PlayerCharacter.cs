@@ -5,6 +5,11 @@ namespace Spire;
 
 public partial class PlayerCharacter : BaseCharacter
 {
+	public override string ToString()
+	{
+		return $"Character ({Client?.Name})";
+	}
+
 	[Net]
 	public TimeSince TimeSinceDied { get; set; }
 

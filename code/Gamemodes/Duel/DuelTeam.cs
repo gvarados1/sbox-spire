@@ -6,6 +6,26 @@ public enum DuelTeam
 	Blue
 }
 
+public static partial class DuelTeamHelpers
+{
+	public static DuelTeam GetLowestTeam()
+	{
+		DuelTeam currentLowest = DuelTeam.Blue;
+		int value = 999;
+		foreach ( var _team in Enum.GetValues<DuelTeam>() )
+		{
+			var members = _team.GetMembers();
+			if ( members.Count() <= value )
+			{
+				value = members.Count();
+				currentLowest = _team;
+			}
+		}
+
+		return currentLowest;
+	}
+}
+
 public static partial class DuelTeamExtensions
 {
 	public static IEnumerable<Client> GetMembers( this DuelTeam team )

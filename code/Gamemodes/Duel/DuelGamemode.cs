@@ -32,7 +32,7 @@ public partial class DuelGamemode : BaseGamemode
 	{
 		TeamScores = null;
 
-		foreach( var team in Enum.GetValues( typeof( DuelTeam ) ) )
+		foreach ( var team in Enum.GetValues( typeof( DuelTeam ) ) )
 			TeamScores.Add( 0 );
 	}
 
@@ -61,9 +61,8 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void AddToSuitableTeam( Client cl )
 	{
-		bool shouldJoinRed = DuelTeam.Blue.GetMembers().Count() < DuelTeam.Red.GetMembers().Count();
-
-		cl.SetTeam( shouldJoinRed ? DuelTeam.Red : DuelTeam.Blue );
+		var lowest = DuelTeamHelpers.GetLowestTeam();
+		cl.SetTeam( lowest );
 
 		if ( PlayerCount >= MinPlayers && CurrentState == DuelGameState.WaitingForPlayers )
 		{
@@ -197,5 +196,10 @@ public partial class DuelGamemode : BaseGamemode
 			.Where( x => x.Tags.Has( teamName ) )
 			.OrderBy( x => Guid.NewGuid() )
 			.FirstOrDefault()?.Transform ?? null;
+	}
+
+	public override bool AllowMovement()
+	{
+		return CurrentState != DuelGameState.RoundCountdown;
 	}
 }

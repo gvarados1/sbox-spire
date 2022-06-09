@@ -3,7 +3,7 @@ namespace Spire.Gamemodes.Duel;
 public partial class DuelTeamComponent : EntityComponent
 {
 	[Net]
-	public DuelTeam Team { get; set; } = DuelTeam.Blue;
+	public DuelTeam Team { get; set; }
 }
 
 public static partial class ClientExtensions
