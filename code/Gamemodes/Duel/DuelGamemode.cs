@@ -20,19 +20,36 @@ public partial class DuelGamemode : BaseGamemode
 	[Net]
 	public DuelGameState CurrentState { get; set; } = DuelGameState.WaitingForPlayers;
 
-	// Team One
 	[Net]
-	public IList<Client> TeamOne { get; set; }
-	[Net]
-	public float TeamOneScore { get; set; }
-	public float TeamOneAliveCount => TeamOne.Select( x => (x.Pawn is BaseCharacter character) && character.IsValid() && character.LifeState == LifeState.Alive ).Count();
+	public IList<int> TeamScores { get; set; }
 
-	// Team Two
-	[Net]
-	public IList<Client> TeamTwo { get; set; }
-	[Net]
-	public float TeamTwoScore { get; set; }
-	public float TeamTwoAliveCount => TeamTwo.Select( x => (x.Pawn is BaseCharacter character) && character.IsValid() && character.LifeState == LifeState.Alive ).Count();
+	public int GetTeamScore( DuelTeam team )
+	{
+		return TeamScores[(int)team];
+	}
+
+	public void SetupScores()
+	{
+		TeamScores = null;
+
+		foreach( var team in Enum.GetValues( typeof( DuelTeam ) ) )
+			TeamScores.Add( 0 );
+	}
+
+	public void IncrementScore( DuelTeam team )
+	{
+		TeamScores[(int)team]++;
+	}
+
+	public override void Spawn()
+	{
+		base.Spawn();
+
+		SetupScores();
+	}
+
+	public float TeamOneAliveCount => DuelTeam.Blue.GetMembers().Select( x => (x.Pawn is BaseCharacter character) && character.IsValid() && character.LifeState == LifeState.Alive ).Count();
+	public float TeamTwoAliveCount => DuelTeam.Red.GetMembers().Select( x => (x.Pawn is BaseCharacter character) && character.IsValid() && character.LifeState == LifeState.Alive ).Count();
 
 	[Net, Predicted]
 	public TimeUntil TimeUntilRoundStart { get; set; }
@@ -44,12 +61,9 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void AddToSuitableTeam( Client cl )
 	{
-		bool teamTwo = TeamOne.Count < TeamTwo.Count;
+		bool shouldJoinRed = DuelTeam.Blue.GetMembers().Count() < DuelTeam.Red.GetMembers().Count();
 
-		if ( teamTwo )
-			TeamTwo.Add( cl );
-		else
-			TeamOne.Add( cl );
+		cl.SetTeam( shouldJoinRed ? DuelTeam.Red : DuelTeam.Blue );
 
 		if ( PlayerCount >= MinPlayers && CurrentState == DuelGameState.WaitingForPlayers )
 		{
@@ -68,8 +82,7 @@ public partial class DuelGamemode : BaseGamemode
 	{
 		ChatPanel.Announce( $"Waiting for players since there are not enough people on.", ChatCategory.System );
 
-		TeamOneScore = 0;
-		TeamTwoScore = 0;
+		SetupScores();
 		CurrentState = DuelGameState.WaitingForPlayers;
 	}
 
@@ -96,13 +109,13 @@ public partial class DuelGamemode : BaseGamemode
 
 		if ( teamOneCount > teamTwoCount )
 		{
-			TeamOneScore++;
-			ChatPanel.Announce( $"Team One wins the round!", ChatCategory.System );
+			IncrementScore( DuelTeam.Blue );
+			ChatPanel.Announce( $"{DuelTeam.Blue.GetName()} wins the round!", ChatCategory.System );
 		}
 		else if ( teamTwoCount > teamOneCount )
 		{
-			TeamTwoScore++;
-			ChatPanel.Announce( $"Team Two wins the round!", ChatCategory.System );
+			IncrementScore( DuelTeam.Red );
+			ChatPanel.Announce( $"{DuelTeam.Red.GetName()} wins the round!", ChatCategory.System );
 		}
 		else
 		{
