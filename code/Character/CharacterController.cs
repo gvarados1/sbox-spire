@@ -85,7 +85,7 @@ public partial class CharacterController : BasePlayerController
 	public override void Simulate()
 	{
 		// @TODO: Move this into some kind of game rules section, this is shit
-		var allowMovement = BaseGamemode.Current?.AllowMovement();
+		var allowMovement = BaseGamemode.Current?.AllowMovement() ?? false;
 		if ( !allowMovement )
 			return;
 
