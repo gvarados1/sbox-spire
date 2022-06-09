@@ -251,9 +251,4 @@ public partial class DuelGamemode : BaseGamemode
 			input.StopProcessing = true;
 		}
 	}
-
-	public override bool AllowDamage()
-	{
-		return CurrentState == DuelGameState.RoundActive;
-	}
 }
