@@ -15,17 +15,24 @@ public abstract partial class BaseGamemode : Entity
 	/// <returns></returns>
 	public virtual Panel CreateHud() => null;
 
-	public BaseGamemode()
-	{
-		Current = this;
-	}
-
 	public override void Spawn()
 	{
 		base.Spawn();
 
 		Transmit = TransmitType.Always;
+
+		// There can be only one gamemode running at a time.
+		if ( Current.IsValid() && Current != this )
+		{
+			Delete();
+			Log.Warning( "There can be only one gamemode running at one time. Please make sure there's only 1 gamemode entity on a level." );
+
+			return;
+		}
+
+		Current = this;
 	}
+
 
 	public override void ClientSpawn()
 	{
@@ -33,6 +40,8 @@ public abstract partial class BaseGamemode : Entity
 
 		CurrentHudPanel = CreateHud();
 		CurrentHudPanel.Parent = Game.Current?.Hud;
+
+		Current = this;
 	}
 
 	public override void Simulate( Client cl )
