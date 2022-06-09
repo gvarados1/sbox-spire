@@ -9,6 +9,8 @@ global using System.Collections.Generic;
 global using Spire.ExtensionMethods;
 global using Spire.UI;
 
+using Spire.Gamemodes;
+
 namespace Spire;
 
 public partial class Game : Sandbox.Game
@@ -75,5 +77,21 @@ public partial class Game : Sandbox.Game
 			return;
 
 		RespawnPlayerDelayed( cl );
+	}
+
+	public override void Simulate( Client cl )
+	{
+		base.Simulate( cl );
+
+		// Simulate active gamemode
+		BaseGamemode.Current?.Simulate( cl );
+	}
+
+	public override void FrameSimulate( Client cl )
+	{
+		base.FrameSimulate( cl );
+
+		// Simulate active gamemode
+		BaseGamemode.Current?.FrameSimulate( cl );
 	}
 }
