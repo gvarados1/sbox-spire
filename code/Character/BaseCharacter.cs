@@ -4,7 +4,7 @@ using Spire.UI;
 
 namespace Spire;
 
-public partial class BaseCharacter : AnimatedEntity
+public partial class BaseCharacter : BasePawn
 {
 	[Net, Predicted]
 	public BaseCarriable LastActiveChild { get; set; }
@@ -41,8 +41,10 @@ public partial class BaseCharacter : AnimatedEntity
 		SimulateBuffs( cl );
 	}
 
-	public virtual void Respawn()
+	public override void Respawn()
 	{
+		base.Respawn();
+
 		Host.AssertServer();
 
 		SetModel( "models/citizen/citizen.vmdl" );
@@ -74,6 +76,9 @@ public partial class BaseCharacter : AnimatedEntity
 
 	public override void TakeDamage( DamageInfo info )
 	{
+		if ( BaseGamemode.Current?.AllowDamage() == false )
+			return;
+
 		base.TakeDamage( info );
 
 		LastDamageInfo = info;
