@@ -17,8 +17,6 @@ public partial class DuelSpectatorPawn : BasePawn
 			.FirstOrDefault();
 
 		Target = randomPlayer;
-
-		Log.Info( $"Target: {Target}" );
 	}
 
 	public override void Spawn()

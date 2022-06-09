@@ -19,9 +19,14 @@ public static partial class ClientExtensions
 		return DuelTeam.Blue;
 	}
 
-	public static void SetTeam( this Client cl, DuelTeam team )
+	public static void SetTeam( this Client cl, DuelTeam team, bool noRespawn = false )
 	{
 		var teamComp = cl.Components.GetOrCreate<DuelTeamComponent>();
 		teamComp.Team = team;
+
+		if ( noRespawn )
+			return;
+		
+		Game.Current?.RespawnPlayer( cl );
 	}
 }

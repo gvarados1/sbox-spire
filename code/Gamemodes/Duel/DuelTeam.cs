@@ -33,9 +33,19 @@ public static partial class DuelTeamExtensions
 		return Client.All.Where( x => x.GetTeam() == team );
 	}
 
+	public static int Count( this DuelTeam team )
+	{
+		return team.GetMembers().Count();
+	}
+
 	public static IEnumerable<Client> GetAliveMembers( this DuelTeam team )
 	{
-		return Client.All.Where( x => x.GetTeam() == team ).Where( x => x.Pawn.IsValid() && x.Pawn.LifeState == LifeState.Alive );
+		return Client.All.Where( x => x.GetTeam() == team ).Where( x => x.Pawn is PlayerCharacter && x.Pawn.IsValid() && x.Pawn.LifeState == LifeState.Alive );
+	}
+
+	public static int AliveCount( this DuelTeam team )
+	{
+		return team.GetAliveMembers().Count();
 	}
 
 	public static string GetName( this DuelTeam team )

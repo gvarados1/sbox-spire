@@ -75,6 +75,26 @@ public partial class DuelGamemode : BaseGamemode
 		}
 	}
 
+	protected bool AreTeamsBalanced()
+	{
+		int blueCount = DuelTeam.Blue.Count();
+		int redCount = DuelTeam.Red.Count();
+
+		return Math.Abs( blueCount - redCount ) <= 1;
+	}
+
+	protected void ShuffleTeamMembers()
+	{
+		var playersPerTeam = ( PlayerCount / 2f ).FloorToInt();
+		int selectionIndex = 0;
+		foreach( var client in Client.All )
+		{
+			client.SetTeam( selectionIndex < playersPerTeam ? DuelTeam.Blue : DuelTeam.Red );
+
+			selectionIndex++;
+		}
+	}
+
 	public override void OnClientJoined( Client cl )
 	{
 		base.OnClientJoined( cl );
@@ -92,7 +112,10 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void TryStartCountdown()
 	{
-		Game.Current?.RespawnEveryone();
+		if ( !AreTeamsBalanced() )
+			ShuffleTeamMembers();
+		else
+			Game.Current?.RespawnEveryone();
 
 		ChatPanel.Announce( $"The round will start in {RoundStartCountdownTime} seconds.", ChatCategory.System );
 
@@ -209,8 +232,8 @@ public partial class DuelGamemode : BaseGamemode
 			_ = BecomeSpectator( cl );
 		}
 
-		var teamOneCount = DuelTeam.Blue.GetAliveMembers().Count();
-		var teamTwoCount = DuelTeam.Red.GetAliveMembers().Count();
+		var teamOneCount = DuelTeam.Blue.AliveCount();
+		var teamTwoCount = DuelTeam.Red.AliveCount();
 
 		if ( CurrentState == DuelGameState.RoundActive )
 		{
