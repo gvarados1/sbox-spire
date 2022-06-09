@@ -18,7 +18,7 @@ public partial class BaseCharacter : AnimatedEntity
 	[Net, Predicted]
 	protected PawnAnimator Animator { get; set; }
 
-	public virtual PawnController ActiveController => Controller;
+	public virtual PawnController ActiveController => ( BaseGamemode.Current?.AllowMovement() ?? false ) ? Controller : null;
 	public virtual PawnAnimator ActiveAnimator => Animator;
 	public virtual float MaxHealth => 100f;
 
