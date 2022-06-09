@@ -6,6 +6,10 @@ SpireHud {
     &.camera-movement {
         pointer-events: none;
     }
+
+    &.invisible {
+        display: none;
+    }
 }
 
 // Default label properties
