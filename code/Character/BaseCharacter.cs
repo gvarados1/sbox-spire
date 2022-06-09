@@ -76,6 +76,9 @@ public partial class BaseCharacter : BasePawn
 
 	public override void TakeDamage( DamageInfo info )
 	{
+		if ( BaseGamemode.Current?.AllowDamage() == false )
+			return;
+
 		base.TakeDamage( info );
 
 		LastDamageInfo = info;

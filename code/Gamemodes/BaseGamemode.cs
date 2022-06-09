@@ -49,7 +49,6 @@ public abstract partial class BaseGamemode : Entity
 		Current = this;
 	}
 
-
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
@@ -97,6 +96,11 @@ public abstract partial class BaseGamemode : Entity
 	}
 
 	public virtual bool AllowRespawning()
+	{
+		return true;
+	}
+
+	public virtual bool AllowDamage()
 	{
 		return true;
 	}
