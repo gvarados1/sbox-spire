@@ -1,4 +1,5 @@
 using Spire.Abilities;
+using Spire.Gamemodes;
 using Spire.UI;
 
 namespace Spire;
@@ -20,12 +21,6 @@ public partial class PlayerCharacter : BaseCharacter
 	public PlayerHotbar Hotbar { get; set; }
 
 	public override PawnController ActiveController => DevController ?? base.ActiveController;
-
-	public CameraMode CameraMode
-	{
-		get => Components.Get<CameraMode>();
-		set => Components.Add( value );
-	}
 
 	public PlayerCharacter()
 	{
@@ -63,6 +58,8 @@ public partial class PlayerCharacter : BaseCharacter
 
 	public override void BuildInput( InputBuilder input )
 	{
+		BaseGamemode.Current?.BuildInput( input );
+
 		if ( input.StopProcessing )
 			return;
 

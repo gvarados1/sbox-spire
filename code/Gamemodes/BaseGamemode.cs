@@ -15,6 +15,22 @@ public abstract partial class BaseGamemode : Entity
 	/// <returns></returns>
 	public virtual Panel CreateHud() => null;
 
+	/// <summary>
+	/// Gamemodes can define what pawn to create
+	/// </summary>
+	/// <param name="cl"></param>
+	/// <returns></returns>
+	public virtual BasePawn GetPawn( Client cl ) => new PlayerCharacter( cl );
+
+	public virtual void CreatePawn( Client cl )
+	{
+		cl.Pawn?.Delete();
+
+		var pawn = Current?.GetPawn( cl );
+		cl.Pawn = pawn;
+		pawn.Respawn();
+	}
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -32,7 +48,6 @@ public abstract partial class BaseGamemode : Entity
 
 		Current = this;
 	}
-
 
 	public override void ClientSpawn()
 	{
@@ -81,6 +96,11 @@ public abstract partial class BaseGamemode : Entity
 	}
 
 	public virtual bool AllowRespawning()
+	{
+		return true;
+	}
+
+	public virtual bool AllowDamage()
 	{
 		return true;
 	}

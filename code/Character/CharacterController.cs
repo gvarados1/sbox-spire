@@ -84,11 +84,6 @@ public partial class CharacterController : BasePlayerController
 
 	public override void Simulate()
 	{
-		// @TODO: Move this into some kind of game rules section, this is shit
-		var allowMovement = BaseGamemode.Current?.AllowMovement() ?? false;
-		if ( !allowMovement )
-			return;
-
 		EyeLocalPosition = Vector3.Up * (EyeHeight * Pawn.Scale);
 		UpdateBBox();
 
@@ -718,5 +713,4 @@ public partial class CharacterController : BasePlayerController
 
 		//GroundTransform = GroundEntity.Transform.ToLocal( new Transform( Pos, Rot ) );
 	}
-
 }
