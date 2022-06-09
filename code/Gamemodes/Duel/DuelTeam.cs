@@ -27,8 +27,8 @@ public static partial class DuelTeamExtensions
 	{
 		return team switch
 		{
-			DuelTeam.Red => new Color( 228, 52, 52 ),
-			DuelTeam.Blue => new Color( 52, 99, 228 ),
+			DuelTeam.Red => new Color( 228f / 255f, 52f / 255f, 52f / 255f ),
+			DuelTeam.Blue => new Color( 52f / 255f, 99f / 255f, 228f / 255f ),
 			_ => Color.Gray
 		};
 	}

@@ -26,6 +26,7 @@ DuelHudPanel {
             }
 
             > .blue-team {
+                border-radius: 8px 0px 0px 8px;
                 width: 60px;
                 height: 60px;
                 background-color: rgba( blue, 0.8 );
@@ -36,11 +37,10 @@ DuelHudPanel {
                 background-color: rgba( black, 0.5 );
                 height: 60px;
 
-
                 > .game-state {
                     width: 100%;
                     height: 100%;
-                    font-size: 20px;
+                    font-size: 16px;
                     text-align: center;
                     justify-content: center;
                     align-items: center;
@@ -49,6 +49,7 @@ DuelHudPanel {
             }
 
             > .red-team {
+                border-radius: 0px 8px 8px 0px;
                 width: 60px;
                 height: 60px;
                 background-color: rgba( red, 0.8 );

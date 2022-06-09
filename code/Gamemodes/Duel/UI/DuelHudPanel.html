@@ -3,7 +3,7 @@
 <div>
     <div class="header">
         <div class="scores">
-            <div class="blue-team">
+            <div class="blue-team" @ref="BlueScorePanel">
                 <label class="score" @text="BlueScore">0</label>
             </div>
 
@@ -11,7 +11,7 @@
                 <label class="game-state" @text="GameState">This is a duel game</label>
             </div>
 
-            <div class="red-team">
+            <div class="red-team" @ref="RedScorePanel">
                 <label class="score" @text="RedScore">0</label>
             </div>
         </div>
