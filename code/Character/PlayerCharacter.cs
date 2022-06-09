@@ -21,17 +21,10 @@ public partial class PlayerCharacter : BaseCharacter
 
 	public override PawnController ActiveController => DevController ?? base.ActiveController;
 
-	public virtual CameraMode Camera
+	public CameraMode CameraMode
 	{
 		get => Components.Get<CameraMode>();
-		set
-		{
-			var current = Camera;
-			if ( current == value ) return;
-
-			Components.RemoveAny<CameraMode>();
-			Components.Add( value );
-		}
+		set => Components.Add( value );
 	}
 
 	public PlayerCharacter()
@@ -50,7 +43,7 @@ public partial class PlayerCharacter : BaseCharacter
 	{
 		base.Respawn();
 
-		Camera = new PlayerCamera();
+		CameraMode = new PlayerCamera();
 		Controller = new CharacterController();
 		Hotbar = new PlayerHotbar( this );
 

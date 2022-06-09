@@ -39,7 +39,6 @@ public partial class Game : Sandbox.Game
 
 		var pawn = new PlayerCharacter( cl );
 		cl.Pawn = pawn;
-
 		pawn.Respawn();
 	}
 
@@ -47,9 +46,9 @@ public partial class Game : Sandbox.Game
 	{
 		Log.Info( $"{cl.Name} has joined the world" );
 
-		BaseGamemode.Current?.OnClientJoined( cl );
-
 		SetupDefaultPawn( cl );
+
+		BaseGamemode.Current?.OnClientJoined( cl );
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
