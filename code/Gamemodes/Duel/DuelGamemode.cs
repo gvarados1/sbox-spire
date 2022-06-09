@@ -188,4 +188,14 @@ public partial class DuelGamemode : BaseGamemode
 			DecideRoundWinner();
 		}
 	}
+
+	public override Transform? GetSpawn( BaseCharacter character )
+	{
+		var teamName = character.Client.GetTeam().ToString().ToLower();
+
+		return All.OfType<SpawnPoint>()
+			.Where( x => x.Tags.Has( teamName ) )
+			.OrderBy( x => Guid.NewGuid() )
+			.FirstOrDefault()?.Transform ?? null;
+	}
 }

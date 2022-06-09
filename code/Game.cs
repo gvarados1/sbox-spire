@@ -41,21 +41,21 @@ public partial class Game : Sandbox.Game
 		cl.Pawn = pawn;
 
 		pawn.Respawn();
-		pawn.Position = FindSpawnPoint( pawn );
+		pawn.Transform = FindSpawnPoint( pawn ).WithScale( 1f );
 	}
 
-	protected Vector3 FindSpawnPoint( PlayerCharacter pawn )
+	protected Transform FindSpawnPoint( BaseCharacter character )
 	{
-		return All.OfType<SpawnPoint>().FirstOrDefault()?.Position ?? Vector3.Zero;
+		return BaseGamemode.Current?.GetSpawn( character ) ?? All.OfType<SpawnPoint>().FirstOrDefault()?.Transform ?? Transform.Zero;
 	}
 
 	public override void ClientJoined( Client cl )
 	{
 		Log.Info( $"{cl.Name} has joined the world" );
 
-		SetupDefaultPawn( cl );
-
 		BaseGamemode.Current?.OnClientJoined( cl );
+
+		SetupDefaultPawn( cl );
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )

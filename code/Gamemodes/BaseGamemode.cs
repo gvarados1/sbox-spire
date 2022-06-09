@@ -60,4 +60,9 @@ public abstract partial class BaseGamemode : Entity
 	public virtual void OnCharacterKilled( BaseCharacter character, DamageInfo damageInfo )
 	{
 	}
+
+	public virtual Transform? GetSpawn( BaseCharacter character )
+	{
+		return null;
+	}
 }
