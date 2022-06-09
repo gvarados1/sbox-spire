@@ -5,7 +5,7 @@ public partial class DuelHudPanel : Panel
 {
 	public DuelGamemode Gamemode => BaseGamemode.Current as DuelGamemode;
 
-	public string GameState => Gamemode?.CurrentState.GetName();
+	public string GameState => Gamemode?.GetGameStateText();
 
 	// @ref
 	public Panel BlueScorePanel { get; set; }
