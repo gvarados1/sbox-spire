@@ -33,7 +33,7 @@ public partial class Game : Sandbox.Game
 		Global.TickRate = 20;
 	}
 
-	protected void RespawnPlayer( Client cl )
+	public void RespawnPlayer( Client cl )
 	{
 		cl.Pawn?.Delete();
 
@@ -64,6 +64,11 @@ public partial class Game : Sandbox.Game
 		var cl = ConsoleSystem.Caller;
 
 		Current.RespawnPlayer( cl );
+	}
+
+	public void RespawnEveryone()
+	{
+		Client.All.ToList().ForEach( x => Game.Current.RespawnPlayer( x ) );
 	}
 
 	public override void Simulate( Client cl )

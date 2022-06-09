@@ -84,7 +84,7 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void TryStartCountdown()
 	{
-		Client.All.Select( x => x.Pawn as BaseCharacter ).ToList().ForEach( x => x?.Respawn() );
+		Game.Current?.RespawnEveryone();
 
 		ChatPanel.Announce( $"The round will start in {RoundStartCountdownTime} seconds.", ChatCategory.System );
 
