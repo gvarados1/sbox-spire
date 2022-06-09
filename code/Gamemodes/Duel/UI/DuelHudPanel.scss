@@ -5,14 +5,54 @@ DuelHudPanel {
     width: 100%;
     height: 100%;
 
-    > .game-state {
+    > .header {
         margin-top: $safe-zone-y;
-        position: absolute;
+        flex-direction: column;
         width: 100%;
-        height: 32px;
-        display: flex;
+        height: 90px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
 
-        font-size: 20px;
-        text-align: center;
+        > .scores {
+            .score {
+                width: 100%;
+                height: 100%;
+                font-size: 32px;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+            }
+
+            > .blue-team {
+                width: 60px;
+                height: 60px;
+                background-color: rgba( blue, 0.8 );
+            }
+
+            > .separator {
+                width: 200px;
+                background-color: rgba( black, 0.5 );
+                height: 60px;
+
+
+                > .game-state {
+                    width: 100%;
+                    height: 100%;
+                    font-size: 20px;
+                    text-align: center;
+                    justify-content: center;
+                    align-items: center;
+                    align-content: center;
+                }
+            }
+
+            > .red-team {
+                width: 60px;
+                height: 60px;
+                background-color: rgba( red, 0.8 );
+            }
+        }
     }
 }
