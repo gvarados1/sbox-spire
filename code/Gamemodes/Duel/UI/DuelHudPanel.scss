@@ -1,0 +1,59 @@
+@import "/UI/Theme.scss";
+
+DuelHudPanel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    > .header {
+        margin-top: $safe-zone-y;
+        flex-direction: column;
+        width: 100%;
+        height: 90px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+
+        > .scores {
+            .score {
+                width: 100%;
+                height: 100%;
+                font-size: 32px;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+            }
+
+            > .blue-team {
+                border-radius: 8px 0px 0px 8px;
+                width: 60px;
+                height: 60px;
+                background-color: rgba( blue, 0.8 );
+            }
+
+            > .separator {
+                width: 200px;
+                background-color: rgba( black, 0.5 );
+                height: 60px;
+
+                > .game-state {
+                    width: 100%;
+                    height: 100%;
+                    font-size: 24px;
+                    text-align: center;
+                    justify-content: center;
+                    align-items: center;
+                    align-content: center;
+                }
+            }
+
+            > .red-team {
+                border-radius: 0px 8px 8px 0px;
+                width: 60px;
+                height: 60px;
+                background-color: rgba( red, 0.8 );
+            }
+        }
+    }
+}

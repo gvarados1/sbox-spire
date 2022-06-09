@@ -9,6 +9,8 @@ global using System.Collections.Generic;
 global using Spire.ExtensionMethods;
 global using Spire.UI;
 
+using Spire.Gamemodes;
+
 namespace Spire;
 
 public partial class Game : Sandbox.Game
@@ -31,27 +33,29 @@ public partial class Game : Sandbox.Game
 		Global.TickRate = 20;
 	}
 
-	protected void SetupDefaultPawn( Client cl )
+	public void RespawnPlayer( Client cl )
 	{
 		cl.Pawn?.Delete();
 
 		var pawn = new PlayerCharacter( cl );
 		cl.Pawn = pawn;
-
 		pawn.Respawn();
-		pawn.Position = FindSpawnPoint( pawn );
-	}
-
-	protected Vector3 FindSpawnPoint( PlayerCharacter pawn )
-	{
-		return All.OfType<SpawnPoint>().FirstOrDefault()?.Position ?? Vector3.Zero;
 	}
 
 	public override void ClientJoined( Client cl )
 	{
 		Log.Info( $"{cl.Name} has joined the world" );
 
-		SetupDefaultPawn( cl );
+		RespawnPlayer( cl );
+
+		BaseGamemode.Current?.OnClientJoined( cl );
+	}
+
+	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	{
+		base.ClientDisconnect( cl, reason );
+
+		BaseGamemode.Current?.OnClientLeft( cl, reason );
 	}
 
 	[ConCmd.Server( "spire_respawn" )]
@@ -59,21 +63,27 @@ public partial class Game : Sandbox.Game
 	{
 		var cl = ConsoleSystem.Caller;
 
-		Current.SetupDefaultPawn( cl );
+		Current.RespawnPlayer( cl );
 	}
 
-	private async void RespawnPlayerDelayed( Client cl, float seconds = 3f )
+	public void RespawnEveryone()
 	{
-		await GameTask.DelaySeconds( seconds );
-
-		SetupDefaultPawn( cl );
+		Client.All.ToList().ForEach( x => Game.Current.RespawnPlayer( x ) );
 	}
 
-	public void RespawnPlayer( Client cl )
+	public override void Simulate( Client cl )
 	{
-		if ( !cl.IsValid() )
-			return;
+		base.Simulate( cl );
 
-		RespawnPlayerDelayed( cl );
+		// Simulate active gamemode
+		BaseGamemode.Current?.Simulate( cl );
+	}
+
+	public override void FrameSimulate( Client cl )
+	{
+		base.FrameSimulate( cl );
+
+		// Simulate active gamemode
+		BaseGamemode.Current?.FrameSimulate( cl );
 	}
 }

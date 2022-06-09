@@ -58,6 +58,14 @@ public partial class ChatPanel : Panel
 		pnl.SetMessage( message, category );
 	}
 
+	public static void Announce( string message, ChatCategory category = ChatCategory.System )
+	{
+		if ( !Host.IsServer ) 
+			return;
+
+		AddChatEntry( To.Everyone, message, (int)category );
+	}
+
 	[ConCmd.Client( "spire_chat_system", CanBeCalledFromServer = true )]
 	public static void AddChatEntry( string message, int categoryNum )
 	{

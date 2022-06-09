@@ -1,4 +1,5 @@
 using Sandbox;
+using Spire.Gamemodes;
 using Spire.UI;
 
 namespace Spire;
@@ -56,6 +57,8 @@ public partial class BaseCharacter : AnimatedEntity
 
 		CreateHull();
 		ResetInterpolation();
+
+		Transform = ( BaseGamemode.Current?.GetSpawn( this ) ?? All.OfType<SpawnPoint>().FirstOrDefault()?.Transform ?? Transform.Zero ).WithScale( 1f );
 	}
 
 	[ClientRpc]
@@ -124,6 +127,8 @@ public partial class BaseCharacter : AnimatedEntity
 			LastDamageInfo.Position,
 			LastDamageInfo.Force,
 			GetHitboxBone( LastDamageInfo.HitboxIndex ) );
+
+		BaseGamemode.Current?.OnCharacterKilled( this, LastDamageInfo );
 	}
 
 	public virtual void CreateHull()
