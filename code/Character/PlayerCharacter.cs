@@ -81,8 +81,6 @@ public partial class PlayerCharacter : BaseCharacter
 		base.OnKilled();
 
 		TimeSinceDied = 0;
-
-		Game.Current?.RespawnPlayer( Client );
 	}
 
 	public override void Simulate( Client cl )

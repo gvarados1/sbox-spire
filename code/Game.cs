@@ -33,7 +33,7 @@ public partial class Game : Sandbox.Game
 		Global.TickRate = 20;
 	}
 
-	protected void SetupDefaultPawn( Client cl )
+	protected void RespawnPlayer( Client cl )
 	{
 		cl.Pawn?.Delete();
 
@@ -46,7 +46,7 @@ public partial class Game : Sandbox.Game
 	{
 		Log.Info( $"{cl.Name} has joined the world" );
 
-		SetupDefaultPawn( cl );
+		RespawnPlayer( cl );
 
 		BaseGamemode.Current?.OnClientJoined( cl );
 	}
@@ -63,26 +63,7 @@ public partial class Game : Sandbox.Game
 	{
 		var cl = ConsoleSystem.Caller;
 
-		Current.SetupDefaultPawn( cl );
-	}
-
-	private async void RespawnPlayerDelayed( Client cl, float seconds = 3f )
-	{
-		await GameTask.DelaySeconds( seconds );
-
-		SetupDefaultPawn( cl );
-	}
-
-	public void RespawnPlayer( Client cl )
-	{
-		if ( !cl.IsValid() )
-			return;
-
-		bool allowRespawn = BaseGamemode.Current?.AllowRespawning() ?? true;
-		if ( !allowRespawn )
-			return;
-
-		RespawnPlayerDelayed( cl );
+		Current.RespawnPlayer( cl );
 	}
 
 	public override void Simulate( Client cl )

@@ -1,3 +1,5 @@
+using Spire.Gamemodes;
+
 namespace Spire;
 
 public partial class CharacterController : BasePlayerController
@@ -82,6 +84,11 @@ public partial class CharacterController : BasePlayerController
 
 	public override void Simulate()
 	{
+		// @TODO: Move this into some kind of game rules section, this is shit
+		var allowMovement = BaseGamemode.Current?.AllowMovement();
+		if ( !allowMovement )
+			return;
+
 		EyeLocalPosition = Vector3.Up * (EyeHeight * Pawn.Scale);
 		UpdateBBox();
 
