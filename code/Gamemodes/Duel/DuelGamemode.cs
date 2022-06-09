@@ -93,6 +93,8 @@ public partial class DuelGamemode : BaseGamemode
 
 			selectionIndex++;
 		}
+
+		ChatPanel.Announce( "The teams were shuffled.", ChatCategory.System );
 	}
 
 	public override void OnClientJoined( Client cl )
