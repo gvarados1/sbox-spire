@@ -37,7 +37,7 @@ public partial class Game : Sandbox.Game
 	{
 		cl.Pawn?.Delete();
 
-		var pawn = new PlayerCharacter( cl );
+		var pawn = BaseGamemode.Current?.CreatePawn( cl );
 		cl.Pawn = pawn;
 		pawn.Respawn();
 	}

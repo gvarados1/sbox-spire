@@ -15,6 +15,13 @@ public abstract partial class BaseGamemode : Entity
 	/// <returns></returns>
 	public virtual Panel CreateHud() => null;
 
+	/// <summary>
+	/// Gamemodes can define what pawn to create
+	/// </summary>
+	/// <param name="cl"></param>
+	/// <returns></returns>
+	public virtual BasePawn CreatePawn( Client cl ) => new PlayerCharacter( cl );
+
 	public override void Spawn()
 	{
 		base.Spawn();
