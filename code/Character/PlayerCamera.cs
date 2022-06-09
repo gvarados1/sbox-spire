@@ -85,7 +85,7 @@ public partial class PlayerCamera : CameraMode
 
 		Sound.Listener = new()
 		{
-			Position = pawn.Position,
+			Position = pawn.EyePosition,
 			Rotation = Rotation
 		};
 	}
