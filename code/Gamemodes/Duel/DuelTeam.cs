@@ -22,4 +22,14 @@ public static partial class DuelTeamExtensions
 			_ => "N/A"
 		};
 	}
+
+	public static Color GetColor( this DuelTeam team )
+	{
+		return team switch
+		{
+			DuelTeam.Red => new Color( 228, 52, 52 ),
+			DuelTeam.Blue => new Color( 52, 99, 228 ),
+			_ => Color.Gray
+		};
+	}
 }
