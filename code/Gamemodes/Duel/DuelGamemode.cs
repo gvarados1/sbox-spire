@@ -96,10 +96,12 @@ public partial class DuelGamemode : BaseGamemode
 
 		if ( teamOneCount > teamTwoCount )
 		{
+			TeamOneScore++;
 			ChatPanel.Announce( $"Team One wins the round!", ChatCategory.System );
 		}
 		else if ( teamTwoCount > teamOneCount )
 		{
+			TeamTwoScore++;
 			ChatPanel.Announce( $"Team Two wins the round!", ChatCategory.System );
 		}
 		else
@@ -117,7 +119,6 @@ public partial class DuelGamemode : BaseGamemode
 
 		if ( CurrentState == DuelGameState.RoundCountdown )
 		{
-
 			if ( TimeUntilRoundStart <= 0 )
 			{
 				BeginRound();
