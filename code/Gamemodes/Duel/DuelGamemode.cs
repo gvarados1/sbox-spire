@@ -199,9 +199,12 @@ public partial class DuelGamemode : BaseGamemode
 		var cl = character.Client;
 		if ( cl.IsValid() )
 		{
+			var deathCam = new DeathCameraMode();
+			deathCam.FocusPoint = character.Position;
+
 			cl.Pawn?.Delete();
 
-			cl.Components.Add( new DeathCameraMode() );
+			cl.Components.Add( deathCam );
 
 			_ = BecomeSpectator( cl );
 		}
@@ -242,8 +245,7 @@ public partial class DuelGamemode : BaseGamemode
 
 	public override void BuildInput( InputBuilder input )
 	{
-		var allowMovement = AllowMovement();
-		if ( !allowMovement )
+		if ( !AllowMovement() )
 		{
 			input.Clear();
 			input.StopProcessing = true;

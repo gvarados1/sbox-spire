@@ -2,7 +2,8 @@ namespace Spire;
 
 public partial class DeathCameraMode : CameraMode
 {
-	Vector3 FocusPoint;
+	[Net]
+	public Vector3 FocusPoint { get; set; }
 
 	public override void Activated()
 	{
@@ -34,6 +35,6 @@ public partial class DeathCameraMode : CameraMode
 		var player = Local.Client;
 		if ( player == null ) return Vector3.Zero;
 
-		return Input.Rotation.Forward * (-130 * 1) + Vector3.Up * (20 * 1);
+		return Input.Rotation.Forward * (-300 * 1) + Vector3.Up * (60 * 1);
 	}
 }
