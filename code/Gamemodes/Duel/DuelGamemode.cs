@@ -48,9 +48,6 @@ public partial class DuelGamemode : BaseGamemode
 		SetupScores();
 	}
 
-	public float TeamOneAliveCount => DuelTeam.Blue.GetMembers().Select( x => (x.Pawn is BaseCharacter character) && character.IsValid() && character.LifeState == LifeState.Alive ).Count();
-	public float TeamTwoAliveCount => DuelTeam.Red.GetMembers().Select( x => (x.Pawn is BaseCharacter character) && character.IsValid() && character.LifeState == LifeState.Alive ).Count();
-
 	[Net, Predicted]
 	public TimeUntil TimeUntilRoundStart { get; set; }
 	[Net, Predicted]
@@ -87,7 +84,7 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void TryStartCountdown()
 	{
-		Client.All.Select( x => x.Pawn as BaseCharacter ).ToList().ForEach( x => x.Respawn() );
+		Client.All.Select( x => x.Pawn as BaseCharacter ).ToList().ForEach( x => x?.Respawn() );
 
 		ChatPanel.Announce( $"The round will start in {RoundStartCountdownTime} seconds.", ChatCategory.System );
 
@@ -105,8 +102,8 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void DecideRoundWinner()
 	{
-		var teamOneCount = TeamOneAliveCount;
-		var teamTwoCount = TeamTwoAliveCount;
+		var teamOneCount = DuelTeam.Blue.GetAliveMembers().Count();
+		var teamTwoCount = DuelTeam.Red.GetAliveMembers().Count();
 
 		if ( teamOneCount > teamTwoCount )
 		{
@@ -180,9 +177,12 @@ public partial class DuelGamemode : BaseGamemode
 	{
 		base.OnCharacterKilled( character, damageInfo );
 
+		var teamOneCount = DuelTeam.Blue.GetAliveMembers().Count();
+		var teamTwoCount = DuelTeam.Red.GetAliveMembers().Count();
+
 		if ( CurrentState == DuelGameState.RoundActive )
 		{
-			bool anyIsZero = TeamOneAliveCount == 0 || TeamTwoAliveCount == 0;
+			bool anyIsZero = teamOneCount == 0 || teamTwoCount == 0;
 
 			if ( !anyIsZero )
 				return;
