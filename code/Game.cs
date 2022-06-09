@@ -35,11 +35,7 @@ public partial class Game : Sandbox.Game
 
 	public void RespawnPlayer( Client cl )
 	{
-		cl.Pawn?.Delete();
-
-		var pawn = BaseGamemode.Current?.CreatePawn( cl );
-		cl.Pawn = pawn;
-		pawn.Respawn();
+		BaseGamemode.Current?.CreatePawn( cl );
 	}
 
 	public override void ClientJoined( Client cl )

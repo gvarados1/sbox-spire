@@ -23,6 +23,14 @@ public partial class DuelGamemode : BaseGamemode
 	[Net]
 	public IList<int> TeamScores { get; set; }
 
+	public override BasePawn GetPawn( Client cl )
+	{
+		if ( CurrentState == DuelGameState.RoundActive )
+			return new DuelSpectatorPawn();
+
+		return new PlayerCharacter( cl );
+	}
+
 	public int GetTeamScore( DuelTeam team )
 	{
 		return TeamScores[(int)team];
@@ -173,9 +181,30 @@ public partial class DuelGamemode : BaseGamemode
 		}
 	}
 
+	protected async Task BecomeSpectator( Client cl )
+	{
+		await GameTask.DelaySeconds( 3 );
+
+		cl.Components.RemoveAny<DeathCameraMode>();
+
+		var pawn = new DuelSpectatorPawn();
+		cl.Pawn = pawn;
+		pawn.Respawn();
+	}
+
 	public override void OnCharacterKilled( BaseCharacter character, DamageInfo damageInfo )
 	{
 		base.OnCharacterKilled( character, damageInfo );
+
+		var cl = character.Client;
+		if ( cl.IsValid() )
+		{
+			cl.Pawn?.Delete();
+
+			cl.Components.Add( new DeathCameraMode() );
+
+			_ = BecomeSpectator( cl );
+		}
 
 		var teamOneCount = DuelTeam.Blue.GetAliveMembers().Count();
 		var teamTwoCount = DuelTeam.Red.GetAliveMembers().Count();
@@ -209,5 +238,15 @@ public partial class DuelGamemode : BaseGamemode
 	public override bool AllowRespawning()
 	{
 		return false;
+	}
+
+	public override void BuildInput( InputBuilder input )
+	{
+		var allowMovement = AllowMovement();
+		if ( !allowMovement )
+		{
+			input.Clear();
+			input.StopProcessing = true;
+		}
 	}
 }

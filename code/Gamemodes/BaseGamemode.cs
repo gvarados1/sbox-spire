@@ -20,7 +20,16 @@ public abstract partial class BaseGamemode : Entity
 	/// </summary>
 	/// <param name="cl"></param>
 	/// <returns></returns>
-	public virtual BasePawn CreatePawn( Client cl ) => new PlayerCharacter( cl );
+	public virtual BasePawn GetPawn( Client cl ) => new PlayerCharacter( cl );
+
+	public virtual void CreatePawn( Client cl )
+	{
+		cl.Pawn?.Delete();
+
+		var pawn = Current?.GetPawn( cl );
+		cl.Pawn = pawn;
+		pawn.Respawn();
+	}
 
 	public override void Spawn()
 	{
