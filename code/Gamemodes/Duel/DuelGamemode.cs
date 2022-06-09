@@ -87,6 +87,8 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void TryStartCountdown()
 	{
+		Client.All.Select( x => x.Pawn as BaseCharacter ).ToList().ForEach( x => x.Respawn() );
+
 		ChatPanel.Announce( $"The round will start in {RoundStartCountdownTime} seconds.", ChatCategory.System );
 
 		CurrentState = DuelGameState.RoundCountdown;
@@ -181,6 +183,7 @@ public partial class DuelGamemode : BaseGamemode
 		if ( CurrentState == DuelGameState.RoundActive )
 		{
 			bool anyIsZero = TeamOneAliveCount == 0 || TeamTwoAliveCount == 0;
+
 			if ( !anyIsZero )
 				return;
 
@@ -201,5 +204,10 @@ public partial class DuelGamemode : BaseGamemode
 	public override bool AllowMovement()
 	{
 		return CurrentState != DuelGameState.RoundCountdown;
+	}
+
+	public override bool AllowRespawning()
+	{
+		return false;
 	}
 }

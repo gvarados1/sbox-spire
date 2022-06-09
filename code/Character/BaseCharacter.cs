@@ -57,6 +57,8 @@ public partial class BaseCharacter : AnimatedEntity
 
 		CreateHull();
 		ResetInterpolation();
+
+		Transform = ( BaseGamemode.Current?.GetSpawn( this ) ?? All.OfType<SpawnPoint>().FirstOrDefault()?.Transform ?? Transform.Zero ).WithScale( 1f );
 	}
 
 	[ClientRpc]

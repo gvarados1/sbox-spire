@@ -41,12 +41,6 @@ public partial class Game : Sandbox.Game
 		cl.Pawn = pawn;
 
 		pawn.Respawn();
-		pawn.Transform = FindSpawnPoint( pawn ).WithScale( 1f );
-	}
-
-	protected Transform FindSpawnPoint( BaseCharacter character )
-	{
-		return BaseGamemode.Current?.GetSpawn( character ) ?? All.OfType<SpawnPoint>().FirstOrDefault()?.Transform ?? Transform.Zero;
 	}
 
 	public override void ClientJoined( Client cl )
@@ -83,6 +77,10 @@ public partial class Game : Sandbox.Game
 	public void RespawnPlayer( Client cl )
 	{
 		if ( !cl.IsValid() )
+			return;
+
+		bool allowRespawn = BaseGamemode.Current?.AllowRespawning() ?? true;
+		if ( !allowRespawn )
 			return;
 
 		RespawnPlayerDelayed( cl );

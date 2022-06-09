@@ -70,4 +70,9 @@ public abstract partial class BaseGamemode : Entity
 	{
 		return true;
 	}
+
+	public virtual bool AllowRespawning()
+	{
+		return true;
+	}
 }
