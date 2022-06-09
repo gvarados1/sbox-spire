@@ -59,8 +59,9 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void TryStartCountdown()
 	{
-		if ( CurrentState <= DuelGameState.WaitingForPlayers )
+		if ( CurrentState == DuelGameState.WaitingForPlayers )
 		{
+			CurrentState = DuelGameState.RoundCountdown;
 			TimeUntilRoundStart = RoundStartCountdownTime;
 		}
 	}

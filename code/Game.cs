@@ -54,6 +54,15 @@ public partial class Game : Sandbox.Game
 		Log.Info( $"{cl.Name} has joined the world" );
 
 		SetupDefaultPawn( cl );
+
+		BaseGamemode.Current?.OnClientJoined( cl );
+	}
+
+	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	{
+		base.ClientDisconnect( cl, reason );
+
+		BaseGamemode.Current?.OnClientLeft( cl, reason );
 	}
 
 	[ConCmd.Server( "spire_respawn" )]
