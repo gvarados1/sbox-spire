@@ -131,6 +131,8 @@ public partial class DuelGamemode : BaseGamemode
 
 		CurrentState = DuelGameState.RoundActive;
 		TimeUntilRoundEnd = RoundLength;
+
+		PlaySound( "duel.round_begin" );
 	}
 
 	protected void DecideRoundWinner()
