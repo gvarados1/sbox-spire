@@ -104,4 +104,9 @@ public abstract partial class BaseGamemode : Entity
 	{
 		return true;
 	}
+
+	public virtual void PostProcessTick( StandardPostProcess postProcess )
+	{
+		//
+	}
 }

@@ -21,10 +21,17 @@ public partial class Game : Sandbox.Game
 
 	public SpireHud Hud { get; set; }
 
+	StandardPostProcess _PostProcess;
+
 	public Game()
 	{
 		if ( Host.IsClient )
+		{
 			Hud = new();
+
+			_PostProcess = new StandardPostProcess();
+			PostProcess.Add( _PostProcess );
+		}
 		else
 		{
 			DayNightSystem = new();
@@ -93,5 +100,23 @@ public partial class Game : Sandbox.Game
 
 		// Simulate active gamemode
 		BaseGamemode.Current?.FrameSimulate( cl );
+
+		PostProcessTick();
+	}
+
+
+	protected void PostProcessTick()
+	{
+		_PostProcess.Vignette.Enabled = true;
+		_PostProcess.Vignette.Intensity = 1.0f;
+		_PostProcess.Vignette.Roundness = 1.5f;
+		_PostProcess.Vignette.Smoothness = 0.5f;
+		_PostProcess.Vignette.Color = Color.Black;
+
+		_PostProcess.FilmGrain.Enabled = true;
+		_PostProcess.FilmGrain.Intensity = 0f;
+		_PostProcess.FilmGrain.Response = 1;
+
+		BaseGamemode.Current?.PostProcessTick( _PostProcess );
 	}
 }
