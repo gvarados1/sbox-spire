@@ -40,7 +40,9 @@ public partial class DuelHudPanel : Panel
 		BlueTeamMembers.DeleteChildren( true );
 		RedTeamMembers.DeleteChildren( true );
 
-		foreach( var client in Client.All )
+		LastUpdatedAvatars = 0;
+
+		foreach ( var client in Client.All )
 		{
 			GetTeamPanel( client.GetTeam() )
 				.AddChild<Image>( "avatar" )
