@@ -117,6 +117,23 @@ public partial class Game : Sandbox.Game
 		_PostProcess.FilmGrain.Intensity = 0f;
 		_PostProcess.FilmGrain.Response = 1;
 
+		if ( Local.Pawn is BaseCharacter localPlayer )
+		{
+			var timeSinceDamage = localPlayer.TimeSinceDamage.Relative;
+			var damageUi = timeSinceDamage.LerpInverse( 0.25f, 0.0f, true ) * 0.3f;
+			if ( damageUi > 0 )
+			{
+				_PostProcess.Saturate.Amount -= damageUi;
+				_PostProcess.Vignette.Color = Color.Lerp( _PostProcess.Vignette.Color, Color.Red, damageUi );
+				_PostProcess.Vignette.Intensity += damageUi;
+				_PostProcess.Vignette.Smoothness += damageUi;
+				_PostProcess.Vignette.Roundness += damageUi;
+
+				_PostProcess.Blur.Enabled = true;
+				_PostProcess.Blur.Strength = damageUi * 0.5f;
+			}
+		}
+
 		BaseGamemode.Current?.PostProcessTick( _PostProcess );
 	}
 }

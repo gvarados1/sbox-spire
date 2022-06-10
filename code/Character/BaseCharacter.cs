@@ -28,6 +28,8 @@ public partial class BaseCharacter : BasePawn
 
 	public BaseNameplate Nameplate { get; set; }
 
+	public TimeSince TimeSinceDamage = 1f;
+
 	public BaseCharacter()
 	{
 		Tags.Add( "player" );
@@ -67,6 +69,8 @@ public partial class BaseCharacter : BasePawn
 	protected void RpcTakeDamage( Vector3 pos, float damage )
 	{
 		ClientTakeDamage( pos, damage );
+
+		TimeSinceDamage = 0;
 	}
 
 	protected virtual void ClientTakeDamage( Vector3 pos, float damage )
