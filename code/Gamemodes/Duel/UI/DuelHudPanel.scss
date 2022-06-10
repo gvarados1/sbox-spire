@@ -65,12 +65,16 @@ DuelHudPanel {
                 padding-left: 8px;
 
                 > .avatar {
-                    border: 2px solid grey;
+                    transition: all 0.2s ease;
                     width: 48px;
                     height: 48px;
                     box-shadow: 0px 0px 20px black;
-
                     margin-right: 4px;
+
+                    &.dead {
+                        top: 8px;
+                        opacity: 0.2;
+                    }
                 }
 
                 &.blue {

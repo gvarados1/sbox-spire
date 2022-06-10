@@ -44,9 +44,11 @@ public partial class DuelHudPanel : Panel
 
 		foreach ( var client in Client.All )
 		{
-			GetTeamPanel( client.GetTeam() )
-				.AddChild<Image>( "avatar" )
-				.SetTexture( $"avatar:{client.PlayerId}" );
+			var panel = GetTeamPanel( client.GetTeam() )
+				.AddChild<Image>( "avatar" );
+
+			panel.SetTexture( $"avatar:{client.PlayerId}" );
+			panel.SetClass( "dead", client.Pawn is not PlayerCharacter );
 
 		}
 	}
