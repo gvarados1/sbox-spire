@@ -17,6 +17,8 @@ public partial class DuelSpectatorPawn : BasePawn
 			.FirstOrDefault();
 
 		Target = randomPlayer;
+
+		Components.Get<PlayerCamera>().TargetEntity = Target;
 	}
 
 	public override void Spawn()
@@ -28,7 +30,10 @@ public partial class DuelSpectatorPawn : BasePawn
 	{
 		base.Respawn();
 
-		CameraMode = new DuelSpectatorCameraMode();
+		var camera = new PlayerCamera();
+		camera.TargetEntity = this;
+		CameraMode = camera;
+
 		SetRandomPlayer();
 	}
 

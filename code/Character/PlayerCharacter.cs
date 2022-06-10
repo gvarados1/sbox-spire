@@ -38,7 +38,10 @@ public partial class PlayerCharacter : BaseCharacter
 	{
 		base.Respawn();
 
-		CameraMode = new PlayerCamera();
+		var camera = new PlayerCamera();
+		camera.TargetEntity = this;
+		CameraMode = camera;
+
 		Controller = new CharacterController();
 		Hotbar = new PlayerHotbar( this );
 

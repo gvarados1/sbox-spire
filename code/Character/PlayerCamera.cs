@@ -17,11 +17,14 @@ public partial class PlayerCamera : CameraMode
 	[ConVar.Client( "spire_camera_farz", Max = 80000f, Min = 1024f, Saved = true )]
 	public static float ZFarPreference { get; set; } = 2048f;
 
+	[Net]
+	public AnimatedEntity TargetEntity { get; set; }
+
 	public override void Update()
 	{
-		var pawn = Local.Pawn as AnimatedEntity;
+		var pawn = TargetEntity;
 
-		if ( pawn == null )
+		if ( !pawn.IsValid() )
 			return;
 
 		Position = pawn.Position;
@@ -39,11 +42,11 @@ public partial class PlayerCamera : CameraMode
 		Viewer = null;
 	}
 
+	public bool IsSpectator => Local.Pawn != TargetEntity;
+
 	public override void BuildInput( InputBuilder input )
 	{
-		var pawn = Local.Pawn as PlayerCharacter;
-		if ( !pawn.IsValid() )
-			return;
+		var pawn = TargetEntity;
 
 		var wheel = input.MouseWheel;
 		if ( wheel != 0 )
@@ -60,7 +63,8 @@ public partial class PlayerCamera : CameraMode
 			OrbitAngles.pitch += input.AnalogLook.pitch;
 			OrbitAngles = OrbitAngles.Normal;
 
-			input.ViewAngles = OrbitAngles.WithPitch( 0f );
+			if ( !IsSpectator )
+				input.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
 		else if ( input.Down( InputButton.SecondaryAttack ) )
 		{
@@ -68,20 +72,23 @@ public partial class PlayerCamera : CameraMode
 			OrbitAngles.pitch += input.AnalogLook.pitch;
 			OrbitAngles = OrbitAngles.Normal;
 
-			input.ViewAngles = OrbitAngles.WithPitch( 0f );
+			if ( !IsSpectator )
+				input.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
 		else
 		{
 			var direction = Screen.GetDirection( Mouse.Position, FieldOfView, Rotation, Screen.Size );
 			var hitPos = Utils.PlaneIntersectionWithZ( Position, direction, pawn.EyePosition.z );
 
-			input.ViewAngles = (hitPos - pawn.EyePosition).EulerAngles;
+			if ( !IsSpectator )
+				input.ViewAngles = (hitPos - pawn.EyePosition).EulerAngles;
 		}
 
 		OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.Min, PitchClamp.Max );
 
 		// Let players move around at will
-		input.InputDirection = Rotation.From( OrbitAngles.WithPitch( 0f ) ) * input.AnalogMove;
+		if ( !IsSpectator )
+			input.InputDirection = Rotation.From( OrbitAngles.WithPitch( 0f ) ) * input.AnalogMove;
 
 		Sound.Listener = new()
 		{
