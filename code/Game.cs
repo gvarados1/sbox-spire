@@ -133,6 +133,10 @@ public partial class Game : Sandbox.Game
 				_PostProcess.Blur.Strength = damageUi * 1f;
 			}
 		}
+		else
+		{
+			_PostProcess.Blur.Enabled = false;
+		}
 
 		BaseGamemode.Current?.PostProcessTick( _PostProcess );
 	}
