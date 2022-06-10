@@ -124,13 +124,13 @@ public partial class Game : Sandbox.Game
 			if ( damageUi > 0 )
 			{
 				_PostProcess.Saturate.Amount -= damageUi;
-				_PostProcess.Vignette.Color = Color.Lerp( _PostProcess.Vignette.Color, Color.Red, damageUi );
+				_PostProcess.Vignette.Color = Color.Lerp( _PostProcess.Vignette.Color, new Color( 1f, 0.5f, 0.5f ), damageUi );
 				_PostProcess.Vignette.Intensity += damageUi;
 				_PostProcess.Vignette.Smoothness += damageUi;
 				_PostProcess.Vignette.Roundness += damageUi;
 
 				_PostProcess.Blur.Enabled = true;
-				_PostProcess.Blur.Strength = damageUi * 0.5f;
+				_PostProcess.Blur.Strength = damageUi * 1f;
 			}
 		}
 
