@@ -5,12 +5,12 @@ public partial class DuelHudPanel : Panel
 {
 	public DuelGamemode Gamemode => BaseGamemode.Current as DuelGamemode;
 
-	public string GameState => Gamemode?.GetGameStateText();
+	// @ref
+	public Panel BlueTeamMembers { get; set; }
+	// @ref
+	public Panel RedTeamMembers { get; set; }
 
-	// @ref
-	public Panel BlueScorePanel { get; set; }
-	// @ref
-	public Panel RedScorePanel { get; set; }
+	public string GameState => Gamemode?.GetGameStateText();
 
 	public string RedScore => $"{Gamemode?.GetTeamScore( DuelTeam.Red )}";
 	public string BlueScore => $"{Gamemode?.GetTeamScore( DuelTeam.Blue )}";
@@ -19,10 +19,33 @@ public partial class DuelHudPanel : Panel
 	{
 		base.Tick();
 
-		if ( RedScorePanel is null || BlueScorePanel is null )
+		UpdateAvatars();
+	}
+
+	public Panel GetTeamPanel( DuelTeam team )
+	{
+		if ( team == DuelTeam.Blue )
+			return BlueTeamMembers;
+		else
+			return RedTeamMembers;
+	}
+
+	TimeSince LastUpdatedAvatars = 1f;
+	float AvatarUpdateRate = 1f;
+	public void UpdateAvatars()
+	{
+		if ( LastUpdatedAvatars < AvatarUpdateRate )
 			return;
 
-		RedScorePanel.Style.BackgroundColor = DuelTeam.Red.GetColor();
-		BlueScorePanel.Style.BackgroundColor = DuelTeam.Blue.GetColor();
+		BlueTeamMembers.DeleteChildren( true );
+		RedTeamMembers.DeleteChildren( true );
+
+		foreach( var client in Client.All )
+		{
+			GetTeamPanel( client.GetTeam() )
+				.AddChild<Image>( "avatar" )
+				.SetTexture( $"avatar:{client.PlayerId}" );
+
+		}
 	}
 }

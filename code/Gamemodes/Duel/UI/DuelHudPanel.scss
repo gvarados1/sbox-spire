@@ -26,16 +26,16 @@ DuelHudPanel {
             }
 
             > .blue-team {
-                border-radius: 8px 0px 0px 8px;
                 width: 60px;
                 height: 60px;
-                background-color: rgba( blue, 0.8 );
+                background-color: rgba( $duel-blue-color, 0.8 );
             }
 
             > .separator {
                 width: 200px;
                 background-color: rgba( black, 0.5 );
                 height: 60px;
+                backdrop-filter: blur(5px);
 
                 > .game-state {
                     width: 100%;
@@ -49,10 +49,49 @@ DuelHudPanel {
             }
 
             > .red-team {
-                border-radius: 0px 8px 8px 0px;
                 width: 60px;
                 height: 60px;
-                background-color: rgba( red, 0.8 );
+                background-color: rgba( $duel-red-color, 0.8 );
+            }
+
+
+            > .team-members {
+                min-width: 64px;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+                padding-right: 8px;
+                padding-left: 8px;
+
+                > .avatar {
+                    border: 2px solid grey;
+                    width: 48px;
+                    height: 48px;
+                    box-shadow: 0px 0px 20px black;
+
+                    margin-right: 4px;
+                }
+
+                &.blue {
+                    > .avatar {
+                        &:last-child {
+                            margin-right: 0px;
+                        }
+
+                        border: 1px solid $duel-blue-color;
+                    }
+                }
+
+                &.red {
+                    > .avatar {
+                        &:first-child {
+                            margin-right: 4px;
+                        }
+
+                        border: 1px solid $duel-red-color;
+                    }
+                }
             }
         }
     }
