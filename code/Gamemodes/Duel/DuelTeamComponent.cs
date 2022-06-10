@@ -12,9 +12,7 @@ public static partial class ClientExtensions
 	{
 		var teamComp = cl.Components.Get<DuelTeamComponent>();
 		if ( teamComp is not null )
-		{
 			return teamComp.Team;
-		}
 
 		return DuelTeam.Blue;
 	}

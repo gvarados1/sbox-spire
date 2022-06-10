@@ -6,7 +6,7 @@ namespace Spire.Gamemodes.Duel;
 [Title( "Duel" ), Category( "Spire - Game Modes" ), Icon( "sports_kabaddi" )]
 public partial class DuelGamemode : BaseGamemode
 {
-	public override Panel CreateHud() => new DuelHudPanel();
+	public override Panel GetGamemodePanel() => new DuelHudPanel();
 
 	[ConVar.Server( "spire_duel_minplayers" )]
 	public static int MinPlayers { get; set; } = 2;
@@ -236,12 +236,12 @@ public partial class DuelGamemode : BaseGamemode
 			_ = BecomeSpectator( cl );
 		}
 
-		var teamOneCount = DuelTeam.Blue.AliveCount();
-		var teamTwoCount = DuelTeam.Red.AliveCount();
+		var blueCount = DuelTeam.Blue.AliveCount();
+		var redCount = DuelTeam.Red.AliveCount();
 
 		if ( CurrentState == DuelGameState.RoundActive )
 		{
-			bool anyIsZero = teamOneCount == 0 || teamTwoCount == 0;
+			bool anyIsZero = blueCount == 0 || redCount == 0;
 
 			if ( !anyIsZero )
 				return;
@@ -250,9 +250,13 @@ public partial class DuelGamemode : BaseGamemode
 		}
 	}
 
+	// @TODO: Proper spawn point weighting, make sure they're not occupied by another player.
+	// In this game type, round robin would probably work the best
 	public override Transform? GetSpawn( BaseCharacter character )
 	{
-		var teamName = character.Client.GetTeam().ToString().ToLower();
+		var teamName = character.Client.GetTeam()
+			.ToString()
+			.ToLower();
 
 		return All.OfType<SpawnPoint>()
 			.Where( x => x.Tags.Has( teamName ) )
@@ -267,7 +271,7 @@ public partial class DuelGamemode : BaseGamemode
 
 	public override bool AllowRespawning()
 	{
-		return false;
+		return CurrentState != DuelGameState.RoundActive && CurrentState != DuelGameState.RoundWinnerDecided;
 	}
 
 	public override void BuildInput( InputBuilder input )

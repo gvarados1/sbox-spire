@@ -10,10 +10,12 @@ public partial class DuelHudPanel : Panel
 	// @ref
 	public Panel RedTeamMembers { get; set; }
 
-	public string GameState => Gamemode?.GetGameStateText();
-
+	public string GameState => $"{Gamemode?.GetGameStateText()}";
 	public string RedScore => $"{Gamemode?.GetTeamScore( DuelTeam.Red )}";
 	public string BlueScore => $"{Gamemode?.GetTeamScore( DuelTeam.Blue )}";
+
+	private TimeSince LastUpdatedAvatars = 1f;
+	private float AvatarUpdateRate = 1f;
 
 	public override void Tick()
 	{
@@ -30,8 +32,6 @@ public partial class DuelHudPanel : Panel
 			return RedTeamMembers;
 	}
 
-	TimeSince LastUpdatedAvatars = 1f;
-	float AvatarUpdateRate = 1f;
 	public void UpdateAvatars()
 	{
 		if ( LastUpdatedAvatars < AvatarUpdateRate )
@@ -49,7 +49,6 @@ public partial class DuelHudPanel : Panel
 
 			panel.SetTexture( $"avatar:{client.PlayerId}" );
 			panel.SetClass( "dead", client.Pawn is not PlayerCharacter );
-
 		}
 	}
 }

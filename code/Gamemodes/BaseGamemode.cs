@@ -5,15 +5,20 @@ public abstract partial class BaseGamemode : Entity
 	public static BaseGamemode Current { get; set; }
 
 	/// <summary>
-	/// Client only
+	/// An object reference, made by <see cref="GetGamemodePanel"/>
 	/// </summary>
-	public static Panel CurrentHudPanel { get; set; }
+	public static Panel CurrentHudPanel { get; protected set; }
+
+	/// <summary>
+	/// A quick accessor to get how many people are in the game
+	/// </summary>
+	public int PlayerCount { get; private set; }
 
 	/// <summary>
 	/// Can specify a panel to be created when the gamemode is made.
 	/// </summary>
 	/// <returns></returns>
-	public virtual Panel CreateHud() => null;
+	public virtual Panel GetGamemodePanel() => null;
 
 	/// <summary>
 	/// Gamemodes can define what pawn to create
@@ -53,60 +58,81 @@ public abstract partial class BaseGamemode : Entity
 	{
 		base.ClientSpawn();
 
-		CurrentHudPanel = CreateHud();
+		CurrentHudPanel = GetGamemodePanel();
 		CurrentHudPanel.Parent = Game.Current?.Hud;
 
 		Current = this;
 	}
 
-	public override void Simulate( Client cl )
-	{
-		base.Simulate( cl );
-	}
-
-	public override void FrameSimulate( Client cl )
-	{
-		base.FrameSimulate( cl );
-	}
-
-	protected int PlayerCount { get; private set; }
-
+	/// <summary>
+	/// Called when a client joins the game
+	/// </summary>
+	/// <param name="cl"></param>
 	public virtual void OnClientJoined( Client cl )
 	{
 		PlayerCount++;
 	}
 
+	/// <summary>
+	/// Called when a client leaves the game
+	/// </summary>
+	/// <param name="cl"></param>
 	public virtual void OnClientLeft( Client cl, NetworkDisconnectionReason reason )
 	{
 		PlayerCount--;
 	}
 
+	/// <summary>
+	/// Called when a character takes damage
+	/// </summary>
+	/// <param name="character"></param>
+	/// <param name="damageInfo"></param>
 	public virtual void OnCharacterKilled( BaseCharacter character, DamageInfo damageInfo )
 	{
 	}
 
+	/// <summary>
+	/// Allows gamemodes to override character spawn locations
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
 	public virtual Transform? GetSpawn( BaseCharacter character )
 	{
 		return null;
 	}
 
+	/// <summary>
+	/// Decides whether or not players can move
+	/// </summary>
+	/// <returns></returns>
 	public virtual bool AllowMovement()
 	{
 		return true;
 	}
 
+	/// <summary>
+	/// Decides whether or not players can respawn
+	/// </summary>
+	/// <returns></returns>
 	public virtual bool AllowRespawning()
 	{
 		return true;
 	}
 
+	/// <summary>
+	/// Decides whether or not characters can take damage
+	/// </summary>
+	/// <returns></returns>
 	public virtual bool AllowDamage()
 	{
 		return true;
 	}
 
+	/// <summary>
+	/// Called on Client Tick, allows gamemodes to define custom post processing
+	/// </summary>
+	/// <param name="postProcess"></param>
 	public virtual void PostProcessTick( StandardPostProcess postProcess )
 	{
-		//
 	}
 }
