@@ -6,7 +6,7 @@ public partial class BaseWeapon : BaseCarriable
 {
 	[Net, Predicted]
 	public TimeSince TimeSinceLastAbility { get; set; } = 1f;
-	public virtual float GlobalAbilityCooldown => 1f;
+	public virtual float GlobalAbilityCooldown => 0.5f;
 
 	public virtual List<Type> Abilities => new();
 
