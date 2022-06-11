@@ -22,7 +22,15 @@
 				Attachment = ""
 			},
 		]
-		Particles = [  ]
+		Particles = 
+		[
+			{
+				Tag = "pre"
+				Particle = resource:"particles/weapons/basic_sword/basic_swipe/basic_swipe.vpcf"
+				FromCharacter = false
+				Attachment = ""
+			},
+		]
 		RunDefaultPlayerAnimation = false
 	}
 }
