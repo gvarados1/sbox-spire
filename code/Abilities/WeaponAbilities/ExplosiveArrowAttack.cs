@@ -2,13 +2,10 @@ namespace Spire.Abilities;
 
 public partial class ExplosiveArrowAttack : BasicArrowAttack
 {
+
 	// Configuration
-	public override float Cooldown => 20f;
-	public override string Name => "Explosive Arrow";
-	public override string Description => "";
-	public override string Icon => "ui/ability_icons/explosive_arrow.png";
+	public override string Identifier => "explosive_arrow_attack";
 	public override WeaponAbilityType Type => WeaponAbilityType.Ultimate;
-	public override float Duration => 0.8f;
 
 	protected override void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{

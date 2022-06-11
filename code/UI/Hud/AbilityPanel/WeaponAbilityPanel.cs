@@ -46,7 +46,7 @@ public partial class WeaponAbilityPanel : Panel
 		if ( AbilityRef is not null )
 		{
 			SetClass( "in-use", AbilityRef.TimeSinceLastUse < 1f || AbilityRef.InProgress );
-			Style.SetBackgroundImage( AbilityRef.Icon );
+			Style.SetBackgroundImage( AbilityRef.GetIcon() );
 		}
 		else
 		{

@@ -7,67 +7,23 @@ public abstract partial class Ability : Entity
 	public Ability()
 	{
 		Transmit = TransmitType.Always;
+
+		Data = AbilityGameResource.TryGet( Identifier );
+
+		if ( Data is null )
+		{
+			Log.Warning( $"Couldn't find AbilityGameResource for Ability {Identifier} " );
+		}
 	}
 
-	// Main Configuration
+	public virtual string Identifier => "ability";
 
-	/// <summary>
-	/// The ability's cooldown until you can run it again. This is assigned after Ability.PostRun
-	/// </summary>
-	public virtual float Cooldown => 5f;
+	public AbilityGameResource Data { get; set; }
 
-	/// <summary>
-	/// A friendly name for the ability
-	/// </summary>
-	public virtual new string Name => "Ability";
-
-	/// <summary>
-	/// A short description of an ability
-	/// </summary>
-	public virtual string Description => "This ability does nothing.";
-
-	/// <summary>
-	/// The ability's icon used in the game's user interface
-	/// </summary>
-	public virtual string Icon => "";
-
-	/// <summary>
-	/// Called on Ability.PreRun
-	/// </summary>
-	public virtual string PreAbilityParticle => "";
-
-	/// <summary>
-	/// Called on Ability.PreRun
-	/// </summary>
-	public virtual string PreAbilitySound => "";
-
-	/// <summary>
-	/// Called on Ability.PreRun
-	/// </summary>
-	public virtual string PreAbilityParticleAttachment => "";
-
-	/// <summary>
-	/// Called on Ability.PostRun
-	/// </summary>
-	public virtual string PostAbilitySound => "";
-
-	/// <summary>
-	/// Apply a speed modifier to the player while the ability is in progress
-	/// </summary>
-	public virtual float PlayerSpeedScale => 1f;
-
-	/// <summary>
-	/// The duration of an ability.
-	/// </summary>
-	public virtual float Duration => 0f;
-
-	/// <summary>
-	/// Tells the ability to originate particles from the character, always
-	/// </summary>
-	public virtual bool OriginateParticlesFromCharacter => false;
+	// Quick Accessors
+	public string GetIcon() => Data.Icon.Replace( "jpg", "png" );
 
 	// Network Variables
-
 	[Net, Predicted]
 	public TimeSince TimeSinceLastUse { get; set; }
 
@@ -98,9 +54,43 @@ public abstract partial class Ability : Entity
 		GetCharacter()?.SetAnimParameter( "b_attack", true );
 	}
 
-	protected virtual Entity GetParticleOriginEntity()
+	public new void PlaySound( string tag )
 	{
-		return OriginateParticlesFromCharacter ? GetCharacter() : Entity;	
+		PlaySound( tag, Entity );
+	}
+
+	public void PlaySound( string tag, Entity entity )
+	{
+		var soundEntry = Rand.FromList( Data.SoundsWithTag( tag ) );
+
+		Log.Info( soundEntry );
+
+		if ( string.IsNullOrEmpty( soundEntry.Sound ) )
+			return;
+
+		Log.State( $"we should be playing {soundEntry.Sound}, {entity}" );
+
+		entity.PlaySound( soundEntry.Sound, soundEntry.Attachment );
+	}
+
+	public void CreateParticle( string tag )
+	{
+		CreateParticle( tag, Entity );
+	}
+
+	public void CreateParticle( string tag, Entity entity )
+	{
+		var particleEntry = Rand.FromList( Data.ParticlesWithTag( tag ) );
+
+		if ( string.IsNullOrEmpty( particleEntry.Particle ) )
+			return;
+
+		Util.CreateParticle(
+			particleEntry.FromCharacter ? GetCharacter() : entity,
+			particleEntry.Particle,
+			true,
+			particleEntry.Attachment
+		);
 	}
 
 	/// <summary>
@@ -108,15 +98,12 @@ public abstract partial class Ability : Entity
 	/// </summary>
 	protected virtual void PreRun()
 	{
-		if ( !string.IsNullOrEmpty( PreAbilitySound ) )
-			Entity.PlaySound( PreAbilitySound );
-
-		if ( !string.IsNullOrEmpty( PreAbilityParticle ) )
-			Util.CreateParticle( GetParticleOriginEntity(), PreAbilityParticle, true, PreAbilityParticleAttachment );
+		PlaySound( "pre" );
+		CreateParticle( "pre" );
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
-			character.Controller.SpeedMultiplier = PlayerSpeedScale;
+			character.Controller.SpeedMultiplier = Data.PlayerSpeedScale;
 	}
 
 	/// <summary>
@@ -124,14 +111,15 @@ public abstract partial class Ability : Entity
 	/// </summary>
 	protected virtual void PostRun()
 	{
-		if ( !string.IsNullOrEmpty( PostAbilitySound ) )
-			Entity.PlaySound( PostAbilitySound );
+		PlaySound( "post" );
+		CreateParticle( "post" );
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
 			character.Controller.SpeedMultiplier = 1f;
 
-		DoPlayerAnimation();
+		if ( Data.RunDefaultPlayerAnimation )
+			DoPlayerAnimation();
 	}
 
 	/// <summary>
@@ -148,11 +136,11 @@ public abstract partial class Ability : Entity
 	/// </summary>
 	internal void Run()
 	{
-		TimeUntilFinish = Duration;
+		TimeUntilFinish = Data.Duration;
 		InProgress = true;
 		TimeSinceLastUse = 0f;
 
-		if ( Duration > 0f )
+		if ( Data.Duration > 0f )
 		{
 			PreRun();
 		}
@@ -180,7 +168,7 @@ public abstract partial class Ability : Entity
 		if ( TimeUntilFinish )
 		{
 			InProgress = false;
-			TimeUntilNextUse = Cooldown;
+			TimeUntilNextUse = Data.Cooldown;
 
 			PostRun();
 		}

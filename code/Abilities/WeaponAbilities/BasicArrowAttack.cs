@@ -3,14 +3,8 @@ namespace Spire.Abilities;
 public partial class BasicArrowAttack : WeaponAbility
 {
 	// Configuration
-	public override float Cooldown => 2f;
-	public override string Name => "Ranged Attack";
-	public override string Description => "";
-	public override string Icon => "ui/ability_icons/arrow_attack.png";
+	public override string Identifier => "arrow_attack";
 	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
-	public override float PlayerSpeedScale => 0.1f;
-	public override float Duration => 0.5f;
-	public override string PreAbilitySound => "bow_draw";
 
 	public virtual float ProjectileSpeed => 800f;
 	public virtual float ProjectileRadius => 10f;

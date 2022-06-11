@@ -2,10 +2,8 @@ namespace Spire.Abilities;
 
 public partial class BombThrowAbility : PlayerAbility
 {
-	public override float Cooldown => 20f;
-	public override string Name => "Instant Damage";
-	public override string Description => "";
-	public override string Icon => "ui/ability_icons/bomb.png";
+	// Configuration
+	public override string Identifier => "bomb_throw";
 	public override PlayerAbilityType Type => PlayerAbilityType.Ultimate;
 
 	public virtual float ProjectileSpeed => 500f;

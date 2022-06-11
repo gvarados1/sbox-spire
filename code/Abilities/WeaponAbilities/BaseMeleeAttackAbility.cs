@@ -2,14 +2,6 @@ namespace Spire.Abilities;
 
 public abstract class BaseMeleeAttackAbility : WeaponAbility
 {
-	// Configuration
-	public override float Cooldown => 1f;
-	public override string Name => "Slash";
-	public override string Description => "";
-	public override string Icon => "";
-	public override WeaponAbilityType Type => WeaponAbilityType.Attack;
-	public override string PreAbilitySound => "light_sword_swing";
-
 	// BaseMeleeAttackAbility Configuration
 	/// <summary>
 	/// How long until we try to inflict damage from the weapon after an attack.
@@ -18,7 +10,6 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	public virtual float AttackRange => 90f;
 	public virtual float BaseDamage => 30f;
 	public virtual int MaxConeAngle => 75;
-	public virtual string HitFleshSoundPath => "stab_sword_flesh";
 
 	// Extract to a util later?
 	public static bool IsPointInsideCone( Vector3 point, Vector3 coneOrigin, Vector3 coneDirection, int maxAngle, int maxDistance )
@@ -79,7 +70,8 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 
 		// Finally, inflict damage on our target
 		entity.TakeDamage( damageInfo );
-		entity.PlaySound( HitFleshSoundPath );
+
+		PlaySound( "hit", entity );
 
 		OnTargetDamaged( entity, damageInfo );
 	}
@@ -108,6 +100,8 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	protected override void PreRun()
 	{
 		base.PreRun();
+
+		DoPlayerAnimation();
 
 		_ = StartMeleeAttack();
 	}
