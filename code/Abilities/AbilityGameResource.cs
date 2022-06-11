@@ -34,7 +34,7 @@ public partial class AbilityGameResource : GameResource
 	}
 
 	public static List<AbilityGameResource> All = new();
-	public static AbilityGameResource TryGet( string id ) => All.Where( x => x.Name == id ).FirstOrDefault();
+	public static AbilityGameResource TryGet( string id ) => All.Where( x => x.AbilityID == id ).FirstOrDefault();
 
 	/// <summary>
 	/// The ability's cooldown until you can run it again. This is assigned after Ability.PostRun
@@ -108,7 +108,9 @@ public partial class AbilityGameResource : GameResource
 	{
 		base.PostLoad();
 
-		if ( !All.Contains( this ) )
-			All.Add( this );
+		if ( All.Contains( this ) )
+			return;
+
+		All.Add( this );
 	}
 }
