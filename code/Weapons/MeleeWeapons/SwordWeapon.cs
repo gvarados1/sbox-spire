@@ -10,7 +10,7 @@ public partial class SwordWeapon : BaseWeapon
 	public override string ModelPath => "assets/weapons/basic_sword.vmdl";
 
 	// Abilities
-	public override Type AttackAbilityType => typeof( SwordSlash );
+	public override Type AttackAbilityType => typeof( SwordAttack );
 	public override Type SpecialAbilityType => typeof( SwordHeavyAttack );
 	// End of abilities
 
