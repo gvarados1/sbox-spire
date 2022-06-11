@@ -151,23 +151,6 @@
 					},
 				]
 			},
-			{
-				_class = "GameDataList"
-				children = 
-				[
-					{
-						_class = "GenericGameData"
-						game_class = "particle"
-						game_keys = 
-						{
-							name = resource:"particles/weapons/basic_sword/basic_sword_trail.vpcf"
-							attachment_point = ""
-							attachment_type = "5"
-							attachment_offset = [ 0.0, 0.0, 0.0 ]
-						}
-					},
-				]
-			},
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
