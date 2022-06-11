@@ -6,7 +6,7 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	/// <summary>
 	/// How long until we try to inflict damage from the weapon after an attack.
 	/// </summary>
-	public virtual float AttackInflictDelay => 0.35f;
+	public virtual float AttackInflictDelay => 0f;
 	public virtual float AttackRange => 90f;
 	public virtual float BaseDamage => 30f;
 	public virtual int MaxConeAngle => 75;
