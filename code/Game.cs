@@ -37,7 +37,7 @@ public partial class Game : Sandbox.Game
 			DayNightSystem = new();
 		}
 
-		Global.TickRate = 20;
+		Global.TickRate = 30;
 	}
 
 	public void RespawnPlayer( Client cl )
