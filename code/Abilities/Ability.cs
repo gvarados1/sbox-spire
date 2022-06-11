@@ -56,6 +56,11 @@ public abstract partial class Ability : Entity
 	/// </summary>
 	public virtual float Duration => 0f;
 
+	/// <summary>
+	/// Tells the ability to originate particles from the character, always
+	/// </summary>
+	public virtual bool OriginateParticlesFromCharacter => false;
+
 	// Network Variables
 
 	[Net, Predicted]
@@ -88,6 +93,11 @@ public abstract partial class Ability : Entity
 		GetCharacter()?.SetAnimParameter( "b_attack", true );
 	}
 
+	protected virtual Entity GetParticleOriginEntity()
+	{
+		return OriginateParticlesFromCharacter ? GetCharacter() : Entity;	
+	}
+
 	/// <summary>
 	/// Called just before an ability is ran.
 	/// </summary>
@@ -97,7 +107,7 @@ public abstract partial class Ability : Entity
 			Entity.PlaySound( PreAbilitySound );
 
 		if ( !string.IsNullOrEmpty( PreAbilityParticle ) )
-			Util.CreateParticle( Entity, PreAbilityParticle, true );
+			Util.CreateParticle( GetParticleOriginEntity(), PreAbilityParticle, true );
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
