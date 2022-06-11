@@ -42,6 +42,11 @@ public abstract partial class Ability : Entity
 	public virtual string PreAbilitySound => "";
 
 	/// <summary>
+	/// Called on Ability.PreRun
+	/// </summary>
+	public virtual string PreAbilityParticleAttachment => "";
+
+	/// <summary>
 	/// Called on Ability.PostRun
 	/// </summary>
 	public virtual string PostAbilitySound => "";
@@ -107,7 +112,7 @@ public abstract partial class Ability : Entity
 			Entity.PlaySound( PreAbilitySound );
 
 		if ( !string.IsNullOrEmpty( PreAbilityParticle ) )
-			Util.CreateParticle( GetParticleOriginEntity(), PreAbilityParticle, true );
+			Util.CreateParticle( GetParticleOriginEntity(), PreAbilityParticle, true, PreAbilityParticleAttachment );
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
