@@ -21,9 +21,6 @@ public partial class BaseWeapon : BaseCarriable
 	[Net, Predicted]
 	public WeaponAbility UltimateAbility { get; set; }
 
-	public virtual float TimeUntilRelaxed { get; set; } = 5f;
-	public virtual HoldType RelaxedHoldType { get; set; } = HoldType.None;
-
 	protected WeaponAbility CreateAbility( Type type )
 	{
 		var ability = TypeLibrary.Create<WeaponAbility>( type );
@@ -83,13 +80,5 @@ public partial class BaseWeapon : BaseCarriable
 		SimulateAbility( cl, AttackAbility );
 		SimulateAbility( cl, SpecialAbility );
 		SimulateAbility( cl, UltimateAbility );
-	}
-
-	public override void SimulateAnimator( PawnAnimator anim )
-	{
-		base.SimulateAnimator( anim );
-
-		if ( TimeSinceLastAbility > TimeUntilRelaxed )
-			anim.SetAnimParameter( "holdtype", (int)RelaxedHoldType );
 	}
 }
