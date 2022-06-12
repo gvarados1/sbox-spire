@@ -103,7 +103,7 @@ public abstract partial class Ability : Entity
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
-			character.Controller.SpeedMultiplier = Data.PlayerSpeedScale;
+			character.Controller.SpeedMultiplier = Data.CharacterSpeedMod;
 	}
 
 	/// <summary>

@@ -33,7 +33,8 @@ public partial class AbilityGameResource : GameResource
 		public override string ToString() => $"Particle";
 	}
 
-	public static List<AbilityGameResource> All = new();
+	public static List<AbilityGameResource> All { get; protected set; } = new();
+
 	public static AbilityGameResource TryGet( string id ) => All.Where( x => x.AbilityID == id ).FirstOrDefault();
 
 	/// <summary>
@@ -49,28 +50,30 @@ public partial class AbilityGameResource : GameResource
 	/// <summary>
 	/// A friendly name for the ability
 	/// </summary>
-	public virtual string AbilityName { get; set; } = "Ability";
+	public string AbilityName { get; set; } = "Ability";
 
 	/// <summary>
 	/// A short description of an ability
 	/// </summary>
-	public virtual string Description { get; set; } = "This ability does nothing.";
+	public string Description { get; set; } = "This ability does nothing.";
 
 	/// <summary>
 	/// The ability's icon used in the game's user interface
 	/// </summary>
 	[ResourceType( "jpg" )]
-	public virtual string Icon { get; set; } = "";
+	public string Icon { get; set; } = "";
 
 	/// <summary>
 	/// Apply a speed modifier to the player while the ability is in progress
 	/// </summary>
-	public virtual float PlayerSpeedScale { get; set; } = 1f;
+	public float CharacterSpeedMod { get; set; } = 1f;
 
 	/// <summary>
 	/// The duration of an ability.
 	/// </summary>
-	public virtual float Duration { get; set; } = 0f;
+	public float Duration { get; set; } = 0f;
+
+	public bool RunDefaultPlayerAnimation { get; set; } = true;
 
 	[Title( "Sound List" )]
 	public List<SoundEntry> Sounds { get; set; }
@@ -80,9 +83,7 @@ public partial class AbilityGameResource : GameResource
 		var list = new List<SoundEntry>();
 
 		if ( Sounds is not null )
-		{
 			list.AddRange( Sounds.Where( x => x.Tag == tag ) );
-		}
 
 		list.ForEach( x => Log.Info( x.Sound ) );
 
@@ -91,8 +92,6 @@ public partial class AbilityGameResource : GameResource
 
 	[Title( "Particle List" )]
 	public List<ParticleEntry> Particles { get; set; }
-
-	public bool RunDefaultPlayerAnimation { get; set; } = true;
 
 	public List<ParticleEntry> ParticlesWithTag( string tag )
 	{

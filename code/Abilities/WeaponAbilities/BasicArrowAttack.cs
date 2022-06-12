@@ -36,7 +36,7 @@ public partial class BasicArrowAttack : WeaponAbility
 		Rotation rotation = Rotation.From( spread ) * Weapon.Owner.EyeRotation;
 
 		var forward = rotation.Forward;
-		var endPosition = position + forward * 100000f;
+		var endPosition = position + forward * float.MaxValue;
 		var trace = Trace.Ray( position, endPosition )
 			.Ignore( Weapon.Owner )
 			.Run();
@@ -62,6 +62,8 @@ public partial class BasicArrowAttack : WeaponAbility
 	protected virtual void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{
 		if ( !hitEntity.IsValid() ) return;
+
+		CreateParticle( "projectile_hit" );
 
 		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, 30f ) );
 	}
