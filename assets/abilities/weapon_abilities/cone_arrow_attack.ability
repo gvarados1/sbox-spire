@@ -7,8 +7,9 @@
 		AbilityName = "Cone Arrow Attack"
 		Description = "Fires three arrows in a cone from the caster"
 		Icon = resource:"ui/ability_icons/arrow_cone_attack.jpg"
-		PlayerSpeedScale = 0.1
+		CharacterSpeedMod = 0.1
 		Duration = 0.5
+		RunDefaultPlayerAnimation = true
 		Sounds = 
 		[
 			{
@@ -18,6 +19,5 @@
 			},
 		]
 		Particles = null
-		RunDefaultPlayerAnimation = true
 	}
 }

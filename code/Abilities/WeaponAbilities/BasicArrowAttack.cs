@@ -32,8 +32,8 @@ public partial class BasicArrowAttack : WeaponAbility
 
 		var position = Weapon.Owner.EyePosition + Vector3.Down * 20f + Weapon.Owner.EyeRotation.Forward * 40f;
 
-		Angles spread = new Angles( 0f, yawOffset, 0f );
-		Rotation rotation = Rotation.From( spread ) * Weapon.Owner.EyeRotation;
+		var spread = new Angles().WithYaw( yawOffset );
+		var rotation = Rotation.From( spread ) * Weapon.Owner.EyeRotation;
 
 		var forward = rotation.Forward;
 		var endPosition = position + forward * 100000f;
