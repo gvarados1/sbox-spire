@@ -7,8 +7,9 @@
 		AbilityName = "Slash"
 		Description = "A basic sword attack."
 		Icon = resource:"ui/ability_icons/rage_attack.jpg"
-		PlayerSpeedScale = 0.7
+		CharacterSpeedMod = 0.5
 		Duration = 0.5
+		RunDefaultPlayerAnimation = false
 		Sounds = 
 		[
 			{
@@ -31,6 +32,5 @@
 				Attachment = ""
 			},
 		]
-		RunDefaultPlayerAnimation = false
 	}
 }
