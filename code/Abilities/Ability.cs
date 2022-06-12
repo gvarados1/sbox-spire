@@ -54,45 +54,6 @@ public abstract partial class Ability : Entity
 		GetCharacter()?.SetAnimParameter( "b_attack", true );
 	}
 
-	public new void PlaySound( string tag )
-	{
-		PlaySound( tag, Entity );
-	}
-
-	public void PlaySound( string tag, Entity entity )
-	{
-		var soundEntry = Rand.FromList( Data.SoundsWithTag( tag ) );
-
-		Log.Info( soundEntry );
-
-		if ( string.IsNullOrEmpty( soundEntry.Sound ) )
-			return;
-
-		Log.State( $"we should be playing {soundEntry.Sound}, {entity}" );
-
-		entity.PlaySound( soundEntry.Sound, soundEntry.Attachment );
-	}
-
-	public void CreateParticle( string tag )
-	{
-		CreateParticle( tag, Entity );
-	}
-
-	public void CreateParticle( string tag, Entity entity )
-	{
-		var particleEntry = Rand.FromList( Data.ParticlesWithTag( tag ) );
-
-		if ( string.IsNullOrEmpty( particleEntry.Particle ) )
-			return;
-
-		Util.CreateParticle(
-			particleEntry.FromCharacter ? GetCharacter() : entity,
-			particleEntry.Particle,
-			true,
-			particleEntry.Attachment
-		);
-	}
-
 	/// <summary>
 	/// Called just before an ability is ran.
 	/// </summary>
@@ -173,4 +134,33 @@ public abstract partial class Ability : Entity
 			PostRun();
 		}
 	}
+
+	public void PlaySound( string tag, Entity entity )
+	{
+		var soundEntry = Rand.FromList( Data.SoundsWithTag( tag ) );
+
+		if ( string.IsNullOrEmpty( soundEntry.Sound ) )
+			return;
+
+		entity.PlaySound( soundEntry.Sound, soundEntry.Attachment );
+	}
+
+	public new void PlaySound( string tag ) => PlaySound( tag, Entity );
+
+	public void CreateParticle( string tag, Entity entity )
+	{
+		var particleEntry = Rand.FromList( Data.ParticlesWithTag( tag ) );
+
+		if ( string.IsNullOrEmpty( particleEntry.Particle ) )
+			return;
+
+		Util.CreateParticle(
+			particleEntry.FromCharacter ? GetCharacter() : entity,
+			particleEntry.Particle,
+			true,
+			particleEntry.Attachment
+		);
+	}
+
+	public void CreateParticle( string tag ) => CreateParticle( tag, Entity );
 }

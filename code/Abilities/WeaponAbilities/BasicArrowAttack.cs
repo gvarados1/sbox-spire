@@ -36,7 +36,7 @@ public partial class BasicArrowAttack : WeaponAbility
 		Rotation rotation = Rotation.From( spread ) * Weapon.Owner.EyeRotation;
 
 		var forward = rotation.Forward;
-		var endPosition = position + forward * float.MaxValue;
+		var endPosition = position + forward * 100000f;
 		var trace = Trace.Ray( position, endPosition )
 			.Ignore( Weapon.Owner )
 			.Run();
