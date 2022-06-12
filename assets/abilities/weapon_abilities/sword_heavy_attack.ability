@@ -28,7 +28,7 @@
 			{
 				Tag = "pre"
 				Particle = resource:"particles/weapons/basic_sword/basic_swipe/basic_swipe.vpcf"
-				FromCharacter = false
+				FromCharacter = true
 				Attachment = ""
 			},
 		]
