@@ -15,8 +15,6 @@ public class BaseHealingBuff : Buff
 	{
 		base.OnTick( character );
 
-		Log.State( $"Tick Buff {Time.Now}" );
-
 		character.Health += HealAmountPerTick;
 		character.Health = character.Health.Clamp( 0f, character.MaxHealth );
 		Util.CreateParticle( character, "particles/abilities/basic_heal.vpcf", true );

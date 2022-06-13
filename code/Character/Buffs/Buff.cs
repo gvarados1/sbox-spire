@@ -11,7 +11,7 @@ public abstract partial class Buff : BaseNetworkable
 	public Buff()
 	{
 		UntilDestroy = Duration;
-		NextTick = TickInterval;
+		NextTick = TickImmediate ? 0 : TickInterval;
 	}
 
 	public TimeSince SinceCreation { get; set; } = 0;
@@ -35,6 +35,8 @@ public abstract partial class Buff : BaseNetworkable
 	/// How often a tick is for this buff
 	/// </summary>
 	public virtual float TickInterval => 0f;
+
+	public virtual bool TickImmediate => true;
 
 	public TimeUntil UntilDestroy { get; set; }
 
