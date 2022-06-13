@@ -16,16 +16,17 @@ public partial class DirectionAbilityInteraction : AbilityInteraction
 		}
 	}
 
+	public Vector3 Color => new Vector3( 0f, 0.7f, 0f );
+
 	protected override void TickGuide( AbilityGuideEntity entity )
 	{
-		//var character = Ability.GetCharacter();
-		//var pos = character.Position;
-		//var rot = character.EyeRotation;
+		var character = Ability.GetCharacter();
 
-		//DebugOverlay.Line( pos, pos + rot.Forward * 10000f + Vector3.Up * 10f, Color.Green );
+		entity.SetParticle( "particles/widgets/arrow/widget_arrow.vpcf" );
+		entity.Position = character.Position + character.EyeRotation.Forward * 25f;
 
-		entity.SetParticle( "particles/widgets/widget_direction.vpcf" );
-		entity.Position = Ability.GetCharacter().Position;
+		entity.Particle.SetPosition( 4, Color );
+		entity.Particle.SetPosition( 1, character.Position + character.EyeRotation.Forward * 256f );
 	}
 
 	protected override void OnEnd()
