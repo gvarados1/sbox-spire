@@ -30,11 +30,13 @@ public partial class ConeArrowAttack : BasicArrowAttack
 		DebugOverlay.Line( pos, pos + offsetRotation.Forward * 10000f + Vector3.Up * 10f, Color.Orange );
 	}
 
-	public override bool TickGuide()
+	public override bool TickGuide( AbilityGuideEntity entity )
 	{
-		DrawLine( -15f );
-		DrawLine( 0f );
-		DrawLine( 15f );
+		var character = GetCharacter();
+
+		entity.SetParticle( "particles/widgets/cone/widget_cone_base_45.vpcf" );
+		entity.Position = character.Position;
+		entity.Rotation = character.EyeRotation;
 
 		return true;
 	}

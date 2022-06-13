@@ -137,7 +137,7 @@ public abstract partial class Ability : Entity
 	/// Allows abilities to define their own widget when a player is interacting with it
 	/// </summary>
 	/// <returns></returns>
-	public virtual bool TickGuide()
+	public virtual bool TickGuide( AbilityGuideEntity entity )
 	{
 		return false;
 	}

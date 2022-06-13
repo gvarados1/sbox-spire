@@ -71,7 +71,10 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 			GuideEntity = new();
 		}
 
-		TickGuide( GuideEntity );
+		var shouldOverride = Ability.TickGuide( GuideEntity );
+
+		if ( !shouldOverride )
+			TickGuide( GuideEntity );
 	}
 
 	protected virtual void TickGuide( AbilityGuideEntity entity )
