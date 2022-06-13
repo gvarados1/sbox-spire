@@ -2,11 +2,18 @@
 {
 	data = 
 	{
-		Cooldown = 2
 		AbilityID = "arrow_attack"
 		AbilityName = "Arrow Attack"
 		Description = "Fires an arrow from a ranged weapon."
+		Cooldown = 2
 		Icon = resource:"ui/ability_icons/arrow_attack.jpg"
+		InteractionType = 0
+		_AbilityRange = "0,0"
+		AbilityRange = 
+		{
+			Min = 0
+			Max = 0
+		}
 		CharacterSpeedMod = 0.1
 		Duration = 0.5
 		RunDefaultPlayerAnimation = true

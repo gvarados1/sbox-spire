@@ -1,11 +1,12 @@
+
 namespace Spire;
 
-public struct Range<T> where T : unmanaged
+public struct Range
 {
-    public T Min;
-    public T Max;
+    public float Min { get; set; }
+    public float Max { get; set; }
 
-    public Range( T min, T max )
+    public Range( float min, float max )
     {
         Min = min;
         Max = max;

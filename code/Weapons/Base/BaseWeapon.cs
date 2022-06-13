@@ -60,13 +60,11 @@ public partial class BaseWeapon : BaseCarriable
 		if ( !ability.IsValid() )
 			return;
 
-		if ( Input.Down( ability.Type.GetButton() ) )
+		var button = ability.Type.GetButton();
+
+		if ( Input.Down( button ) )
 		{
-			if ( ability.CanRun() && TimeSinceLastAbility > GlobalAbilityCooldown )
-			{
-				ability.Run();
-				TimeSinceLastAbility = 0;
-			}
+			ability.Interact();
 		}
 
 		ability.Simulate( cl );

@@ -13,6 +13,9 @@ public partial class PlayerCharacter
 	[Net]
 	public PlayerAbility UltimateAbility { get; set; }
 
+	[Net]
+	public Ability InteractingAbility { get; set; }
+
 	public IEnumerable<PlayerAbility> GetPlayerAbilities()
 	{
 		yield return MovementAbility;
@@ -27,18 +30,31 @@ public partial class PlayerCharacter
 		return abilities[slot];
 	}
 
+	public void BuildInputAbilities( InputBuilder input )
+	{
+		// 
+	}
+
 	public void SimulateAbilities( Client cl )
 	{
 		using ( LagCompensation() )
 		{
+			if ( InteractingAbility.IsValid() )
+			{
+				InteractingAbility.Interaction.OnTick();
+			}
+
 			int i = 0;
 			foreach ( var ability in GetPlayerAbilities() )
 			{
 				if ( Input.Down( PlayerAbility.GetInputButtonFromSlot( i ) ) )
 				{
-					if ( ability is not null && ability.CanRun() )
+					if ( ability is not null && !InteractingAbility.IsValid() )
 					{
-						ability.Run();
+						if ( !ability.CanRun() )
+							continue;
+
+						ability.Interact();
 					}
 				}
 

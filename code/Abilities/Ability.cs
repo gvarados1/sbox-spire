@@ -14,11 +14,16 @@ public abstract partial class Ability : Entity
 		{
 			Log.Warning( $"Couldn't find AbilityGameResource for Ability {Identifier} " );
 		}
+
+		Interaction = AbilityInteraction.From( this );
 	}
 
 	public virtual string Identifier => "ability";
 
 	public AbilityGameResource Data { get; set; }
+
+	[Net, Predicted]
+	public AbilityInteraction Interaction { get; set; }
 
 	// Quick Accessors
 	public string GetIcon() => Data.Icon.Replace( "jpg", "png" );
@@ -41,12 +46,12 @@ public abstract partial class Ability : Entity
 
 	// Implementation
 
-	public virtual BaseCharacter GetCharacter()
+	public virtual PlayerCharacter GetCharacter()
 	{
-		if ( Entity is BaseCharacter character )
+		if ( Entity is PlayerCharacter character )
 			return character;
 		else
-			return Entity.Owner as BaseCharacter;
+			return Entity.Owner as PlayerCharacter;
 	}
 
 	public virtual void DoPlayerAnimation()
@@ -95,8 +100,11 @@ public abstract partial class Ability : Entity
 	/// <summary>
 	/// Start an ability
 	/// </summary>
-	internal void Run()
+	public void Run()
 	{
+		if ( !CanRun() )
+			return;
+
 		TimeUntilFinish = Data.Duration;
 		InProgress = true;
 		TimeSinceLastUse = 0f;
@@ -112,19 +120,25 @@ public abstract partial class Ability : Entity
 		}
 	}
 
+	public void Interact()
+	{
+		Interaction.Start();
+	}
+
 	/// <summary>
-	/// Called every tick (shared) while an ability is in progress
+	/// Called every tick (shared) for each ability
 	/// </summary>
 	public virtual void OnTick()
 	{
+
 	}
 
 	public override void Simulate( Client cl )
 	{
-		if ( !InProgress ) 
-			return;
-
 		OnTick();
+
+		if ( !InProgress )
+			return;
 
 		if ( TimeUntilFinish )
 		{

@@ -52,6 +52,9 @@ public partial class PlayerCharacter : BaseCharacter
 		FirstAbility = new SelfHealAbility();
 		FirstAbility.Entity = this;
 
+		SecondAbility = new WorldPointTestAbility();
+		SecondAbility.Entity = this;
+
 		UltimateAbility = new BombThrowAbility();
 		UltimateAbility.Entity = this;
 
@@ -63,15 +66,19 @@ public partial class PlayerCharacter : BaseCharacter
 	{
 		BaseGamemode.Current?.BuildInput( input );
 
-		if ( input.StopProcessing )
-			return;
+		if ( input.StopProcessing ) return;
+
+		BuildInputAbilities( input );
+
+		if ( input.StopProcessing ) return;
 
 		ActiveChild?.BuildInput( input );
 
+		if ( input.StopProcessing ) return;
+
 		Controller?.BuildInput( input );
 
-		if ( input.StopProcessing )
-			return;
+		if ( input.StopProcessing ) return;
 
 		Animator?.BuildInput( input );
 	}

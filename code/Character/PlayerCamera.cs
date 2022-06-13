@@ -11,8 +11,8 @@ public partial class PlayerCamera : CameraMode
 	protected float TargetOrbitDistance { get; set; } = 400f;
 	protected float WheelSpeed => 10f;
 
-	protected Range<int> CameraDistance { get; set; } = new( 125, 500 );
-	protected Range<int> PitchClamp { get; set; } = new( 40, 60 );
+	protected Range CameraDistance { get; set; } = new( 125, 500 );
+	protected Range PitchClamp { get; set; } = new( 40, 60 );
 
 	[ConVar.Client( "spire_camera_farz", Max = 80000f, Min = 1024f, Saved = true )]
 	public static float ZFarPreference { get; set; } = 2048f;
