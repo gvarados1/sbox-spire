@@ -43,7 +43,7 @@ public partial class WorldPointAbilityInteraction : AbilityInteraction
 
 	protected override void TickGuide( AbilityGuideEntity entity )
 	{
-		entity.Position = WorldCursorPosition + Vector3.Up * 5f;
+		entity.Position = WorldCursorPosition + Vector3.Up * 10f;
 		entity.Particle.SetPosition( 2, IsInRange() ? AvailableCPColor : UnavailableCPColor );
 		entity.Particle.SetPosition( 4, new Vector3().WithX( Ability.Data.AbilityEffectRadius ) );
 	}
