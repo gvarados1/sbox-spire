@@ -22,6 +22,7 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 		{
 			AbilityInteractionType.Generic => new GenericAbilityInteraction(),
 			AbilityInteractionType.WorldPoint => new WorldPointAbilityInteraction(),
+			AbilityInteractionType.Direction => new DirectionAbilityInteraction(),
 			_ => new GenericAbilityInteraction()
 		};
 

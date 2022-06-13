@@ -2,11 +2,18 @@
 {
 	data = 
 	{
-		Cooldown = 15
 		AbilityID = "cone_arrow_attack"
 		AbilityName = "Cone Arrow Attack"
 		Description = "Fires three arrows in a cone from the caster"
+		Cooldown = 15
 		Icon = resource:"ui/ability_icons/arrow_cone_attack.jpg"
+		InteractionType = 2
+		_AbilityRange = "0,0"
+		AbilityRange = 
+		{
+			Min = 0
+			Max = 0
+		}
 		CharacterSpeedMod = 0.1
 		Duration = 0.5
 		RunDefaultPlayerAnimation = true

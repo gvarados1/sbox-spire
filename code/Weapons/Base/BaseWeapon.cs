@@ -64,7 +64,8 @@ public partial class BaseWeapon : BaseCarriable
 
 		if ( Input.Down( button ) )
 		{
-			ability.Interact();
+			if ( ability.CanRun() )
+				ability.Interact();
 		}
 
 		ability.Simulate( cl );

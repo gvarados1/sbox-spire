@@ -2,11 +2,18 @@
 {
 	data = 
 	{
-		Cooldown = 20
 		AbilityID = "explosive_arrow_attack"
 		AbilityName = "Explosive Arrow Attack"
 		Description = "Fires an explosive arrow from the caster\'s weapon"
+		Cooldown = 20
 		Icon = resource:"ui/ability_icons/explosive_arrow.jpg"
+		InteractionType = 2
+		_AbilityRange = "0,0"
+		AbilityRange = 
+		{
+			Min = 0
+			Max = 0
+		}
 		CharacterSpeedMod = 0.1
 		Duration = 1
 		RunDefaultPlayerAnimation = true

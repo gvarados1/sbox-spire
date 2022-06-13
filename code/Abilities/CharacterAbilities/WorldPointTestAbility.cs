@@ -54,8 +54,6 @@ public partial class WorldPointTestAbility : PlayerAbility
 
 		var interaction = Interaction as WorldPointAbilityInteraction;
 
-		Log.Info( interaction.WorldCursorPosition );
-
 		CreateProjectile( interaction.WorldCursorPosition );
 	}
 

@@ -39,11 +39,6 @@ public partial class PlayerCharacter
 	{
 		using ( LagCompensation() )
 		{
-			if ( InteractingAbility.IsValid() )
-			{
-				InteractingAbility.Interaction.OnTick();
-			}
-
 			int i = 0;
 			foreach ( var ability in GetPlayerAbilities() )
 			{
@@ -51,16 +46,19 @@ public partial class PlayerCharacter
 				{
 					if ( ability is not null && !InteractingAbility.IsValid() )
 					{
-						if ( !ability.CanRun() )
-							continue;
-
-						ability.Interact();
+						if ( ability.CanRun() )
+							ability.Interact();
 					}
 				}
 
 				ability?.Simulate( cl );
 
 				i++;
+
+				if ( InteractingAbility.IsValid() )
+				{
+					InteractingAbility.Interaction.OnTick();
+				}
 			}
 		}
 	}
