@@ -65,7 +65,7 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 
 	public void Cancel()
 	{
-
+		Ability.GetCharacter().InteractingAbility = null;
 	}
 
 	public void End()
