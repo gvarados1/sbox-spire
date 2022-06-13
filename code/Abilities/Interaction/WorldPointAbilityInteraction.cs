@@ -43,7 +43,6 @@ public partial class WorldPointAbilityInteraction : AbilityInteraction
 	protected void ShowWorldCursorWidget()
 	{
 		var color = IsInRange() ? Color.Green : Color.Red;
-
 		DebugOverlay.Sphere( WorldCursorPosition, 16f, color );
 	}
 
@@ -51,20 +50,6 @@ public partial class WorldPointAbilityInteraction : AbilityInteraction
 	{
 		base.OnEnd();
 
-		if ( Host.IsClient )
-			WorldPointEnd( Ability.NetworkIdent, WorldCursorPosition );
-
 		Ability.Run();
-	}
-
-	// @TODO: ServerRpc my beloved
-	[ConCmd.Server( "spire_ability_worldpoint" )]
-	public static void WorldPointEnd( int abilityNetIdent, Vector3 worldPos )
-	{
-		var ability = Entity.FindByIndex( abilityNetIdent ) as Ability;
-		if ( !ability.IsValid() )
-			return;
-
-		ability.Interaction.End();
 	}
 }
