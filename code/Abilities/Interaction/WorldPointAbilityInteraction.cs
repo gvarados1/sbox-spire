@@ -4,11 +4,9 @@ public partial class WorldPointAbilityInteraction : AbilityInteraction
 {
 	public override void OnTick()
 	{
-		base.OnTick();
-
 		WorldCursorPosition = GetWorldCursor();
 
-		ShowWorldCursorWidget();
+		base.OnTick();
 
 		if ( Input.Pressed( InputButton.PrimaryAttack ) )
 		{
@@ -40,10 +38,14 @@ public partial class WorldPointAbilityInteraction : AbilityInteraction
 		End();
 	}
 
-	protected void ShowWorldCursorWidget()
+	protected Vector3 AvailableCPColor => new Vector3( Color.Green );
+	protected Vector3 UnavailableCPColor => new Vector3( Color.Red );
+
+	protected override void TickGuide( AbilityGuideEntity entity )
 	{
-		var color = IsInRange() ? Color.Green : Color.Red;
-		DebugOverlay.Sphere( WorldCursorPosition, 16f, color );
+		entity.Position = WorldCursorPosition + Vector3.Up * 5f;
+		entity.Particle.SetPosition( 2, IsInRange() ? AvailableCPColor : UnavailableCPColor );
+		entity.Particle.SetPosition( 4, new Vector3().WithX( Ability.Data.AbilityEffectRadius ) );
 	}
 
 	protected override void OnEnd()

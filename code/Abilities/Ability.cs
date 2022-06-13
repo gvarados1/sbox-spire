@@ -137,7 +137,7 @@ public abstract partial class Ability : Entity
 	/// Allows abilities to define their own widget when a player is interacting with it
 	/// </summary>
 	/// <returns></returns>
-	public virtual bool TickWidget()
+	public virtual bool TickGuide()
 	{
 		return false;
 	}
@@ -156,6 +156,11 @@ public abstract partial class Ability : Entity
 
 			PostRun();
 		}
+	}
+
+	public override void FrameSimulate( Client cl )
+	{
+		OnTick();
 	}
 
 	public void PlaySound( string tag, Entity entity )

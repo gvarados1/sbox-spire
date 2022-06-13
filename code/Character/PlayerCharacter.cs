@@ -97,4 +97,12 @@ public partial class PlayerCharacter : BaseCharacter
 		SimulateAbilities( cl );
 		Hotbar?.Simulate( cl );
 	}
+
+	public override void FrameSimulate( Client cl )
+	{
+		base.FrameSimulate( cl );
+
+		SimulateAbilities( cl );
+
+	}
 }

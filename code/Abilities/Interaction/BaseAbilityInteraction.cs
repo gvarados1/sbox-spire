@@ -49,6 +49,8 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 	/// </summary>
 	public virtual void OnTick()
 	{
+		if ( Host.IsClient )
+			InternalTickGuide();
 	}
 
 	public void Start()
@@ -58,6 +60,25 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 		OnStart();
 	}
 
+	protected AbilityGuideEntity GuideEntity;
+
+	protected void InternalTickGuide()
+	{
+		Host.AssertClient();
+
+		if ( !GuideEntity.IsValid() )
+		{
+			GuideEntity = new();
+		}
+
+		TickGuide( GuideEntity );
+	}
+
+	protected virtual void TickGuide( AbilityGuideEntity entity )
+	{
+
+	}
+
 	protected virtual void OnStart()
 	{
 
@@ -65,11 +86,17 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 
 	public void Cancel()
 	{
+		if ( GuideEntity.IsValid() )
+			GuideEntity.Delete();
+
 		Ability.GetCharacter().InteractingAbility = null;
 	}
 
 	public void End()
 	{
+		if ( GuideEntity.IsValid() )
+			GuideEntity.Delete();
+
 		Ability.GetCharacter().InteractingAbility = null;
 
 		OnEnd();

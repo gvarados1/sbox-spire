@@ -12,7 +12,7 @@ public partial class ExplosiveArrowAttack : BasicArrowAttack
 		new ExplosionEntity
 		{
 			Position = projectile.Position,
-			Radius = 256f,
+			Radius = Data.AbilityEffectRadius,
 			Damage = 20f,
 			ForceScale = 1f,
 		}.Explode( projectile );

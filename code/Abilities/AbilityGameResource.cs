@@ -77,6 +77,9 @@ public partial class AbilityGameResource : GameResource
 	[HideInEditor]
 	public Range AbilityRange => new( _AbilityRange.x, _AbilityRange.y );
 
+	[Category( "Stats" )]
+	public float AbilityEffectRadius { get; set; } = 60f;
+
 	/// <summary>
 	/// Apply a speed modifier to the player while the ability is in progress
 	/// </summary>

@@ -30,7 +30,7 @@ public partial class ConeArrowAttack : BasicArrowAttack
 		DebugOverlay.Line( pos, pos + offsetRotation.Forward * 10000f + Vector3.Up * 10f, Color.Orange );
 	}
 
-	public override bool TickWidget()
+	public override bool TickGuide()
 	{
 		DrawLine( -15f );
 		DrawLine( 0f );

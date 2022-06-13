@@ -6,9 +6,6 @@ public partial class DirectionAbilityInteraction : AbilityInteraction
 	{
 		base.OnTick();
 
-		if ( Host.IsClient )
-			TickWidget();
-
 		if ( Input.Pressed( InputButton.PrimaryAttack ) )
 		{
 			End();
@@ -19,16 +16,16 @@ public partial class DirectionAbilityInteraction : AbilityInteraction
 		}
 	}
 
-	protected void TickWidget()
+	protected override void TickGuide( AbilityGuideEntity entity )
 	{
-		if ( Ability.TickWidget() )
-			return;
+		//var character = Ability.GetCharacter();
+		//var pos = character.Position;
+		//var rot = character.EyeRotation;
 
-		var character = Ability.GetCharacter();
-		var pos = character.Position;
-		var rot = character.EyeRotation;
+		//DebugOverlay.Line( pos, pos + rot.Forward * 10000f + Vector3.Up * 10f, Color.Green );
 
-		DebugOverlay.Line( pos, pos + rot.Forward * 10000f + Vector3.Up * 10f, Color.Green );
+		entity.SetParticle( "particles/widgets/widget_direction.vpcf" );
+		entity.Position = Ability.GetCharacter().Position;
 	}
 
 	protected override void OnEnd()
