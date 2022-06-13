@@ -62,8 +62,15 @@ public partial class BaseWeapon : BaseCarriable
 
 		var button = ability.Type.GetButton();
 
-		if ( Input.Down( button ) )
+		if ( Input.Pressed( button ) )
 		{
+			// Hack to intercept primary attack abilities not to run when you are interacting
+			if ( ability.GetCharacter().InteractingAbility.IsValid() )
+			{
+				if ( button == InputButton.PrimaryAttack )
+					return;
+			}
+
 			if ( ability.CanRun() )
 				ability.Interact();
 		}
