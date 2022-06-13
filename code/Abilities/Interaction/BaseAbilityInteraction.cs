@@ -60,7 +60,7 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 		OnStart();
 	}
 
-	protected AbilityGuideEntity GuideEntity;
+	protected static AbilityGuideEntity GuideEntity;
 
 	protected void InternalTickGuide()
 	{
