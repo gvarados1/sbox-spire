@@ -22,6 +22,8 @@ public partial class PlayerCharacter : BaseCharacter
 
 	public override PawnController ActiveController => DevController ?? base.ActiveController;
 
+	public Particles UnitCircle { get; set; }
+
 	public PlayerCharacter()
 	{
 		if ( Host.IsClient )
@@ -60,6 +62,17 @@ public partial class PlayerCharacter : BaseCharacter
 
 		MovementAbility = new SpeedWalkAbility();
 		MovementAbility.Entity = this;
+	}
+
+	public override void OnNewModel( Model model )
+	{
+		base.OnNewModel( model );
+
+		if ( UnitCircle is not null )
+			return;
+
+		if ( IsLocalPawn )
+			UnitCircle = Particles.Create( "particles/widgets/circle/player_circle_ground.vpcf", this, true );
 	}
 
 	public override void BuildInput( InputBuilder input )
@@ -103,6 +116,5 @@ public partial class PlayerCharacter : BaseCharacter
 		base.FrameSimulate( cl );
 
 		SimulateAbilities( cl );
-
 	}
 }
