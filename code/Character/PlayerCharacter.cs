@@ -20,9 +20,6 @@ public partial class PlayerCharacter : BaseCharacter
 	[Net, Predicted]
 	public PlayerHotbar Hotbar { get; set; }
 
-	[Net, Predicted]
-	public TimeSince TimeSinceInteract { get; set; } = 1f;
-
 	public override PawnController ActiveController => DevController ?? base.ActiveController;
 
 	public PlayerCharacter()

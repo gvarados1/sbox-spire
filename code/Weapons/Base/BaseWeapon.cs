@@ -62,16 +62,6 @@ public partial class BaseWeapon : BaseCarriable
 
 		var button = ability.Type.GetButton();
 
-		if ( cl.Pawn is PlayerCharacter character )
-		{
-			if ( button == InputButton.PrimaryAttack && character.TimeSinceInteract < 1f )
-			{
-				ability.Simulate( cl );
-				return;
-			}
-		}
-
-
 		if ( Input.Down( button ) )
 		{
 			if ( ability.CanRun() )
