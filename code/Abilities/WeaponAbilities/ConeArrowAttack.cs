@@ -13,9 +13,9 @@ public partial class ConeArrowAttack : BasicArrowAttack
 		if ( Host.IsClient )
 			return;
 
-		CreateProjectile( -25 );
+		CreateProjectile( -15 );
 		CreateProjectile( 0f );
-		CreateProjectile( 25 );
+		CreateProjectile( 15 );
 	}
 
 	public override bool TickGuide( AbilityGuideEntity entity )
