@@ -100,7 +100,7 @@
 		{
 			_class = "C_OP_RenderRopes"
 			m_nMaxTesselation = 5
-			m_nOrientationType = 3
+			m_nOrientationType = 2
 			m_hTexture = resource:"materials/effects/lightcookies/blank.vtex"
 			m_flRadiusScale = 
 			{
