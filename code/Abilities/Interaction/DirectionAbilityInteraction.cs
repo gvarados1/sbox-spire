@@ -7,7 +7,7 @@ public partial class DirectionAbilityInteraction : AbilityInteraction
 		base.OnTick();
 
 		if ( Host.IsClient )
-			ShowWidget();
+			TickWidget();
 
 		if ( Input.Pressed( InputButton.PrimaryAttack ) )
 		{
@@ -19,8 +19,11 @@ public partial class DirectionAbilityInteraction : AbilityInteraction
 		}
 	}
 
-	protected void ShowWidget()
+	protected void TickWidget()
 	{
+		if ( Ability.TickWidget() )
+			return;
+
 		var character = Ability.GetCharacter();
 		var pos = character.Position;
 		var rot = character.EyeRotation;

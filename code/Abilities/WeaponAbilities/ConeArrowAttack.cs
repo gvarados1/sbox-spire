@@ -17,4 +17,25 @@ public partial class ConeArrowAttack : BasicArrowAttack
 		CreateProjectile( 0f );
 		CreateProjectile( 15f );
 	}
+
+	protected void DrawLine( float yawOffset )
+	{
+		var character = GetCharacter();
+		var pos = character.Position;
+		var rot = character.EyeRotation;
+
+		var spread = new Angles().WithYaw( yawOffset );
+		var offsetRotation = Rotation.From( spread ) * rot;
+
+		DebugOverlay.Line( pos, pos + offsetRotation.Forward * 10000f + Vector3.Up * 10f, Color.Orange );
+	}
+
+	public override bool TickWidget()
+	{
+		DrawLine( -15f );
+		DrawLine( 0f );
+		DrawLine( 15f );
+
+		return true;
+	}
 }

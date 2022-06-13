@@ -133,6 +133,15 @@ public abstract partial class Ability : Entity
 
 	}
 
+	/// <summary>
+	/// Allows abilities to define their own widget when a player is interacting with it
+	/// </summary>
+	/// <returns></returns>
+	public virtual bool TickWidget()
+	{
+		return false;
+	}
+
 	public override void Simulate( Client cl )
 	{
 		OnTick();
