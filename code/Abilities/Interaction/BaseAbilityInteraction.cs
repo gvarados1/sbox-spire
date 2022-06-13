@@ -33,16 +33,14 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 	[Net, Predicted]
 	public Vector3 WorldCursorPosition { get; set; }
 
-	public void GetWorldCursor()
+	public Vector3 GetWorldCursor()
 	{
 		var trace = Trace.Ray( Input.Cursor.Origin, Input.Cursor.Origin + Input.Cursor.Direction * 100000f )
 			.WithoutTags( "player" )
 			.Radius( 5f )
 			.Run();
 
-		DebugOverlay.Sphere( trace.HitPosition, 8f, Color.Green );
-
-		WorldCursorPosition = trace.HitPosition;
+		return trace.HitPosition;
 	}
 
 	/// <summary>
