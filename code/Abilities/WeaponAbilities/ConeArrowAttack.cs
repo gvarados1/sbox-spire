@@ -13,21 +13,9 @@ public partial class ConeArrowAttack : BasicArrowAttack
 		if ( Host.IsClient )
 			return;
 
-		CreateProjectile( -15f );
+		CreateProjectile( -25 );
 		CreateProjectile( 0f );
-		CreateProjectile( 15f );
-	}
-
-	protected void DrawLine( float yawOffset )
-	{
-		var character = GetCharacter();
-		var pos = character.Position;
-		var rot = character.EyeRotation;
-
-		var spread = new Angles().WithYaw( yawOffset );
-		var offsetRotation = Rotation.From( spread ) * rot;
-
-		DebugOverlay.Line( pos, pos + offsetRotation.Forward * 10000f + Vector3.Up * 10f, Color.Orange );
+		CreateProjectile( 25 );
 	}
 
 	public override bool TickGuide( AbilityGuideEntity entity )
