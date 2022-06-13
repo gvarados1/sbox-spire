@@ -53,7 +53,10 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 
 	public void Start()
 	{
-		Ability.GetCharacter().InteractingAbility = Ability;
+		var character = Ability.GetCharacter();
+		
+		character.InteractingAbility = Ability;
+		character.TimeSinceInteract = 0;
 
 		OnStart();
 	}
