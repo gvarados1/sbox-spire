@@ -174,7 +174,8 @@ public partial class DayNightController : ModelEntity
 			UpdateFogState( stage );
 	}
 
-	private TimeStageResource CurrentFogState;
+	[Net]
+	private TimeStageResource CurrentFogState { get; set; }
 
 	private TimeStageResource UpdateFogState( TimeStage stage )
 	{
@@ -190,50 +191,53 @@ public partial class DayNightController : ModelEntity
 		return CurrentFogState;
 	}
 
-	[Event.Tick.Server]
+	[Event.Tick]
 	private void Tick()
 	{
-		var environment = Environment;
-		if ( !environment.IsValid() ) return;
-
-		var sunAngle = DayNightSystem.Instance.TimeOfDay / 24f * 360f;
-		var radius = 10000f;
-
-		environment.Color = _colorGradient.Evaluate( 1f / 24f * DayNightSystem.Instance.TimeOfDay );
-		environment.SkyColor = _skyColorGradient.Evaluate( 1f / 24f * DayNightSystem.Instance.TimeOfDay );
-
-		environment.Position = Vector3.Zero + Rotation.From( 0, 0, sunAngle + 60f ) * (radius * Vector3.Right);
-		environment.Position += Rotation.From( 0, sunAngle, 0 ) * (radius * Vector3.Forward);
-
-		var direction = (Vector3.Zero - environment.Position).Normal;
-		environment.Rotation = Rotation.LookAt( direction, Vector3.Up );
-
-		var fog = GradientFog;
-		if ( !fog.IsValid() ) return;
-
 		var lerpSpeed = Time.Delta * 0.5f;
 
-		fog.FogStartDistance = fog.FogStartDistance.LerpTo( CurrentFogState.FogStartDistance, lerpSpeed );
-		fog.FogEndDistance = fog.FogEndDistance.LerpTo( CurrentFogState.FogEndDistance, lerpSpeed );
-		fog.FogColor = Color.Lerp( fog.FogColor, CurrentFogState.FogColor, lerpSpeed );
-		fog.FogStartHeight = fog.FogStartHeight.LerpTo( CurrentFogState.FogStartHeight, lerpSpeed );
-		fog.FogEndHeight = fog.FogEndHeight.LerpTo( CurrentFogState.FogEndHeight, lerpSpeed );
+		if ( Host.IsServer )
+		{
+			var environment = Environment;
+			if ( !environment.IsValid() ) return;
+
+			var sunAngle = DayNightSystem.Instance.TimeOfDay / 24f * 360f;
+			var radius = 10000f;
+
+			environment.Color = _colorGradient.Evaluate( 1f / 24f * DayNightSystem.Instance.TimeOfDay );
+			environment.SkyColor = _skyColorGradient.Evaluate( 1f / 24f * DayNightSystem.Instance.TimeOfDay );
+
+			environment.Position = Vector3.Zero + Rotation.From( 0, 0, sunAngle + 60f ) * (radius * Vector3.Right);
+			environment.Position += Rotation.From( 0, sunAngle, 0 ) * (radius * Vector3.Forward);
+
+			var direction = (Vector3.Zero - environment.Position).Normal;
+			environment.Rotation = Rotation.LookAt( direction, Vector3.Up );
+
+			var fog = GradientFog;
+			if ( !fog.IsValid() ) return;
+
+			fog.FogStartDistance = fog.FogStartDistance.LerpTo( CurrentFogState.FogStartDistance, lerpSpeed );
+			fog.FogEndDistance = fog.FogEndDistance.LerpTo( CurrentFogState.FogEndDistance, lerpSpeed );
+			fog.FogColor = Color.Lerp( fog.FogColor, CurrentFogState.FogColor, lerpSpeed );
+			fog.FogStartHeight = fog.FogStartHeight.LerpTo( CurrentFogState.FogStartHeight, lerpSpeed );
+			fog.FogEndHeight = fog.FogEndHeight.LerpTo( CurrentFogState.FogEndHeight, lerpSpeed );
+
+			fog.UpdateFogState( true );
+
+			if ( DayNightDebug )
+			{
+				DebugOverlay.ScreenText(
+					 $"TimeOfDay: {DayNightSystem.Instance.TimeOfDay}\n" +
+					 $"FogStartDistance: {fog.FogStartDistance}\n" +
+					 $"FogEndDistance: {fog.FogEndDistance}\n" +
+					 $"FogColor: {fog.FogColor}\n" +
+					 $"AmbientLight: {Map.Scene.AmbientLightColor}\n" +
+					 $"FogStartHeight: {fog.FogStartHeight}\n" +
+					 $"FogEndHeight: {fog.FogEndHeight}\n"
+				);
+			}
+		}
 
 		Map.Scene.AmbientLightColor = Color.Lerp( Map.Scene.AmbientLightColor, CurrentFogState.AmbientLightColor, lerpSpeed * 5f );
-
-		fog.UpdateFogState( true );
-
-		if ( DayNightDebug )
-		{
-			DebugOverlay.ScreenText(
-				 $"TimeOfDay: {DayNightSystem.Instance.TimeOfDay}\n" +
-				 $"FogStartDistance: {fog.FogStartDistance}\n" +
-				 $"FogEndDistance: {fog.FogEndDistance}\n" +
-				 $"FogColor: {fog.FogColor}\n" +
-				 $"AmbientLight: {Map.Scene.AmbientLightColor}\n" +
-				 $"FogStartHeight: {fog.FogStartHeight}\n" +
-				 $"FogEndHeight: {fog.FogEndHeight}\n"
-			);
-		}
 	}
 }
