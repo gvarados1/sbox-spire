@@ -238,6 +238,6 @@ public partial class DayNightController : ModelEntity
 			}
 		}
 
-		Map.Scene.AmbientLightColor = Color.Lerp( Map.Scene.AmbientLightColor, CurrentFogState.AmbientLightColor, lerpSpeed * 5f );
+		Map.Scene.AmbientLightColor = Color.Lerp( Map.Scene.AmbientLightColor, CurrentFogState.AmbientLightColor, lerpSpeed );
 	}
 }
