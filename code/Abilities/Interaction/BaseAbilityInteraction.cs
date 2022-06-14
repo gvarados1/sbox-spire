@@ -93,6 +93,13 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 			GuideEntity.Delete();
 
 		Ability.GetCharacter().InteractingAbility = null;
+
+		OnCancel();
+	}
+
+	protected virtual void OnCancel()
+	{
+
 	}
 
 	public void End()
