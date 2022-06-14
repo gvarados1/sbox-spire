@@ -1,5 +1,6 @@
 using Spire.Abilities;
 using Spire.Gamemodes;
+using Spire.Gamemodes.Duel;
 using Spire.UI;
 
 namespace Spire;
@@ -73,6 +74,8 @@ public partial class PlayerCharacter : BaseCharacter
 
 		if ( IsLocalPawn )
 			UnitCircle = Particles.Create( "particles/widgets/circle/player_circle_ground.vpcf", this, true );
+		else
+			UnitCircle = Particles.Create( "particles/widgets/circle/unit_circle_ground.vpcf", this, true );
 	}
 
 	public override void BuildInput( InputBuilder input )
@@ -116,5 +119,12 @@ public partial class PlayerCharacter : BaseCharacter
 		base.FrameSimulate( cl );
 
 		SimulateAbilities( cl );
+	}
+
+	[Event.Tick.Client]
+	protected void UpdateColors()
+	{
+		if ( !IsLocalPawn )
+			UnitCircle.SetPosition( 4, new Vector3( Client.GetTeam().GetColor() ) );
 	}
 }
