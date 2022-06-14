@@ -1,7 +1,23 @@
 ﻿using SandboxEditor;
-using System.ComponentModel;
 
 namespace Spire.DayNight;
+
+
+[GameResource( "Spire Fog State", "spfog", "Spire fog state for the DN Controller" )]
+public partial class FogState : GameResource
+{
+	public bool FogEnabled { get; set; } = true;
+	public float FogStartDistance { get; set; } = 0.0f;
+	public float FogEndDistance { get; set; } = 4000.0f;
+	public float FogStartHeight { get; set; } = 0.0f;
+	public float FogEndHeight { get; set; } = 200.0f;
+	public float FogMaximumOpacity { get; set; } = 0.5f;
+	public Color FogColor { get; set; } = Color.White;
+	public float FogStrength { get; set; } = 1.0f;
+	public float FogDistanceFalloffExponent { get; set; } = 2.0f;
+	public float FogVerticalFalloffExponent { get; set; } = 1.0f;
+	public float FogFadeTime { get; set; } = 1.0f;
+}
 
 public class DayNightGradient
 {
@@ -87,6 +103,18 @@ public partial class DayNightController : ModelEntity
 	[Property( "NightSkyColor", Title = "Night Sky Color" )]
 	public Color NightSkyColor { get; set; }
 
+	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
+	public string DawnFog { get; set; }
+
+	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
+	public string DayFog { get; set; }
+
+	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
+	public string DuskFog { get; set; }
+
+	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
+	public string NightFog { get; set; }
+
 	protected Output OnBecomeNight { get; set; }
 	protected Output OnBecomeDusk { get; set; }
 	protected Output OnBecomeDawn { get; set; }
@@ -102,7 +130,18 @@ public partial class DayNightController : ModelEntity
 		}
 	}
 
+	public GradientFogEntity GradientFog
+	{
+		get
+		{
+			if ( _gradientFog == null )
+				_gradientFog = All.OfType<GradientFogEntity>().FirstOrDefault();
+			return _gradientFog;
+		}
+	}
+
 	private EnvironmentLightEntity _environment;
+	private GradientFogEntity _gradientFog;
 	private DayNightGradient _skyColorGradient;
 	private DayNightGradient _colorGradient;
 
@@ -126,6 +165,25 @@ public partial class DayNightController : ModelEntity
 			OnBecomeDusk.Fire( this );
 		else if ( stage == TimeStage.Night )
 			OnBecomeNight.Fire( this );
+
+		if ( GradientFog.IsValid() )
+			UpdateFogState( stage );
+	}
+
+	private FogState CurrentFogState;
+
+	private FogState UpdateFogState( TimeStage stage )
+	{
+		CurrentFogState = stage switch
+		{
+			TimeStage.Dawn => ResourceLibrary.Get<FogState>( DawnFog ),
+			TimeStage.Day => ResourceLibrary.Get<FogState>( DayFog ),
+			TimeStage.Dusk => ResourceLibrary.Get<FogState>( DuskFog ),
+			TimeStage.Night => ResourceLibrary.Get<FogState>( NightFog ),
+			_ => ResourceLibrary.Get<FogState>( DawnFog )
+		};
+
+		return CurrentFogState;
 	}
 
 	[Event.Tick.Server]
@@ -145,5 +203,18 @@ public partial class DayNightController : ModelEntity
 
 		var direction = (Vector3.Zero - environment.Position).Normal;
 		environment.Rotation = Rotation.LookAt( direction, Vector3.Up );
+
+		var fog = GradientFog;
+		if ( !fog.IsValid() ) return;
+
+		var lerpSpeed = 0.5f;
+
+		fog.FogStartDistance = fog.FogStartDistance.LerpTo( CurrentFogState.FogStartDistance, Time.Delta * lerpSpeed );
+		fog.FogEndDistance = fog.FogEndDistance.LerpTo( CurrentFogState.FogEndDistance, Time.Delta * lerpSpeed );
+		fog.FogColor = Color.Lerp( fog.FogColor, CurrentFogState.FogColor, Time.Delta * lerpSpeed );
+		fog.FogStartHeight = fog.FogStartHeight.LerpTo( CurrentFogState.FogStartHeight, Time.Delta * lerpSpeed );
+		fog.FogEndHeight = fog.FogEndHeight.LerpTo( CurrentFogState.FogEndHeight, Time.Delta * lerpSpeed );
+
+		fog.UpdateFogState( true );
 	}
 }
