@@ -71,7 +71,8 @@ public partial class WorldPointAbilityInteraction : AbilityInteraction
 	{
 		base.OnEnd();
 
-		AreaEntity.Delete();
+		if ( AreaEntity.IsValid() )
+			AreaEntity.Delete();
 
 		Ability.Run();
 	}
