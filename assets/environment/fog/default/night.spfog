@@ -9,9 +9,10 @@
 		FogEndHeight = 200
 		FogMaximumOpacity = 1
 		FogColor = "0.21569,0.24314,0.29412,1"
-		FogStrength = 10
+		FogStrength = 1
 		FogDistanceFalloffExponent = 2
 		FogVerticalFalloffExponent = 1
 		FogFadeTime = 1
+		AmbientLightColor = "0,0.00392,0.00392,1"
 	}
 }

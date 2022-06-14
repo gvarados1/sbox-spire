@@ -17,6 +17,8 @@ public partial class FogState : GameResource
 	public float FogDistanceFalloffExponent { get; set; } = 2.0f;
 	public float FogVerticalFalloffExponent { get; set; } = 1.0f;
 	public float FogFadeTime { get; set; } = 1.0f;
+
+	public Color AmbientLightColor { get; set; } = new Color( 0.1f, 0.1f, 0.1f );
 }
 
 public class DayNightGradient
@@ -115,6 +117,9 @@ public partial class DayNightController : ModelEntity
 	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
 	public string NightFog { get; set; }
 
+	[ConVar.Replicated( "spire_daynight_debug" )]
+	public static bool DayNightDebug { get; set; } = false;
+
 	protected Output OnBecomeNight { get; set; }
 	protected Output OnBecomeDusk { get; set; }
 	protected Output OnBecomeDawn { get; set; }
@@ -207,14 +212,29 @@ public partial class DayNightController : ModelEntity
 		var fog = GradientFog;
 		if ( !fog.IsValid() ) return;
 
-		var lerpSpeed = 0.5f;
+		var lerpSpeed = Time.Delta * 0.5f;
 
-		fog.FogStartDistance = fog.FogStartDistance.LerpTo( CurrentFogState.FogStartDistance, Time.Delta * lerpSpeed );
-		fog.FogEndDistance = fog.FogEndDistance.LerpTo( CurrentFogState.FogEndDistance, Time.Delta * lerpSpeed );
-		fog.FogColor = Color.Lerp( fog.FogColor, CurrentFogState.FogColor, Time.Delta * lerpSpeed );
-		fog.FogStartHeight = fog.FogStartHeight.LerpTo( CurrentFogState.FogStartHeight, Time.Delta * lerpSpeed );
-		fog.FogEndHeight = fog.FogEndHeight.LerpTo( CurrentFogState.FogEndHeight, Time.Delta * lerpSpeed );
+		fog.FogStartDistance = fog.FogStartDistance.LerpTo( CurrentFogState.FogStartDistance, lerpSpeed );
+		fog.FogEndDistance = fog.FogEndDistance.LerpTo( CurrentFogState.FogEndDistance, lerpSpeed );
+		fog.FogColor = Color.Lerp( fog.FogColor, CurrentFogState.FogColor, lerpSpeed );
+		fog.FogStartHeight = fog.FogStartHeight.LerpTo( CurrentFogState.FogStartHeight, lerpSpeed );
+		fog.FogEndHeight = fog.FogEndHeight.LerpTo( CurrentFogState.FogEndHeight, lerpSpeed );
+
+		Map.Scene.AmbientLightColor = Color.Lerp( Map.Scene.AmbientLightColor, CurrentFogState.AmbientLightColor, lerpSpeed * 5f );
 
 		fog.UpdateFogState( true );
+
+		if ( DayNightDebug )
+		{
+			DebugOverlay.ScreenText(
+				 $"TimeOfDay: {DayNightSystem.Instance.TimeOfDay}\n" +
+				 $"FogStartDistance: {fog.FogStartDistance}\n" +
+				 $"FogEndDistance: {fog.FogEndDistance}\n" +
+				 $"FogColor: {fog.FogColor}\n" +
+				 $"AmbientLight: {Map.Scene.AmbientLightColor}\n" +
+				 $"FogStartHeight: {fog.FogStartHeight}\n" +
+				 $"FogEndHeight: {fog.FogEndHeight}\n"
+			);
+		}
 	}
 }

@@ -13,5 +13,6 @@
 		FogDistanceFalloffExponent = 2
 		FogVerticalFalloffExponent = 1
 		FogFadeTime = 1
+		AmbientLightColor = "0.09804,0.09804,0.09804,1"
 	}
 }
