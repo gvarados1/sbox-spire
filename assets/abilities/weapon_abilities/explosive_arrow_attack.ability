@@ -14,6 +14,7 @@
 			Min = 0
 			Max = 0
 		}
+		AbilityEffectRadius = 256
 		CharacterSpeedMod = 0.1
 		Duration = 1
 		RunDefaultPlayerAnimation = true
