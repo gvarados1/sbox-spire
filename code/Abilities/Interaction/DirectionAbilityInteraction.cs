@@ -16,7 +16,7 @@ public partial class DirectionAbilityInteraction : AbilityInteraction
 		}
 	}
 
-	public Vector3 Color => new Vector3( 0f, 0.7f, 0f );
+	public Vector3 Color => new Vector3( 1f, 1f, 1f );
 
 	protected override void TickGuide( AbilityGuideEntity entity )
 	{
