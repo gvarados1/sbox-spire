@@ -2,16 +2,18 @@
 {
 	data = 
 	{
+		SkyColor = "0.43529,0.7451,0.87059,1"
+		LightColor = "1,0.91373,0.81961,1"
+		AmbientLightColor = "0.1,0.1,0.1,1"
 		FogEnabled = true
 		FogStartDistance = 0
-		FogEndDistance = 2048
+		FogEndDistance = 4000
 		FogStartHeight = 0
 		FogEndHeight = 200
-		FogMaximumOpacity = 1
-		FogColor = "0.39608,0.36078,0.47451,1"
-		FogStrength = 10
+		FogMaximumOpacity = 0.5
+		FogColor = "0.43529,0.7451,0.87059,1"
+		FogStrength = 1
 		FogDistanceFalloffExponent = 2
 		FogVerticalFalloffExponent = 1
-		FogFadeTime = 1
 	}
 }

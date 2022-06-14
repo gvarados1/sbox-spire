@@ -2,23 +2,36 @@
 
 namespace Spire.DayNight;
 
-
-[GameResource( "Spire Fog State", "spfog", "Spire fog state for the DN Controller" )]
-public partial class FogState : GameResource
+[GameResource( "Time Stage Resource", "sptime", "Game resource to dictate lighting and fog information for a specific time stage." )]
+public partial class TimeStageResource : GameResource
 {
-	public bool FogEnabled { get; set; } = true;
-	public float FogStartDistance { get; set; } = 0.0f;
-	public float FogEndDistance { get; set; } = 4000.0f;
-	public float FogStartHeight { get; set; } = 0.0f;
-	public float FogEndHeight { get; set; } = 200.0f;
-	public float FogMaximumOpacity { get; set; } = 0.5f;
-	public Color FogColor { get; set; } = Color.White;
-	public float FogStrength { get; set; } = 1.0f;
-	public float FogDistanceFalloffExponent { get; set; } = 2.0f;
-	public float FogVerticalFalloffExponent { get; set; } = 1.0f;
-	public float FogFadeTime { get; set; } = 1.0f;
-
+	[Category("Lighting")]
+	public Color SkyColor { get; set; }
+	[Category( "Lighting" )]
+	public Color LightColor { get; set; }
+	[Category( "Lighting" )]
 	public Color AmbientLightColor { get; set; } = new Color( 0.1f, 0.1f, 0.1f );
+
+	[Category( "Fog" )]
+	public bool FogEnabled { get; set; } = true;
+	[Category( "Fog" )]
+	public float FogStartDistance { get; set; } = 0.0f;
+	[Category( "Fog" )]
+	public float FogEndDistance { get; set; } = 4000.0f;
+	[Category( "Fog" )]
+	public float FogStartHeight { get; set; } = 0.0f;
+	[Category( "Fog" )]
+	public float FogEndHeight { get; set; } = 200.0f;
+	[Category( "Fog" )]
+	public float FogMaximumOpacity { get; set; } = 0.5f;
+	[Category( "Fog" )]
+	public Color FogColor { get; set; } = Color.White;
+	[Category( "Fog" )]
+	public float FogStrength { get; set; } = 1.0f;
+	[Category( "Fog" )]
+	public float FogDistanceFalloffExponent { get; set; } = 2.0f;
+	[Category( "Fog" )]
+	public float FogVerticalFalloffExponent { get; set; } = 1.0f;
 }
 
 public class DayNightGradient
@@ -82,40 +95,21 @@ public class DayNightGradient
 [Title( "Time of Day Controller" ), Category( "Spire" )]
 public partial class DayNightController : ModelEntity
 {
-	[Property( "DawnColor", Title = "Dawn Color" )]
-	public Color DawnColor { get; set; }
+	[Property, Category( "Lighting & Fog" ), ResourceType( "sptime" )]
+	public string DawnData { get; set; }
+	public TimeStageResource Dawn { get; set; }
 
-	[Property( "DawnSkyColor", Title = "Dawn Sky Color" )]
-	public Color DawnSkyColor { get; set; }
+	[Property, Category( "Lighting & Fog" ), ResourceType( "sptime" )]
+	public string DayData { get; set; }
+	public TimeStageResource Day { get; set; }
 
-	[Property( "DayColor", Title = "Day Color" )]
-	public Color DayColor { get; set; }
+	[Property, Category( "Lighting & Fog" ), ResourceType( "sptime" )]
+	public string DuskData { get; set; }
+	public TimeStageResource Dusk { get; set; }
 
-	[Property( "DaySkyColor", Title = "Day Sky Color" )]
-	public Color DaySkyColor { get; set; }
-
-	[Property( "DuskColor", Title = "Dusk Color" )]
-	public Color DuskColor { get; set; }
-	[Property( "DuskSkyColor", Title = "Dusk Sky Color" )]
-	public Color DuskSkyColor { get; set; }
-
-	[Property( "NightColor", Title = "Night Color" )]
-	public Color NightColor { get; set; }
-
-	[Property( "NightSkyColor", Title = "Night Sky Color" )]
-	public Color NightSkyColor { get; set; }
-
-	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
-	public string DawnFog { get; set; }
-
-	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
-	public string DayFog { get; set; }
-
-	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
-	public string DuskFog { get; set; }
-
-	[Property, Category( "Environment Fog" ), ResourceType( "spfog" )]
-	public string NightFog { get; set; }
+	[Property, Category( "Lighting & Fog" ), ResourceType( "sptime" )]
+	public string NightData { get; set; }
+	public TimeStageResource Night { get; set; }
 
 	[ConVar.Replicated( "spire_daynight_debug" )]
 	public static bool DayNightDebug { get; set; } = false;
@@ -152,8 +146,13 @@ public partial class DayNightController : ModelEntity
 
 	public override void Spawn()
 	{
-		_colorGradient = new DayNightGradient( DawnColor, DayColor, DuskColor, NightColor );
-		_skyColorGradient = new DayNightGradient( DawnSkyColor, DaySkyColor, DuskSkyColor, NightSkyColor );
+		Dawn = ResourceLibrary.Get<TimeStageResource>( DawnData );
+		Day = ResourceLibrary.Get<TimeStageResource>( DayData );
+		Dusk = ResourceLibrary.Get<TimeStageResource>( DuskData );
+		Night = ResourceLibrary.Get<TimeStageResource>( NightData );
+
+		_colorGradient = new DayNightGradient( Dawn.LightColor, Day.LightColor, Dusk.LightColor, Night.LightColor );
+		_skyColorGradient = new DayNightGradient( Dawn.SkyColor, Day.SkyColor, Dusk.SkyColor, Night.SkyColor );
 
 		DayNightSystem.Instance.OnTimeStageChanged += OnTimeStageChanged;
 
@@ -175,17 +174,17 @@ public partial class DayNightController : ModelEntity
 			UpdateFogState( stage );
 	}
 
-	private FogState CurrentFogState;
+	private TimeStageResource CurrentFogState;
 
-	private FogState UpdateFogState( TimeStage stage )
+	private TimeStageResource UpdateFogState( TimeStage stage )
 	{
 		CurrentFogState = stage switch
 		{
-			TimeStage.Dawn => ResourceLibrary.Get<FogState>( DawnFog ),
-			TimeStage.Day => ResourceLibrary.Get<FogState>( DayFog ),
-			TimeStage.Dusk => ResourceLibrary.Get<FogState>( DuskFog ),
-			TimeStage.Night => ResourceLibrary.Get<FogState>( NightFog ),
-			_ => ResourceLibrary.Get<FogState>( DawnFog )
+			TimeStage.Dawn => Dawn,
+			TimeStage.Day => Day,
+			TimeStage.Dusk => Dusk,
+			TimeStage.Night => Night,
+			_ => Dawn
 		};
 
 		return CurrentFogState;
