@@ -1,6 +1,7 @@
 using Sandbox;
 using Spire.Gamemodes;
 using Spire.UI;
+using Spire.AI;
 
 namespace Spire;
 
@@ -17,6 +18,9 @@ public partial class BaseCharacter : BasePawn
 
 	[Net, Predicted]
 	protected PawnAnimator Animator { get; set; }
+
+	[Net, Predicted]
+	public AIController AIController { get; set; }
 
 	public virtual PawnController ActiveController => Controller;
 	public virtual PawnAnimator ActiveAnimator => Animator;
