@@ -59,7 +59,9 @@ public abstract partial class BaseGamemode : Entity
 		base.ClientSpawn();
 
 		CurrentHudPanel = GetGamemodePanel();
-		CurrentHudPanel.Parent = Game.Current?.Hud;
+
+		if ( CurrentHudPanel is not null )
+			CurrentHudPanel.Parent = Game.Current?.Hud;
 
 		Current = this;
 	}

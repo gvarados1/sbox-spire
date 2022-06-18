@@ -5,6 +5,9 @@ namespace Spire.DayNight;
 [GameResource( "Time Stage Resource", "sptime", "Game resource to dictate lighting and fog information for a specific time stage." )]
 public partial class TimeStageResource : GameResource
 {
+	public static List<TimeStageResource> All { get; protected set; } = new();
+	public static TimeStageResource Get( string path ) => All.First( x => x.ResourcePath == path );
+
 	[Category("Lighting")]
 	public Color SkyColor { get; set; }
 	[Category( "Lighting" )]
@@ -32,6 +35,14 @@ public partial class TimeStageResource : GameResource
 	public float FogDistanceFalloffExponent { get; set; } = 2.0f;
 	[Category( "Fog" )]
 	public float FogVerticalFalloffExponent { get; set; } = 1.0f;
+
+	protected override void PostLoad()
+	{
+		base.PostLoad();
+
+		if ( !All.Contains( this ) )
+			All.Add( this );
+	}
 }
 
 public class DayNightGradient
@@ -144,19 +155,29 @@ public partial class DayNightController : ModelEntity
 	private DayNightGradient _skyColorGradient;
 	private DayNightGradient _colorGradient;
 
+	protected bool ResourcesNotFound => Dawn is null || Day is null || Dusk is null || Night is null;
+
 	public override void Spawn()
 	{
-		Dawn = ResourceLibrary.Get<TimeStageResource>( DawnData );
-		Day = ResourceLibrary.Get<TimeStageResource>( DayData );
-		Dusk = ResourceLibrary.Get<TimeStageResource>( DuskData );
-		Night = ResourceLibrary.Get<TimeStageResource>( NightData );
+		base.Spawn();
+
+		Dawn = TimeStageResource.Get( DawnData );
+		Day = TimeStageResource.Get( DayData );
+		Dusk = TimeStageResource.Get( DuskData );
+		Night = TimeStageResource.Get( NightData );
+
+		if ( ResourcesNotFound )
+		{
+			Log.Warning( "DayNightController is not set up correctly" );
+			return;
+		}
 
 		_colorGradient = new DayNightGradient( Dawn.LightColor, Day.LightColor, Dusk.LightColor, Night.LightColor );
 		_skyColorGradient = new DayNightGradient( Dawn.SkyColor, Day.SkyColor, Dusk.SkyColor, Night.SkyColor );
 
 		DayNightSystem.Instance.OnTimeStageChanged += OnTimeStageChanged;
 
-		base.Spawn();
+		Transmit = TransmitType.Always;
 	}
 
 	private void OnTimeStageChanged( TimeStage stage )
@@ -194,6 +215,9 @@ public partial class DayNightController : ModelEntity
 	[Event.Tick]
 	private void Tick()
 	{
+		if ( ResourcesNotFound )
+			return;
+
 		var lerpSpeed = Time.Delta * 0.5f;
 
 		if ( Host.IsServer )
