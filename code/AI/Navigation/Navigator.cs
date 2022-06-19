@@ -19,26 +19,25 @@ public partial class Navigator : BaseNetworkable
 
 	protected Vector3 CurrentPosition;
 	protected Vector3 TargetPosition;
+	protected string DebugText;
 
-	protected string BrainThoughtText = "";
-
-	protected void AddThought( string thought )
+	protected void AddDebugText( string text )
 	{
-		BrainThoughtText += $"{thought}\n";
+		DebugText += $"{text}\n";
 	}
 
 	protected void Debug()
 	{
 		Path.Debug();
 
-		if ( !string.IsNullOrEmpty( BrainThoughtText ) )
-			DebugOverlay.Text( BrainThoughtText, CurrentPosition );
+		if ( !string.IsNullOrEmpty( DebugText ) )
+			DebugOverlay.Text( DebugText, CurrentPosition );
 	}
 
 	public virtual void Tick( Vector3 currentPosition, NavAgentHull hull = default )
 	{
 		CurrentPosition = currentPosition;
-		BrainThoughtText = "";
+		DebugText = "";
 
 		Path.Update( currentPosition, TargetPosition );
 
@@ -46,7 +45,7 @@ public partial class Navigator : BaseNetworkable
 
 		if ( Output.Finished )
 		{
-			AddThought( "No path found" );
+			AddDebugText( "No path found" );
 
 			Output.Direction = Vector3.Zero;
 
@@ -57,13 +56,11 @@ public partial class Navigator : BaseNetworkable
 
 		Output.Direction = Path.GetDirection( currentPosition );
 
-		AddThought( "Following path" );
+		AddDebugText( "Following path" );
 
 		var avoid = GetAvoidance( currentPosition, AvoidanceRadius );
 		if ( !avoid.IsNearlyZero() )
-		{
 			Output.Direction = (Output.Direction + avoid).Normal;
-		}
 
 		Debug();
 	}
@@ -78,12 +75,11 @@ public partial class Navigator : BaseNetworkable
 	{
 		var center = position + Output.Direction * radius * 0.5f;
 
-		var objectRadius = 200.0f;
+		var objectRadius = 100.0f;
 		Vector3 avoidance = default;
 
 		foreach ( var ent in Entity.FindInSphere( center, radius ) )
 		{
-			if ( ent is not BaseCharacter ) continue;
 			if ( ent.IsWorld ) continue;
 
 			var delta = (position - ent.Position).WithZ( 0 );
