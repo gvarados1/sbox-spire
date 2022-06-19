@@ -26,8 +26,12 @@ public partial class PlayerNameplate : BaseNameplate
 		LerpedHealthFraction = LerpedHealthFraction.LerpTo( HealthFraction, Time.Delta * 10f );
 		HealthBarFill.Style.Width = Length.Fraction( LerpedHealthFraction );
 
-		var team = Character.Client.GetTeam();
-		SetClass( "red", team == DuelTeam.Red );
-		SetClass( "blue", team == DuelTeam.Blue );
+		var cl = Character.Client;
+		if ( cl.IsValid() )
+		{
+			var team = cl.GetTeam();
+			SetClass( "red", team == DuelTeam.Red );
+			SetClass( "blue", team == DuelTeam.Blue );
+		}
 	}
 }

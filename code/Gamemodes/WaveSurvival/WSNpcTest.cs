@@ -4,6 +4,12 @@ namespace Spire.WaveSurvival;
 
 public partial class WSNpcTest : BaseCharacter
 {
+	public WSNpcTest()
+	{
+		if ( Host.IsClient )
+			Nameplate = new PlayerNameplate( this );
+	}
+
 	public override void Respawn()
 	{
 		base.Respawn();
