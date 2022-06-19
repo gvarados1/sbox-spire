@@ -32,6 +32,11 @@ public partial class WSGamemode : BaseGamemode
 
 	public override void OnCharacterKilled( BaseCharacter character, DamageInfo damageInfo )
 	{
+		if ( character is WSNpcTest ai )
+		{
+			CreateRandomAI();
+		}
+
 		base.OnCharacterKilled( character, damageInfo );
 	}
 
