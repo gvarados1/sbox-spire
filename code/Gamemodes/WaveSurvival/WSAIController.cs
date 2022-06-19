@@ -11,7 +11,7 @@ public partial class WSAIController : AIController
 
 	protected Transform? FindTarget()
 	{
-		var ents = Entity.FindInSphere( Agent.Position, 2048f );
+		var ents = Entity.All;
 
 		return ents.OfType<PlayerCharacter>().FirstOrDefault()?.Transform;
 	}

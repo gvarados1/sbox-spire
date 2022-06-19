@@ -17,21 +17,47 @@ public partial class Navigator : BaseNetworkable
 
 	public virtual float AvoidanceRadius => 500f;
 
+	protected Vector3 CurrentPosition;
 	protected Vector3 TargetPosition;
 
-	public virtual void Tick( Vector3 currentPosition )
+	protected string BrainThoughtText = "";
+
+	protected void AddThought( string thought )
 	{
+		BrainThoughtText += $"{thought}\n";
+	}
+
+	protected void Debug()
+	{
+		Path.Debug();
+
+		if ( !string.IsNullOrEmpty( BrainThoughtText ) )
+			DebugOverlay.Text( BrainThoughtText, CurrentPosition );
+	}
+
+	public virtual void Tick( Vector3 currentPosition, NavAgentHull hull = default )
+	{
+		CurrentPosition = currentPosition;
+		BrainThoughtText = "";
+
 		Path.Update( currentPosition, TargetPosition );
 
 		Output.Finished = Path.IsEmpty;
 
 		if ( Output.Finished )
 		{
+			AddThought( "No path found" );
+
 			Output.Direction = Vector3.Zero;
+
+			Debug();
+
 			return;
 		}
 
 		Output.Direction = Path.GetDirection( currentPosition );
+
+		AddThought( "Following path" );
 
 		var avoid = GetAvoidance( currentPosition, AvoidanceRadius );
 		if ( !avoid.IsNearlyZero() )
@@ -39,7 +65,7 @@ public partial class Navigator : BaseNetworkable
 			Output.Direction = (Output.Direction + avoid).Normal;
 		}
 
-		Path.Debug();
+		Debug();
 	}
 
 	public void SetTarget( Vector3 position )

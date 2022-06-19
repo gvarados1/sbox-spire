@@ -19,8 +19,9 @@ public partial class WSGamemode : BaseGamemode
 	{
 		base.Spawn();
 
+		int SpawnNum = 1;
 		// Create a couple of AI characters.
-		for ( int i = 0; i < 2; i++ )
+		for ( int i = 0; i < SpawnNum; i++ )
 			CreateRandomAI();
 	}
 

@@ -10,6 +10,8 @@ public partial class AIController : BaseNetworkable
 	[Net, Predicted]
 	public Navigator Navigator { get; protected set; }
 
+	public NavAgentHull AgentHull { get; protected set; }
+
 	public AIController()
 	{
 	}
@@ -39,6 +41,8 @@ public partial class AIController : BaseNetworkable
 
 	protected virtual void MoveAgent()
 	{
+		InputVelocity = Vector3.Zero;
+
 		var timeDelta = Time.Delta;
 
 		if ( !Navigator.Output.Finished )

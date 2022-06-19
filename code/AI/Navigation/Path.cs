@@ -5,17 +5,19 @@ public class Path
 	protected Vector3 CurrentPosition;
 	protected Vector3 TargetPosition;
 
-	public List<Vector3> Points { get; protected set; } = new();
+	public NavPath NavigationPath;
 
-	public bool IsEmpty => Points.Count <= 1;
+	public bool IsEmpty => NavigationPath is null || NavigationPath.Count <= 1;
 
-	public const float DestinationLeeway = 5f;
+	public const float DestinationLeeway = 1f;
 
-	public void Update( Vector3 from, Vector3 to )
+	public void Update( Vector3 from, Vector3 to, NavAgentHull hull = default )
 	{
 		CurrentPosition = from;
 
-		bool needsRebuild = false;
+		DebugOverlay.Line( from, to );
+
+		bool needsRebuild = true;
 		if ( !TargetPosition.AlmostEqual( to, DestinationLeeway ) )
 		{
 			TargetPosition = to;
@@ -27,43 +29,43 @@ public class Path
 			var fromFixed = NavMesh.GetClosestPoint( from );
 			var toFixed = NavMesh.GetClosestPoint( to );
 
-			Points.Clear();
-			NavMesh.GetClosestPoint( from );
-			NavMesh.BuildPath( fromFixed.Value, toFixed.Value, Points );
+			NavigationPath = NavMesh.PathBuilder( fromFixed.Value )
+				.WithAgentHull( hull )
+				.Build( toFixed.Value );
 		}
 
-		if ( Points.Count <= 1 )
+		if ( IsEmpty )
 			return;
 
-		var deltaToNext = from - Points[1];
-		var delta = Points[1] - Points[0];
+		var deltaToNext = from - NavigationPath.Segments[1].Position;
+		var delta = NavigationPath.Segments[1].Position - NavigationPath.Segments[0].Position;
 		var deltaNormal = delta.Normal;
 
 		if ( deltaToNext.WithZ( 0 ).Length.AlmostEqual( 0, DestinationLeeway ) )
 		{
-			Points.RemoveAt( 0 );
+			NavigationPath.Segments.RemoveAt( 0 );
 			return;
 		}
 
 		if ( deltaToNext.Normal.Dot( deltaNormal ) >= 1.0f )
 		{
-			Points.RemoveAt( 0 );
+			NavigationPath.Segments.RemoveAt( 0 );
 		}
 	}
 
 	public float GetDistance( int point, Vector3 from )
 	{
-		if ( Points.Count <= point ) return float.MaxValue;
+		if ( NavigationPath.Count <= point ) return float.MaxValue;
 
-		return Points[point].WithZ( from.z ).Distance( from );
+		return NavigationPath.Segments[point].Position.WithZ( from.z ).Distance( from );
 	}
 
 	public Vector3 GetDirection( Vector3 position )
 	{
-		if ( Points.Count == 1 )
-			return (Points[0] - position).WithZ( 0 ).Normal;
+		if ( NavigationPath.Count == 1 )
+			return (NavigationPath.Segments[0].Position - position).WithZ( 0 ).Normal;
 
-		return (Points[1] - position).WithZ( 0 ).Normal;
+		return (NavigationPath.Segments[1].Position - position).WithZ( 0 ).Normal;
 	}
 
 	private Color CurrentActionColor => Color.Yellow.WithAlpha( 1f );
@@ -71,20 +73,23 @@ public class Path
 
 	public void Debug()
 	{
+		if ( NavigationPath is null )
+			return;
+
 		var offset = Vector3.Up * 2;
 
 		int i = 0;
 		var cachedPoint = Vector3.Zero;
-		foreach ( var point in Points )
+		foreach ( var point in NavigationPath.Segments )
 		{
 			var col = i <= 1 ? CurrentActionColor : QueuedActionColor;
 
-			DebugOverlay.Circle( point, Rotation.LookAt( Vector3.Up ), 4f, col, 0f );
+			DebugOverlay.Circle( point.Position, Rotation.LookAt( Vector3.Up ), 4f, col, 0f );
 
 			if ( i > 0 )
-				DebugOverlay.Line( cachedPoint + offset, point + offset, col );
+				DebugOverlay.Line( cachedPoint + offset, point.Position + offset, col );
 
-			cachedPoint = point;
+			cachedPoint = point.Position;
 			i++;
 		}
 	}
