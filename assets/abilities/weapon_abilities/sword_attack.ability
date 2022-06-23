@@ -2,11 +2,17 @@
 {
 	data = 
 	{
-		Cooldown = 1
 		AbilityID = "sword_attack"
 		AbilityName = "Slash"
 		Description = "A basic sword attack."
+		Cooldown = 0.5
 		Icon = resource:"ui/ability_icons/sword_slash.jpg"
+		InteractionType = "Generic"
+		_AbilityRange = "0,0"
+		AbilityRange = 
+		{
+		}
+		AbilityEffectRadius = 60
 		CharacterSpeedMod = 0.5
 		Duration = 0.3
 		RunDefaultPlayerAnimation = false
