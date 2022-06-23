@@ -11,11 +11,38 @@ public partial class WorldPointTestAbility : PlayerAbility
 	public virtual float ProjectileThrowStrength => 100f;
 	public virtual bool ManualProjectile => false;
 
-	protected virtual void Teleport( Vector3 pos )
+	protected virtual void CreateProjectile( Vector3 pos )
 	{
 		if ( Host.IsClient ) return;
 
-		GetCharacter().Position = pos;
+		using ( Prediction.Off() )
+		{
+			Entity.PlaySound( "rust_crossbow.shoot" );
+		}
+
+		var projectile = new ProjectileEntity()
+		{
+			FaceDirection = true,
+			IgnoreEntity = Entity,
+			Attacker = Entity,
+			LifeTime = 2.5f,
+			Gravity = 0f,
+			ModelPath = "assets/projectiles/rust_crossbow_bolt_fixed.vmdl"
+		};
+
+		var position = pos + Vector3.Up * 512f;
+
+		var forward = Vector3.Down;
+		var endPosition = position + forward * 100000f;
+		var trace = Trace.Ray( position, endPosition )
+			.Ignore( Entity )
+			.Run();
+
+		var direction = (trace.EndPosition - position).Normal;
+		direction = direction.Normal;
+
+		var velocity = (direction * ProjectileSpeed) + (forward * ProjectileThrowStrength);
+		projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
 	}
 
 	protected override void PostRun()
@@ -27,6 +54,21 @@ public partial class WorldPointTestAbility : PlayerAbility
 
 		var interaction = Interaction as WorldPointAbilityInteraction;
 
-		Teleport( interaction.WorldCursorPosition );
+		CreateProjectile( interaction.WorldCursorPosition );
+	}
+
+	protected virtual void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
+	{
+		if ( !hitEntity.IsValid() ) return;
+
+		CreateParticle( "projectile_hit" );
+
+		new ExplosionEntity
+		{
+			Position = projectile.Position,
+			Radius = 256f,
+			Damage = 20f,
+			ForceScale = 1f,
+		}.Explode( projectile );
 	}
 }
