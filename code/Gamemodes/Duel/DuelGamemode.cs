@@ -216,6 +216,12 @@ public partial class DuelGamemode : BaseGamemode
 
 		cl.Components.RemoveAny<DeathCameraMode>();
 
+		if ( AllowRespawning() )
+		{
+			Game.Current?.RespawnPlayer( cl );
+			return;
+		}
+
 		var pawn = new DuelSpectatorPawn();
 		cl.Pawn = pawn;
 		pawn.Respawn();
