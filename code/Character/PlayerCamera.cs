@@ -17,15 +17,45 @@ public partial class PlayerCamera : CameraMode
 	[ConVar.Client( "spire_camera_farz", Max = 80000f, Min = 1024f, Saved = true )]
 	public static float ZFarPreference { get; set; } = 2048f;
 
-	[Net]
 	public AnimatedEntity TargetEntity { get; set; }
+
+	protected Rotation LookAt( Vector3 targetPosition, Vector3 position )
+	{
+		var targetDelta = (targetPosition - position);
+		var direction = targetDelta.Normal;
+
+		return Rotation.From( new Angles(
+			((float)Math.Asin( direction.z )).RadianToDegree() * -1.0f,
+			((float)Math.Atan2( direction.y, direction.x )).RadianToDegree(),
+			0.0f ) );
+	}
+
+	protected void UpdateWithoutTarget()
+	{
+		var target = Entity.All.FirstOrDefault( x => x is SpawnPoint );
+
+		if ( target.IsValid() )
+		{
+			Position = target.Position + Vector3.Up * 300f + Vector3.Forward * 300f;
+			Rotation = LookAt( target.Position, Position );
+		}
+		else
+		{
+			// At this point... who cares, really
+		}
+	}
 
 	public override void Update()
 	{
 		var pawn = TargetEntity;
+		if ( !pawn.IsValid() )
+			TargetEntity = FindTargetEntity();
 
 		if ( !pawn.IsValid() )
+		{
+			UpdateWithoutTarget();
 			return;
+		}
 
 		Position = pawn.Position;
 		Vector3 targetPos;
@@ -40,6 +70,28 @@ public partial class PlayerCamera : CameraMode
 
 		ZFar = ZFarPreference;
 		Viewer = null;
+	}
+
+	private AnimatedEntity FindTargetEntity()
+	{
+		var localPawn = Local.Pawn;
+
+		if ( localPawn is PlayerCharacter character )
+		{
+			return character;
+		}
+		else
+		{
+			var target = Client.All.Select( x => x.Pawn as PlayerCharacter )
+				.FirstOrDefault();
+
+			if ( target.IsValid() )
+			{
+				return target;
+			}
+		}
+
+		return null;
 	}
 
 	public bool IsSpectator => Local.Pawn != TargetEntity;
@@ -75,13 +127,12 @@ public partial class PlayerCamera : CameraMode
 			if ( !IsSpectator )
 				input.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
-		else
+		else if ( !IsSpectator && pawn.IsValid() )
 		{
 			var direction = Screen.GetDirection( Mouse.Position, FieldOfView, Rotation, Screen.Size );
 			var hitPos = Utils.PlaneIntersectionWithZ( Position, direction, pawn.EyePosition.z );
 
-			if ( !IsSpectator )
-				input.ViewAngles = (hitPos - pawn.EyePosition).EulerAngles;
+			input.ViewAngles = (hitPos - pawn.EyePosition).EulerAngles;
 		}
 
 		OrbitAngles.pitch = OrbitAngles.pitch.Clamp( PitchClamp.Min, PitchClamp.Max );
@@ -92,7 +143,7 @@ public partial class PlayerCamera : CameraMode
 
 		Sound.Listener = new()
 		{
-			Position = pawn.EyePosition,
+			Position = pawn.IsValid() ? pawn.EyePosition : Position,
 			Rotation = Rotation
 		};
 	}

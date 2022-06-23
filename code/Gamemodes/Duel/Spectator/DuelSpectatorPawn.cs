@@ -31,7 +31,6 @@ public partial class DuelSpectatorPawn : BasePawn
 		base.Respawn();
 
 		var camera = new PlayerCamera();
-		camera.TargetEntity = this;
 		CameraMode = camera;
 
 		SetRandomPlayer();

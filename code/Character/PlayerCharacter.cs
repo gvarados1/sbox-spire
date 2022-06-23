@@ -42,7 +42,6 @@ public partial class PlayerCharacter : BaseCharacter
 		base.Respawn();
 
 		var camera = new PlayerCamera();
-		camera.TargetEntity = this;
 		CameraMode = camera;
 
 		Controller = new CharacterController();
