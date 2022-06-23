@@ -9,6 +9,7 @@ public partial class ProjectileEntity : ModelEntity, ICleanupEntity
 	[Net, Predicted] public string LaunchSoundName { get; set; } = null;
 	[Net, Predicted] public string FollowEffect { get; set; } = "";
 	[Net, Predicted] public string TrailEffect { get; set; } = "";
+	[Net, Predicted] public Vector3 TrailEffectColor { get; set; } = new Vector3( 255f, 255f, 255f );
 	[Net, Predicted] public string HitSound { get; set; } = "";
 	[Net, Predicted] public string ModelPath { get; set; } = "";
 
@@ -93,6 +94,8 @@ public partial class ProjectileEntity : ModelEntity, ICleanupEntity
 		if ( !string.IsNullOrEmpty( TrailEffect ) )
 		{
 			Trail = Particles.Create( TrailEffect, this );
+
+			Trail.SetPosition( 6, TrailEffectColor );
 
 			if ( !string.IsNullOrEmpty( Attachment ) )
 				Trail.SetEntityAttachment( 0, this, Attachment );
