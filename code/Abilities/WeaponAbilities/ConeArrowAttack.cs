@@ -18,9 +18,11 @@ public partial class ConeArrowAttack : BasicArrowAttack
 		CreateProjectile( 15 );
 	}
 
-	public override bool TickGuide( AbilityGuideEntity entity )
+	public override bool TickGuide( AbilityInteraction interaction )
 	{
 		var character = GetCharacter();
+
+		var entity = AbilityInteraction.AltGuideEntity;
 
 		entity.SetParticle( "particles/widgets/cone/widget_cone_base_45.vpcf" );
 		entity.Position = character.Position;

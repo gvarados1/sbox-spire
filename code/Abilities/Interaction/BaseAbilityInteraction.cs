@@ -60,37 +60,47 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 		OnStart();
 	}
 
-	protected static AbilityGuideEntity GuideEntity;
+	public static AbilityGuideEntity GuideEntity { get; protected set; }
+	public static AbilityGuideEntity AltGuideEntity { get; protected set; }
 
 	protected void InternalTickGuide()
 	{
 		Host.AssertClient();
 
-		if ( !GuideEntity.IsValid() )
-		{
-			GuideEntity = new();
-		}
+		var character = Ability.GetCharacter();
+		if ( !character.IsValid() || !character.CanUseAbilityInteract() )
+			return;
 
-		var shouldOverride = Ability.TickGuide( GuideEntity );
+		if ( !GuideEntity.IsValid() )
+			GuideEntity = new();
+
+		if ( !AltGuideEntity.IsValid() )
+			AltGuideEntity = new();
+
+		var shouldOverride = Ability.TickGuide( this );
 
 		if ( !shouldOverride )
-			TickGuide( GuideEntity );
+			TickGuide();
 	}
 
-	protected virtual void TickGuide( AbilityGuideEntity entity )
+	protected virtual void TickGuide()
 	{
-
 	}
 
 	protected virtual void OnStart()
 	{
+	}
 
+	public static void KillGuides()
+	{
+		GuideEntity?.Delete();
+		AltGuideEntity?.Delete();
 	}
 
 	public void Cancel()
 	{
-		if ( GuideEntity.IsValid() )
-			GuideEntity.Delete();
+		if ( Host.IsClient )
+			KillGuides();
 
 		Ability.GetCharacter().InteractingAbility = null;
 
@@ -99,13 +109,12 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 
 	protected virtual void OnCancel()
 	{
-
 	}
 
 	public void End()
 	{
-		if ( GuideEntity.IsValid() )
-			GuideEntity.Delete();
+		if ( Host.IsClient )
+			KillGuides();
 
 		Ability.GetCharacter().InteractingAbility = null;
 
@@ -114,6 +123,5 @@ public abstract partial class AbilityInteraction : BaseNetworkable
 
 	protected virtual void OnEnd()
 	{
-
 	}
 }

@@ -13,7 +13,6 @@ public partial class PlayerCharacter
 	[Net]
 	public PlayerAbility UltimateAbility { get; set; }
 
-	[Net]
 	public Ability InteractingAbility { get; set; }
 
 	public IEnumerable<PlayerAbility> GetPlayerAbilities()
@@ -30,13 +29,40 @@ public partial class PlayerCharacter
 		return abilities[slot];
 	}
 
+	[ClientRpc]
+	protected void RpcKillInteractions()
+	{
+		Host.AssertClient();
+
+		InteractingAbility = null;
+
+		// Inform the ability interaction system to kill all guides.
+		AbilityInteraction.KillGuides();
+	}
+
 	public void BuildInputAbilities( InputBuilder input )
 	{
 		// 
 	}
 
+	[Net, Predicted]
+	public TimeSince LastAbilityUsed { get; set; } = 1f;
+	public float GlobalAbilityCooldown => 1f;
+	public bool CanUseAbility() => LastAbilityUsed > GlobalAbilityCooldown;
+
+	[Net, Predicted]
+	public TimeSince LastInteractionUsed { get; set; } = 1f;
+	public float GlobalInteractionCooldown => 1f;
+	public bool CanUseAbilityInteract() => LastInteractionUsed > GlobalInteractionCooldown;
+
 	public void SimulateAbilities( Client cl )
 	{
+		if ( !CanUseAbility() )
+			return;
+
+		if ( InteractingAbility.IsValid() )
+			InteractingAbility.Interaction.OnTick();
+
 		using ( LagCompensation() )
 		{
 			int i = 0;
@@ -54,11 +80,6 @@ public partial class PlayerCharacter
 				ability?.Simulate( cl );
 
 				i++;
-
-				if ( InteractingAbility.IsValid() )
-				{
-					InteractingAbility.Interaction.OnTick();
-				}
 			}
 		}
 	}

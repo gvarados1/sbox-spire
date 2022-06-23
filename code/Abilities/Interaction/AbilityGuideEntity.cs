@@ -22,13 +22,14 @@ public partial class AbilityGuideEntity : ModelEntity
 	public override void Spawn()
 	{
 		base.Spawn();
+
 		SetParticle( "particles/widgets/widget_aoe_pulse.vpcf" );
 	}
 
 	protected override void OnDestroy()
 	{
-		base.OnDestroy();
-
 		Particle.Destroy( true );
+
+		base.OnDestroy();
 	}
 }

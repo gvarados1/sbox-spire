@@ -38,41 +38,23 @@ public partial class WorldPointAbilityInteraction : AbilityInteraction
 		End();
 	}
 
-	protected override void OnCancel()
-	{
-		base.OnCancel();
-
-		if ( AreaEntity.IsValid() )
-			AreaEntity.Delete();
-	}
-
 	protected Vector3 AvailableCPColor => new Vector3( Color.Green );
 	protected Vector3 UnavailableCPColor => new Vector3( Color.Red );
 
-	public static AbilityGuideEntity AreaEntity;
-	protected override void TickGuide( AbilityGuideEntity entity )
+	protected override void TickGuide()
 	{
+		AltGuideEntity.SetParticle( "particles/widgets/widget_area.vpcf" );
+		AltGuideEntity.Position = Ability.GetCharacter().Position;
+		AltGuideEntity.Particle.SetPosition( 4, new Vector3().WithX( Ability.Data.AbilityRange.Max ) );
 
-		if ( !AreaEntity.IsValid() )
-		{
-			AreaEntity = new();
-			AreaEntity.SetParticle( "particles/widgets/widget_area.vpcf" );
-		}
-
-		AreaEntity.Position = Ability.GetCharacter().Position;
-		AreaEntity.Particle.SetPosition( 4, new Vector3().WithX( Ability.Data.AbilityRange.Max ) );
-
-		entity.Position = WorldCursorPosition + Vector3.Up * 10f;
-		entity.Particle.SetPosition( 2, IsInRange() ? AvailableCPColor : UnavailableCPColor );
-		entity.Particle.SetPosition( 4, new Vector3().WithX( Ability.Data.AbilityEffectRadius ) );
+		GuideEntity.Position = WorldCursorPosition + Vector3.Up * 10f;
+		GuideEntity.Particle.SetPosition( 2, IsInRange() ? AvailableCPColor : UnavailableCPColor );
+		GuideEntity.Particle.SetPosition( 4, new Vector3().WithX( Ability.Data.AbilityEffectRadius ) );
 	}
 
 	protected override void OnEnd()
 	{
 		base.OnEnd();
-
-		if ( AreaEntity.IsValid() )
-			AreaEntity.Delete();
 
 		Ability.Run();
 	}

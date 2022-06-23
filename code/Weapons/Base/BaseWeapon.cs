@@ -64,7 +64,7 @@ public partial class BaseWeapon : BaseCarriable
 
 		if ( Input.Pressed( button ) )
 		{
-			// Hack to intercept primary attack abilities not to run when you are interacting
+			// If we're pressing the primary attack key during an interaction, we've gotta stomp it.
 			if ( ability.GetCharacter().InteractingAbility.IsValid() )
 			{
 				if ( button == InputButton.PrimaryAttack )
@@ -78,13 +78,24 @@ public partial class BaseWeapon : BaseCarriable
 		ability.Simulate( cl );
 	}
 
-	public override void Simulate( Client cl )
+	public void SimulateAbilities( Client cl )
 	{
 		if ( !Owner.IsValid() )
+			return;
+
+		// @TODO: This is shit
+		if ( Owner is PlayerCharacter character && !character.CanUseAbility() )
 			return;
 
 		SimulateAbility( cl, AttackAbility );
 		SimulateAbility( cl, SpecialAbility );
 		SimulateAbility( cl, UltimateAbility );
+	}
+
+	public override void Simulate( Client cl )
+	{
+		base.Simulate( cl );
+
+		SimulateAbilities( cl );
 	}
 }

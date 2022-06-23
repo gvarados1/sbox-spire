@@ -105,6 +105,8 @@ public abstract partial class Ability : Entity
 		if ( !CanRun() )
 			return;
 
+		GetCharacter().LastAbilityUsed = 0f;
+
 		TimeUntilFinish = Data.Duration;
 		InProgress = true;
 		TimeSinceLastUse = 0f;
@@ -137,7 +139,7 @@ public abstract partial class Ability : Entity
 	/// Allows abilities to define their own widget when a player is interacting with it
 	/// </summary>
 	/// <returns></returns>
-	public virtual bool TickGuide( AbilityGuideEntity entity )
+	public virtual bool TickGuide( AbilityInteraction interaction )
 	{
 		return false;
 	}
