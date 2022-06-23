@@ -83,7 +83,10 @@ public partial class Game : Sandbox.Game
 
 	public void RespawnDeadPlayers()
 	{
-		Client.All.Where( x => x.Pawn is BaseCharacter character && character.LifeState != LifeState.Alive )
+		if ( !Host.IsServer )
+			return;
+
+		Client.All.Where( x => x.Pawn is not BaseCharacter )
 			.ToList()
 			.ForEach( x => Game.Current.RespawnPlayer( x ) );
 	}
