@@ -11,6 +11,9 @@ public partial class BasicArrowAttack : WeaponAbility
 	public virtual float ProjectileThrowStrength => 100f;
 	public virtual bool ManualProjectile => false;
 
+	public virtual float MaxRangeFalloff => 400f;
+	public virtual float ArrowDamage => 30f;
+
 	protected virtual void CreateProjectile( float yawOffset = 0f )
 	{
 		if ( Host.IsClient ) return;
@@ -47,6 +50,8 @@ public partial class BasicArrowAttack : WeaponAbility
 
 		var velocity = (direction * ProjectileSpeed) + (forward * ProjectileThrowStrength);
 		projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
+
+		StartProjectilePos = position;
 	}
 
 	protected override void PostRun()
@@ -60,12 +65,19 @@ public partial class BasicArrowAttack : WeaponAbility
 			CreateProjectile();
 	}
 
+	protected Vector3 StartProjectilePos;
+
+	protected virtual float CalculateDamage( Entity hitEntity )
+	{
+		return ArrowDamage - ArrowDamage.Remap( 0, MathF.Min( hitEntity.Position.Distance( StartProjectilePos ), MaxRangeFalloff ), 0f, ArrowDamage );
+	}
+
 	protected virtual void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
 	{
 		if ( !hitEntity.IsValid() ) return;
 
 		CreateParticle( "projectile_hit" );
 
-		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, 30f ) );
+		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, CalculateDamage( hitEntity ) ) );
 	}
 }
