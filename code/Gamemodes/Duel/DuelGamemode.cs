@@ -262,18 +262,44 @@ public partial class DuelGamemode : BaseGamemode
 		}
 	}
 
-	// @TODO: Proper spawn point weighting, make sure they're not occupied by another player.
-	// In this game type, round robin would probably work the best
+	protected bool IsSpawnPointOccupied( SpawnPoint spawnPoint )
+	{
+		const float occupiedRadius = 30f;
+
+		var sphere = Entity.FindInSphere( spawnPoint.Position, occupiedRadius );
+
+		foreach ( var entity in sphere )
+		{
+			if ( entity is BaseCharacter )
+				return true;
+		}
+
+		return false;
+	}
+
 	public override Transform? GetSpawn( BaseCharacter character )
 	{
 		var teamName = character.Client.GetTeam()
 			.ToString()
 			.ToLower();
 
-		return All.OfType<SpawnPoint>()
+		var allSpawns = All.OfType<SpawnPoint>()
 			.Where( x => x.Tags.Has( teamName ) )
-			.OrderBy( x => Guid.NewGuid() )
-			.FirstOrDefault()?.Transform ?? null;
+			.OrderBy( x => Guid.NewGuid() );
+
+		int attempts = 0;
+		const int maxAttempts = 10;
+
+		while ( attempts < maxAttempts )
+		{
+			attempts++;
+
+			var spawnPoint = allSpawns.FirstOrDefault( x => !IsSpawnPointOccupied( x ) );
+			if ( spawnPoint.IsValid() )
+				return spawnPoint.Transform;
+		}
+
+		return allSpawns.FirstOrDefault()?.Transform ?? Transform.Zero;
 	}
 
 	public override bool AllowMovement()
