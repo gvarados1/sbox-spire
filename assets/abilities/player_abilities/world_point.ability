@@ -6,8 +6,8 @@
 		AbilityName = "World Point Test"
 		Description = "This ability does nothing."
 		Cooldown = 5
-		Icon = resource:"tools/images/common/add.jpg"
-		InteractionType = 1
+		Icon = resource:"ui/ability_icons/aoe_arrow.jpg"
+		InteractionType = "WorldPoint"
 		_AbilityRange = "32,512"
 		AbilityRange = 
 		{

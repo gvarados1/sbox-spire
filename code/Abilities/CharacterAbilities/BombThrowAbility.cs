@@ -26,6 +26,7 @@ public partial class BombThrowAbility : PlayerAbility
 			LifeTime = 2.5f,
 			Gravity = 30f,
 			ModelPath = "assets/projectiles/small_bomb.vmdl",
+			TrailEffect = "particles/weapons/crossbow/crossbow_trail.vpcf"
 		};
 
 		var position = Character.EyePosition + Vector3.Down * 25f;
