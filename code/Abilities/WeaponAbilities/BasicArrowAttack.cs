@@ -12,7 +12,7 @@ public partial class BasicArrowAttack : WeaponAbility
 	public virtual bool ManualProjectile => false;
 
 	public virtual float MaxRangeFalloff => 400f;
-	public virtual float ArrowDamage => 30f;
+	public virtual float ArrowDamage => 34f;
 
 	protected virtual void CreateProjectile( float yawOffset = 0f )
 	{
