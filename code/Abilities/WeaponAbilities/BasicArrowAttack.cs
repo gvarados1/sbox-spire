@@ -27,7 +27,8 @@ public partial class BasicArrowAttack : WeaponAbility
 			Attacker = Weapon.Owner,
 			LifeTime = 2.5f,
 			Gravity = 0f,
-			ModelPath = "assets/projectiles/rust_crossbow_bolt_fixed.vmdl"
+			ModelPath = "assets/projectiles/rust_crossbow_bolt_fixed.vmdl",
+			TrailEffect = "particles/weapons/crossbow/crossbow_trail.vpcf"
 		};
 
 		var position = Weapon.Owner.EyePosition + Vector3.Down * 20f + Weapon.Owner.EyeRotation.Forward * 40f + Weapon.Owner.EyeRotation.Left * yawOffset; 
