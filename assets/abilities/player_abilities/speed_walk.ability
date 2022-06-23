@@ -2,13 +2,20 @@
 {
 	data = 
 	{
-		Cooldown = 5
 		AbilityID = "speed_walk"
 		AbilityName = "Speed Walking"
 		Description = "Gives the caster a boost of speed."
+		Cooldown = 10
 		Icon = resource:"ui/ability_icons/speed_walk.jpg"
-		PlayerSpeedScale = 2
-		Duration = 1
+		InteractionType = "Generic"
+		_AbilityRange = "0,0"
+		AbilityRange = 
+		{
+		}
+		AbilityEffectRadius = 60
+		CharacterSpeedMod = 1
+		Duration = 1.25
+		RunDefaultPlayerAnimation = true
 		Sounds = null
 		Particles = null
 	}
