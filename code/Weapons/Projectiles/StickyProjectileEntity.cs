@@ -3,16 +3,18 @@ namespace Spire;
 public partial class StickyProjectileEntity : ProjectileEntity
 {
 	public Entity AttachedEntity { get; set; }
-
-	public virtual float DestroyTimeOnCharacter { get; set; } = 1f;
-	public virtual float NewDestroyTime { get; set; } = 60f;
+	protected float StickyDestroyTime { get; set; } = 60f;
 
 	protected virtual float GetDestroyTime( Entity hitEntity )
 	{
-		if ( hitEntity is BaseCharacter )
-			return DestroyTimeOnCharacter;
+		return StickyDestroyTime;
+	}
 
-		return NewDestroyTime;
+	[ClientRpc]
+	protected void KillEffects()
+	{
+		Trail?.Destroy();
+		Follower?.Destroy();
 	}
 
 	public override void Simulate()
@@ -38,6 +40,8 @@ public partial class StickyProjectileEntity : ProjectileEntity
 			AttachedEntity = trace.Entity;
 			SetParent( trace.Entity );
 			DestroyTime = GetDestroyTime( trace.Entity );
+
+			KillEffects();
 
 			OnHitAction?.Invoke( this, AttachedEntity );
 		}
