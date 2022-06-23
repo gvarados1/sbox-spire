@@ -8,13 +8,13 @@
 		Cooldown = 5
 		Icon = resource:"ui/ability_icons/aoe_arrow.jpg"
 		InteractionType = "WorldPoint"
-		_AbilityRange = "32,512"
+		_AbilityRange = "256,512"
 		AbilityRange = 
 		{
-			Min = 32
+			Min = 256
 			Max = 512
 		}
-		AbilityEffectRadius = 64
+		AbilityEffectRadius = 50
 		CharacterSpeedMod = 1
 		Duration = 0
 		RunDefaultPlayerAnimation = true
