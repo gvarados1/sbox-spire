@@ -127,6 +127,8 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void BeginRound()
 	{
+		Game.Current?.RespawnDeadPlayers();
+
 		ChatPanel.Announce( $"The fight begins.", ChatCategory.System );
 
 		CurrentState = DuelGameState.RoundActive;

@@ -81,6 +81,13 @@ public partial class Game : Sandbox.Game
 		Current.RespawnPlayer( cl );
 	}
 
+	public void RespawnDeadPlayers()
+	{
+		Client.All.Where( x => x.Pawn is BaseCharacter character && character.LifeState != LifeState.Alive )
+			.ToList()
+			.ForEach( x => Game.Current.RespawnPlayer( x ) );
+	}
+
 	public void RespawnEveryone()
 	{
 		Client.All.ToList().ForEach( x => Game.Current.RespawnPlayer( x ) );
