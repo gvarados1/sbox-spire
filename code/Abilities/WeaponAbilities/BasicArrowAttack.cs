@@ -23,7 +23,7 @@ public partial class BasicArrowAttack : WeaponAbility
 			Entity.PlaySound( "rust_crossbow.shoot" );
 		}
 
-		var projectile = new ProjectileEntity()
+		var projectile = new StickyProjectileEntity()
 		{
 			FaceDirection = true,
 			IgnoreEntity = Weapon.Owner,

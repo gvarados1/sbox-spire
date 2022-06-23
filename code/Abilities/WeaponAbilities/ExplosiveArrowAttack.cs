@@ -7,13 +7,13 @@ public partial class ExplosiveArrowAttack : BasicArrowAttack
 	public override string Identifier => "explosive_arrow_attack";
 	public override WeaponAbilityType Type => WeaponAbilityType.Ultimate;
 
-	protected async Task DelayedExplosion( Entity hitEntity )
+	protected async Task DelayedExplosion( ProjectileEntity projectile )
 	{
 		await GameTask.DelaySeconds( 0.5f );
 
 		new ExplosionEntity
 		{
-			Position = hitEntity.Position,
+			Position = projectile.Position,
 			Radius = Data.AbilityEffectRadius,
 			Damage = 50f,
 			ForceScale = 1f,
@@ -24,6 +24,6 @@ public partial class ExplosiveArrowAttack : BasicArrowAttack
 	{
 		base.OnProjectileHit( projectile, hitEntity );
 
-		_ = DelayedExplosion( hitEntity );
+		_ = DelayedExplosion( projectile );
 	}
 }
