@@ -10,6 +10,7 @@ global using Spire.ExtensionMethods;
 global using Spire.UI;
 
 using Spire.Gamemodes;
+using static Sandbox.Internal.MapAccessor;
 
 namespace Spire;
 
@@ -112,8 +113,7 @@ public partial class Game : Sandbox.Game
 		BaseGamemode.Current?.FrameSimulate( cl );
 
 		PostProcessTick();
-	}
-
+	}	
 
 	protected void PostProcessTick()
 	{

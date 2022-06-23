@@ -1,6 +1,8 @@
+using Spire.Gamemodes;
+
 namespace Spire;
 
-public partial class ProjectileEntity : ModelEntity
+public partial class ProjectileEntity : ModelEntity, ICleanupEntity
 {
 	// TODO: Find a better way to achieve this without networking all these strings. Use a projectile data class?
 	[Net, Predicted] public string ExplosionEffect { get; set; } = "";

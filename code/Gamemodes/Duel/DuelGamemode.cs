@@ -114,6 +114,8 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void TryStartCountdown()
 	{
+		CleanupMap();
+
 		if ( !AreTeamsBalanced() )
 			ShuffleTeamMembers();
 		else
@@ -127,6 +129,8 @@ public partial class DuelGamemode : BaseGamemode
 
 	protected void BeginRound()
 	{
+		CleanupMap();
+
 		Game.Current?.RespawnDeadPlayers();
 
 		ChatPanel.Announce( $"The fight begins.", ChatCategory.System );

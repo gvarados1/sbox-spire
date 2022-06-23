@@ -137,4 +137,11 @@ public abstract partial class BaseGamemode : Entity
 	public virtual void PostProcessTick( StandardPostProcess postProcess )
 	{
 	}
+
+	public virtual void CleanupMap()
+	{
+		Entity.All.Where( x => x is ICleanupEntity )
+			.ToList()
+			.ForEach( x => x.Delete() );
+	}
 }
