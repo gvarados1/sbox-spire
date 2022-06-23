@@ -18,6 +18,8 @@ public partial class ExplosiveArrowAttack : BasicArrowAttack
 			Damage = 50f,
 			ForceScale = 1f,
 		}.Explode( Owner );
+
+		projectile?.Delete();
 	}
 
 	protected override void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )
