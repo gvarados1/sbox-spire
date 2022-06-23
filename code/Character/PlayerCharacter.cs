@@ -100,12 +100,17 @@ public partial class PlayerCharacter : BaseCharacter
 
 	public override void OnKilled()
 	{
-		InteractingAbility = null;
-		RpcKillInteractions( To.Single( Client ) );
-
 		base.OnKilled();
 
 		TimeSinceDied = 0;
+	}
+
+	protected override void OnDestroy()
+	{
+		InteractingAbility = null;
+		RpcKillInteractions( To.Single( Client ) );
+
+		base.OnDestroy();
 	}
 
 	public override void Simulate( Client cl )
