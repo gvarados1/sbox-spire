@@ -10,6 +10,8 @@ public partial class BombThrowAbility : PlayerAbility
 	public virtual float ProjectileRadius => 20f;
 	public virtual float ProjectileThrowStrength => 100f;
 
+	public virtual float BombExplosionRadius => 128f;
+
 	protected override void PreRun()
 	{
 		base.PreRun();
@@ -27,6 +29,17 @@ public partial class BombThrowAbility : PlayerAbility
 			Gravity = 30f,
 			ModelPath = "assets/projectiles/small_bomb.vmdl",
 			TrailEffect = "particles/weapons/crossbow/crossbow_trail.vpcf"
+		};
+
+		new DangerAreaEntity
+		{
+			Position = projectile.Position + Vector3.Down * 5f,
+			ParticlePath = "particles/danger/danger_aoe.vpcf",
+			MaxRadius = BombExplosionRadius,
+			UntilFilled = 2.0f,
+			UntilRemoved = 2.5f,
+			DangerType = DangerType.Out,
+			Parent = projectile
 		};
 
 		var position = Character.EyePosition + Vector3.Down * 25f;
@@ -48,7 +61,7 @@ public partial class BombThrowAbility : PlayerAbility
 		new ExplosionEntity
 		{
 			Position = projectile.Position,
-			Radius = 256f,
+			Radius = BombExplosionRadius,
 			Damage = 50f,
 			ForceScale = 1f,
 		}.Explode( projectile );
