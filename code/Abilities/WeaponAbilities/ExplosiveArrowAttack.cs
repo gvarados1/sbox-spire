@@ -9,6 +9,13 @@ public partial class ExplosiveArrowAttack : BasicArrowAttack
 
 	protected async Task DelayedExplosion( ProjectileEntity projectile )
 	{
+		new DangerAreaEntity
+		{
+			Position = projectile.Position + Vector3.Down * 42f,
+			Parent = projectile,
+			ParticlePath = "particles/danger/danger_aoe.vpcf"
+		};
+
 		await GameTask.DelaySeconds( 0.5f );
 
 		new ExplosionEntity

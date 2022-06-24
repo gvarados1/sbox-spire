@@ -5,7 +5,7 @@
 		AbilityID = "explosive_arrow_attack"
 		AbilityName = "Explosive Arrow Attack"
 		Description = "Fires an explosive arrow from the caster\'s weapon"
-		Cooldown = 35
+		Cooldown = 1
 		Icon = resource:"ui/ability_icons/explosive_arrow.jpg"
 		InteractionType = "Direction"
 		_AbilityRange = "0,0"

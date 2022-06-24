@@ -20,6 +20,14 @@ public partial class WorldPointTestAbility : PlayerAbility
 			Entity.PlaySound( "rust_crossbow.shoot" );
 		}
 
+		new DangerAreaEntity
+		{
+			Position = pos,
+			ParticlePath = "particles/danger/danger_aoe.vpcf",
+			MaxRadius = 100,
+			DangerType = DangerType.In
+		};
+
 		var projectile = new ProjectileEntity()
 		{
 			FaceDirection = true,
