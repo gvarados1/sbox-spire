@@ -123,6 +123,17 @@ public partial class AbilityGameResource : GameResource
 		return list;
 	}
 
+	protected void PrecacheAssets()
+	{
+		if ( Particles is not null )
+		{
+			foreach ( var particle in Particles )
+			{
+				Precache.Add( particle.Particle );
+			}
+		}
+	}
+
 	protected override void PostLoad()
 	{
 		base.PostLoad();
@@ -131,5 +142,7 @@ public partial class AbilityGameResource : GameResource
 			return;
 
 		All.Add( this );
+
+		PrecacheAssets();
 	}
 }
