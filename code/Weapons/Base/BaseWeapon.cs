@@ -60,9 +60,10 @@ public partial class BaseWeapon : BaseCarriable
 		if ( !ability.IsValid() )
 			return;
 
+		var canUseAbilities = ( Owner as PlayerCharacter ).CanUseAbility();
 		var button = ability.Type.GetButton();
 
-		if ( Input.Pressed( button ) )
+		if ( canUseAbilities && Input.Pressed( button ) )
 		{
 			// If we're pressing the primary attack key during an interaction, we've gotta stomp it.
 			if ( ability.GetCharacter().InteractingAbility.IsValid() )
@@ -81,10 +82,6 @@ public partial class BaseWeapon : BaseCarriable
 	public void SimulateAbilities( Client cl )
 	{
 		if ( !Owner.IsValid() )
-			return;
-
-		// @TODO: This is shit
-		if ( Owner is PlayerCharacter character && !character.CanUseAbility() )
 			return;
 
 		SimulateAbility( cl, AttackAbility );

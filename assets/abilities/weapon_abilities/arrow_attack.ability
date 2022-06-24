@@ -5,15 +5,14 @@
 		AbilityID = "arrow_attack"
 		AbilityName = "Arrow Attack"
 		Description = "Fires an arrow from a ranged weapon."
-		Cooldown = 2
+		Cooldown = 1.5
 		Icon = resource:"ui/ability_icons/arrow_attack.jpg"
-		InteractionType = 0
+		InteractionType = "Generic"
 		_AbilityRange = "0,0"
 		AbilityRange = 
 		{
-			Min = 0
-			Max = 0
 		}
+		AbilityEffectRadius = 60
 		CharacterSpeedMod = 0.1
 		Duration = 0.5
 		RunDefaultPlayerAnimation = true

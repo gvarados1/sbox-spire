@@ -57,10 +57,9 @@ public partial class PlayerCharacter
 
 	public void SimulateAbilities( Client cl )
 	{
-		if ( !CanUseAbility() )
-			return;
+		var canUseAbilities = CanUseAbility();
 
-		if ( InteractingAbility.IsValid() )
+		if ( canUseAbilities && InteractingAbility.IsValid() )
 			InteractingAbility.Interaction.OnTick();
 
 		using ( LagCompensation() )
@@ -68,7 +67,7 @@ public partial class PlayerCharacter
 			int i = 0;
 			foreach ( var ability in GetPlayerAbilities() )
 			{
-				if ( Input.Down( PlayerAbility.GetInputButtonFromSlot( i ) ) )
+				if ( canUseAbilities && Input.Down( PlayerAbility.GetInputButtonFromSlot( i ) ) )
 				{
 					if ( ability is not null && !InteractingAbility.IsValid() )
 					{
