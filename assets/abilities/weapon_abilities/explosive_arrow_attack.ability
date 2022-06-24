@@ -14,7 +14,7 @@
 		}
 		AbilityEffectRadius = 256
 		CharacterSpeedMod = 0.1
-		Duration = 1
+		Duration = 0.5
 		RunDefaultPlayerAnimation = true
 		Sounds = 
 		[

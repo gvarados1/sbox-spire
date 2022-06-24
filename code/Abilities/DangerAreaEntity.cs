@@ -63,7 +63,6 @@ public partial class DangerAreaEntity : AnimatedEntity
 	protected override void OnDestroy()
 	{
 		Particles?.Destroy();
-
 		base.OnDestroy();
 	}
 
