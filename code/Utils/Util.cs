@@ -11,9 +11,21 @@ public partial class Util
 			Particles.Create( path, entity.Position );
 	}
 
-	[ClientRpc]
-	public static void CreateParticle( Entity entity, string path, bool follow, string attachment )
+	protected static async Task DeleteAsync( Particles particle, float lifetime )
 	{
-		Particles.Create( path, entity, attachment, follow );
+		await GameTask.DelaySeconds( lifetime );
+
+		particle.Destroy();
+	}
+
+	[ClientRpc]
+	public static void CreateParticle( Entity entity, string path, bool follow, string attachment, float lifetime = 0f )
+	{
+		var particle = Particles.Create( path, entity, attachment, follow );
+
+		if ( lifetime > 0f )
+		{
+			_ = DeleteAsync( particle, lifetime );
+		}
 	}
 }

@@ -188,7 +188,8 @@ public abstract partial class Ability : Entity
 			particleEntry.FromCharacter ? GetCharacter() : entity,
 			particleEntry.Particle,
 			true,
-			particleEntry.Attachment
+			particleEntry.Attachment,
+			particleEntry.Lifetime
 		);
 	}
 

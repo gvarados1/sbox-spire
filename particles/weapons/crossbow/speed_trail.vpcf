@@ -190,6 +190,7 @@
 		{
 			_class = "C_OP_InterpolateRadius"
 			m_flEndScale = 0.0
+			m_flStartScale = 3.0
 		},
 		{
 			_class = "C_OP_RemapCPtoVector"

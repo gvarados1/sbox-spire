@@ -30,6 +30,8 @@ public partial class AbilityGameResource : GameResource
 
 		public string Attachment { get; set; }
 
+		public float Lifetime { get; set; }
+
 		public override string ToString() => $"Particle";
 	}
 

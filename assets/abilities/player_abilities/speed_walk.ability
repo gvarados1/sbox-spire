@@ -17,6 +17,22 @@
 		Duration = 1.25
 		RunDefaultPlayerAnimation = true
 		Sounds = null
-		Particles = null
+		Particles = 
+		[
+			{
+				Tag = "pre"
+				Particle = resource:"particles/weapons/crossbow/speed_trail.vpcf"
+				FromCharacter = true
+				Attachment = "ankle_L"
+				Lifetime = 2
+			},
+			{
+				Tag = "pre"
+				Particle = resource:"particles/weapons/crossbow/speed_trail.vpcf"
+				FromCharacter = true
+				Attachment = "ankle_R"
+				Lifetime = 2
+			},
+		]
 	}
 }
