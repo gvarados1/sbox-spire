@@ -31,16 +31,8 @@ public partial class BombThrowAbility : PlayerAbility
 			TrailEffect = "particles/weapons/crossbow/crossbow_trail.vpcf"
 		};
 
-		new DangerAreaEntity
-		{
-			Position = projectile.Position + Vector3.Down * 5f,
-			ParticlePath = "particles/danger/danger_aoe.vpcf",
-			MaxRadius = BombExplosionRadius,
-			UntilFilled = 2.0f,
-			UntilRemoved = 2.5f,
-			DangerType = DangerType.Out,
-			Parent = projectile
-		};
+		projectile.OnBounce += OnProjectileBounce;
+
 
 		var position = Character.EyePosition + Vector3.Down * 25f;
 		var forward = Character.EyeRotation.Forward;
@@ -54,6 +46,25 @@ public partial class BombThrowAbility : PlayerAbility
 
 		var velocity = (direction * ProjectileSpeed) + (Character.EyeRotation.Forward * ProjectileThrowStrength);
 		projectile.Initialize( position, velocity, ProjectileRadius, OnProjectileHit );
+	}
+
+
+	protected DangerAreaEntity DangerEntity;
+	protected void OnProjectileBounce( ProjectileEntity projectile, Entity hitEntity )
+	{
+		if ( !DangerEntity.IsValid() )
+		{
+			DangerEntity = new DangerAreaEntity
+			{
+				Position = projectile.Position + Vector3.Down * 5f,
+				ParticlePath = "particles/danger/danger_aoe.vpcf",
+				MaxRadius = BombExplosionRadius,
+				UntilFilled = 2.0f,
+				UntilRemoved = 2.5f,
+				DangerType = DangerType.Out,
+				Parent = projectile
+			};
+		}
 	}
 
 	protected void OnProjectileHit( ProjectileEntity projectile, Entity hitEntity )

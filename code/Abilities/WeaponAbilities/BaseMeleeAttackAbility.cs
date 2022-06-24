@@ -7,9 +7,9 @@ public abstract class BaseMeleeAttackAbility : WeaponAbility
 	/// How long until we try to inflict damage from the weapon after an attack.
 	/// </summary>
 	public virtual float AttackInflictDelay => 0.02f;
-	public virtual float AttackRange => 90f;
+	public virtual float AttackRange => 100f;
 	public virtual float BaseDamage => 30f;
-	public virtual int MaxConeAngle => 75;
+	public virtual int MaxConeAngle => 85;
 
 	// Extract to a util later?
 	public static bool IsPointInsideCone( Vector3 point, Vector3 coneOrigin, Vector3 coneDirection, int maxAngle, int maxDistance )
