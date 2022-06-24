@@ -65,7 +65,7 @@ public abstract partial class Ability : Entity
 	protected virtual void PreRun()
 	{
 		PlaySound( "pre" );
-		CreateParticle( "pre" );
+		CreateParticles( "pre" );
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
@@ -78,7 +78,7 @@ public abstract partial class Ability : Entity
 	protected virtual void PostRun()
 	{
 		PlaySound( "post" );
-		CreateParticle( "post" );
+		CreateParticles( "post" );
 
 		var character = GetCharacter();
 		if ( character.IsValid() )
@@ -177,21 +177,25 @@ public abstract partial class Ability : Entity
 
 	public new void PlaySound( string tag ) => PlaySound( tag, Entity );
 
-	public void CreateParticle( string tag, Entity entity )
+	public void CreateParticle( AbilityGameResource.ParticleEntry entry, Entity entity )
 	{
-		var particleEntry = Rand.FromList( Data.ParticlesWithTag( tag ) );
-
-		if ( string.IsNullOrEmpty( particleEntry.Particle ) )
+		if ( string.IsNullOrEmpty( entry.Particle ) )
 			return;
 
 		Util.CreateParticle(
-			particleEntry.FromCharacter ? GetCharacter() : entity,
-			particleEntry.Particle,
+			entry.FromCharacter ? GetCharacter() : entity,
+			entry.Particle,
 			true,
-			particleEntry.Attachment,
-			particleEntry.Lifetime
+			entry.Attachment,
+			entry.Lifetime
 		);
 	}
 
-	public void CreateParticle( string tag ) => CreateParticle( tag, Entity );
+	public void CreateParticles( string tag, Entity entity )
+	{
+		Data.ParticlesWithTag( tag )
+			.ForEach( x => CreateParticle( x, entity ) );
+	}
+
+	public void CreateParticles( string tag ) => CreateParticles( tag, Entity );
 }

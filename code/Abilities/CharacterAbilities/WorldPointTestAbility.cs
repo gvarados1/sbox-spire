@@ -69,7 +69,7 @@ public partial class WorldPointTestAbility : PlayerAbility
 	{
 		if ( !hitEntity.IsValid() ) return;
 
-		CreateParticle( "projectile_hit" );
+		CreateParticles( "projectile_hit" );
 
 		new ExplosionEntity
 		{

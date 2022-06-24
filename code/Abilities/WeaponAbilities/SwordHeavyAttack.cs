@@ -10,7 +10,7 @@ public partial class SwordHeavyAttack : BaseMeleeAttackAbility
 
 	protected override void OnTargetDamaged( Entity entity, DamageInfo damageInfo )
 	{
-		CreateParticle( "hit" );
+		CreateParticles( "hit" );
 		Particles.Create( "particles/explosion/barrel_explosion/explosion_fire_ring.vpcf", entity.Position );
 	}
 }

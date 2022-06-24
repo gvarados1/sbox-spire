@@ -76,7 +76,7 @@ public partial class BasicArrowAttack : WeaponAbility
 	{
 		if ( !hitEntity.IsValid() ) return;
 
-		CreateParticle( "projectile_hit" );
+		CreateParticles( "projectile_hit" );
 
 		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, CalculateDamage( hitEntity ) ) );
 	}

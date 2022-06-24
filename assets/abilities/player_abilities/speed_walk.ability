@@ -23,14 +23,14 @@
 				Tag = "pre"
 				Particle = resource:"particles/weapons/crossbow/speed_trail.vpcf"
 				FromCharacter = true
-				Attachment = "ankle_L"
+				Attachment = "foot_L"
 				Lifetime = 2
 			},
 			{
 				Tag = "pre"
 				Particle = resource:"particles/weapons/crossbow/speed_trail.vpcf"
 				FromCharacter = true
-				Attachment = "ankle_R"
+				Attachment = "foot_R"
 				Lifetime = 2
 			},
 		]
