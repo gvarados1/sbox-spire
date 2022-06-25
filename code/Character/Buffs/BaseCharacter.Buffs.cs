@@ -4,7 +4,7 @@ namespace Spire;
 
 public partial class BaseCharacter
 {
-	//	[Net, Predicted]
+	[Net, Predicted]
 	public List<Buff> Buffs { get; set; } = new();
 
 	public Buff AddBuff<T>() where T : Buff, new()

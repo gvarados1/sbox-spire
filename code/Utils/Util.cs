@@ -3,12 +3,12 @@ namespace Spire;
 public partial class Util
 {
 	[ClientRpc]
-	public static void CreateParticle( Entity entity, string path, bool follow )
+	public static void CreateParticle( Entity entity, string path, bool follow, Vector3 offset = default )
 	{
 		if ( follow )
 			Particles.Create( path, entity, true );
 		else
-			Particles.Create( path, entity.Position );
+			Particles.Create( path, entity.Position + offset );
 	}
 
 	protected static async Task DeleteAsync( Particles particle, float lifetime )

@@ -1,3 +1,5 @@
+using Spire.Buffs;
+
 namespace Spire.Abilities;
 
 public partial class FireballAbility : BaseMeleeAttackAbility
@@ -76,5 +78,10 @@ public partial class FireballAbility : BaseMeleeAttackAbility
 		CreateParticles( "projectile_hit" );
 
 		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, CalculateDamage( hitEntity ) ) );
+
+		if ( hitEntity is BaseCharacter character )
+		{
+			character.AddBuff<BaseDamageBuff>();
+		}
 	}
 }
