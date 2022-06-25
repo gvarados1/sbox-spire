@@ -3,33 +3,9 @@ using Spire.Abilities;
 namespace Spire.UI;
 
 [UseTemplate]
-public partial class WeaponAbilityPanel : Panel
+public partial class WeaponAbilityPanel : BaseAbilityPanel
 {
 	public WeaponAbilityType Type { get; set; } = WeaponAbilityType.Attack;
-	public WeaponAbility AbilityRef { get; set; }
-
-	// @ref
-	public InputHint InputHint { get; set; }
-
-	public string CooldownString
-	{
-		get
-		{
-			if ( AbilityRef is null || AbilityRef.InProgress || AbilityRef.TimeSinceLastUse < 1f )
-				return "";
-
-			var nextUse = (float)AbilityRef.TimeUntilNextUse;
-			if ( nextUse.Floor() <= 0 )
-				return "";
-
-			return $"{nextUse.Floor()}";
-		}
-	}
-
-	public WeaponAbilityPanel()
-	{
-		AddClass( "abilitypanel" );
-	}
 
 	public override void SetProperty( string name, string value )
 	{
@@ -42,43 +18,13 @@ public partial class WeaponAbilityPanel : Panel
 		}
 	}
 
-	protected void UpdateAbility()
+	protected override InputButton GetButton()
 	{
-		if ( AbilityRef is not null )
-		{
-			SetClass( "in-use", AbilityRef.TimeSinceLastUse < 1f || AbilityRef.InProgress );
-			Style.SetBackgroundImage( AbilityRef.GetIcon() );
-		}
-		else
-		{
-			SetClass( "in-use", false );
-			Style.SetBackgroundImage( "" );
-		}
-
-		SetClass( "no-ability", AbilityRef is null );
-		SetClass( "on-cooldown", AbilityRef?.TimeUntilNextUse > 0f );
-
-		InputHint.SetButton( Type.GetButton() );
+		return Type.GetButton();
 	}
 
-	public void Update( BaseWeapon weapon )
+	protected override Ability GetAbility()
 	{
-		if ( !weapon.IsValid() )
-		{
-			AbilityRef = null;
-
-			UpdateAbility();
-			return;
-		}
-		var ability = weapon.GetAbilities().FirstOrDefault( x => x.IsValid() && x.Type == Type );
-
-		if ( AbilityRef == ability )
-		{
-			UpdateAbility();
-			return;
-		}
-
-		UpdateAbility();
-		AbilityRef = ability;
+		return GetWeapon().GetAbilities().FirstOrDefault( x => x.IsValid() && x.Type == Type );
 	}
 }

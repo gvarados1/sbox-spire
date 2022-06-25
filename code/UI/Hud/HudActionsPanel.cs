@@ -31,15 +31,13 @@ public partial class HudActionsPanel : Panel
 		if ( !character.IsValid() )
 			return;
 
-		MovementPlayerAbility.Update( character );
-		FirstPlayerAbility.Update( character );
-		SecondPlayerAbility.Update( character );
-		UltimatePlayerAbility.Update( character );
+		MovementPlayerAbility.Update();
+		FirstPlayerAbility.Update();
+		SecondPlayerAbility.Update();
+		UltimatePlayerAbility.Update();
 
-		var weapon = character.ActiveChild as BaseWeapon;
-
-		WeaponAttackAbility.Update( weapon );
-		SpecialAttackAbility.Update( weapon );
-		UltimateAttackAbility.Update( weapon );
+		WeaponAttackAbility.Update();
+		SpecialAttackAbility.Update();
+		UltimateAttackAbility.Update();
 	}
 }
