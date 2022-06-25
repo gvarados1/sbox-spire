@@ -11,7 +11,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "assets\\projectiles\\dmx\\mesh\\small_bomb.dmx"
+						filename = "models\\projectiles\\dmx\\mesh\\small_bomb.dmx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 0.5
@@ -37,7 +37,7 @@
 						[
 							{
 								from = "materials/dev/dev_grid/wall_128.vmat"
-								to = "materials/dev/simple/wall_simple_128.vmat"
+								to = "materials/dev/yellow_vr.vmat"
 							},
 						]
 						use_global_default = false

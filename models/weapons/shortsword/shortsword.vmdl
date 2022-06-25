@@ -28,7 +28,7 @@
 						[
 							{
 								from = "material.001.vmat"
-								to = "assets/weapons/shortsword/shortsword.vmat"
+								to = "models/weapons/shortsword/shortsword.vmat"
 							},
 						]
 						use_global_default = false
@@ -60,7 +60,7 @@
 				[
 					{
 						_class = "RenderMeshFile"
-						filename = "assets/weapons/shortsword/shortsword.fbx"
+						filename = "models/weapons/shortsword/shortsword.fbx"
 						import_translation = [ 0.0, 0.0, 0.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
 						import_scale = 0.05
