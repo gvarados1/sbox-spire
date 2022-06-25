@@ -45,12 +45,10 @@ public partial class PlayerCharacter
 		// 
 	}
 
-	[Net, Predicted]
 	public TimeSince LastAbilityUsed { get; set; } = 1f;
 	public float GlobalAbilityCooldown => 1f;
 	public bool CanUseAbility() => LastAbilityUsed > GlobalAbilityCooldown;
 
-	[Net, Predicted]
 	public TimeSince LastInteractionUsed { get; set; } = 1f;
 	public float GlobalInteractionCooldown => 1f;
 	public bool CanUseAbilityInteract() => LastInteractionUsed > GlobalInteractionCooldown;
