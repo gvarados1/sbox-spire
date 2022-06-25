@@ -7,7 +7,7 @@ public partial class SwordWeapon : BaseWeapon
 	public override HoldType HoldType => HoldType.Item;
 	public override HoldHandedness HoldHandedness => HoldHandedness.RightHand;
 
-	public override string ModelPath => "assets/weapons/basic_sword.vmdl";
+	public override string ModelPath => "assets/weapons/shortsword/shortsword.vmdl";
 
 	// Abilities
 	public override Type AttackAbilityType => typeof( SwordAttack );
