@@ -2,13 +2,20 @@
 {
 	data = 
 	{
-		Cooldown = 30
 		AbilityID = "bomb_throw"
 		AbilityName = "Bomb Throw"
 		Description = "Throws a bomb where you\'re facing."
+		Cooldown = 30
 		Icon = resource:"ui/ability_icons/bomb.jpg"
-		PlayerSpeedScale = 1
+		InteractionType = "Direction"
+		_AbilityRange = "0,0"
+		AbilityRange = 
+		{
+		}
+		AbilityEffectRadius = 60
+		CharacterSpeedMod = 1
 		Duration = 0
+		RunDefaultPlayerAnimation = true
 		Sounds = [  ]
 		Particles = [  ]
 	}
