@@ -49,6 +49,7 @@ public partial class PlayerCharacter : BaseCharacter
 
 		Hotbar.Add( new SwordWeapon() );
 		Hotbar.Add( new CrossbowWeapon(), false );
+		Hotbar.Add( new MagicStaffWeapon(), false );
 
 		// @TODO: Improve this. This is shit
 		FirstAbility = new SelfHealAbility();
