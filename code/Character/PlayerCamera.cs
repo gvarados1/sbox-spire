@@ -127,7 +127,8 @@ public partial class PlayerCamera : CameraMode
 			if ( !IsSpectator )
 				input.ViewAngles = OrbitAngles.WithPitch( 0f );
 		}
-		else if ( !IsSpectator && pawn.IsValid() )
+		
+		if ( !IsSpectator && pawn.IsValid() )
 		{
 			var direction = Screen.GetDirection( Mouse.Position, FieldOfView, Rotation, Screen.Size );
 			var hitPos = Utils.PlaneIntersectionWithZ( Position, direction, pawn.EyePosition.z );
