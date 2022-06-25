@@ -10,7 +10,7 @@ public partial class MagicStaffWeapon : BaseWeapon
 	public override string ModelPath => "models/weapons/magicstaff/magicstaff.vmdl";
 
 	// Abilities
-
+	public override Type AttackAbilityType => typeof( FireballAbility );
 	// End of abilities
 
 	public override void SimulateAnimator( PawnAnimator anim )
