@@ -35,7 +35,7 @@ public partial class WorldPointTestAbility : PlayerAbility
 			Attacker = Entity,
 			LifeTime = 2.5f,
 			Gravity = 0f,
-			ModelPath = "assets/projectiles/rust_crossbow_bolt_fixed.vmdl"
+			ModelPath = "models/projectiles/rust_crossbow_bolt_fixed.vmdl"
 		};
 
 		var position = pos + Vector3.Up * 512f;

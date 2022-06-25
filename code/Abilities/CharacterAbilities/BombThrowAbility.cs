@@ -27,7 +27,7 @@ public partial class BombThrowAbility : PlayerAbility
 			Attacker = Character,
 			LifeTime = 2.5f,
 			Gravity = 30f,
-			ModelPath = "assets/projectiles/small_bomb.vmdl",
+			ModelPath = "models/projectiles/small_bomb.vmdl",
 			TrailEffect = "particles/weapons/crossbow/crossbow_trail.vpcf"
 		};
 
