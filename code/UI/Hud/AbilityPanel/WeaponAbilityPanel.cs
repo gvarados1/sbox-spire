@@ -25,6 +25,6 @@ public partial class WeaponAbilityPanel : BaseAbilityPanel
 
 	protected override Ability GetAbility()
 	{
-		return GetWeapon().GetAbilities().FirstOrDefault( x => x.IsValid() && x.Type == Type );
+		return GetWeapon()?.GetAbilities().FirstOrDefault( x => x.IsValid() && x.Type == Type );
 	}
 }

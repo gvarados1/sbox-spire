@@ -43,8 +43,10 @@ public partial class BaseAbilityPanel : Panel
 		return GetCharacter()?.ActiveChild as BaseWeapon;
 	}
 
-	protected virtual void UpdateAbility()
+	protected virtual void UpdateAbility( Ability ability )
 	{
+		Ability = ability;
+
 		if ( Ability is not null )
 		{
 			SetClass( "in-use", Ability.InProgress );
@@ -60,7 +62,7 @@ public partial class BaseAbilityPanel : Panel
 		if ( character.IsValid() )
 		{
 			SetClass( "character-cooldown", !character.CanUseAbility() || !character.CanUseAbilityInteract() );
-			SetClass( "interacting-self", character.InteractingAbility == Ability );
+			SetClass( "interacting-self", character.InteractingAbility is not null && character.InteractingAbility == Ability );
 			SetClass( "interacting", character.InteractingAbility is not null && character.InteractingAbility != Ability );
 		}
 
@@ -84,16 +86,9 @@ public partial class BaseAbilityPanel : Panel
 	{
 		var ability = GetAbility();
 
-		if ( Ability == ability )
-		{
-			UpdateAbility();
+		if ( ability == Ability )
 			return;
-		}
-
-		if ( ability is not null )
-		{
-			UpdateAbility();
-			Ability = ability;
-		}
+		
+		UpdateAbility( ability );
 	}
 }
