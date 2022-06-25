@@ -12,7 +12,6 @@
     background-repeat: no-repeat;
     background-size: contain;
     transition: all 0.1s ease;
-
     border: 1px solid black;
 
     > InputHint {
@@ -78,5 +77,26 @@
             background-color: rgba( black, 0.6 );
             border-radius: 0px;
         }
+    }
+
+    &.character-cooldown {
+        > .on-cooldown-panel {
+            opacity: 1;
+            background-color: rgba( black, 0.5 );
+            border-radius: 0px;
+        }
+    }
+
+    &.interacting {
+        > .on-cooldown-panel {
+            opacity: 1;
+            background-color: rgba( black, 0.5 );
+            border-radius: 0px;
+        }
+    }
+
+    &.interacting-self {
+        border: 1px solid #32936F;
+        transform: scale( 1.1 );
     }
 }

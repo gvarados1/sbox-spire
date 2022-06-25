@@ -4,7 +4,7 @@ namespace Spire.UI;
 
 public partial class BaseAbilityPanel : Panel
 {
-	public Ability AbilityRef { get; set; }
+	public Ability Ability { get; set; }
 
 	// @ref
 	public InputHint InputHint { get; set; }
@@ -13,14 +13,14 @@ public partial class BaseAbilityPanel : Panel
 	{
 		get
 		{
-			if ( AbilityRef is null || AbilityRef.InProgress || AbilityRef.TimeSinceLastUse < 1f )
+			if ( Ability is null || Ability.InProgress )
 				return "";
 
-			var nextUse = (float)AbilityRef.TimeUntilNextUse;
-			if ( nextUse.Floor() <= 0 )
+			var nextUse = (float)Ability.TimeUntilNextUse;
+			if ( nextUse.CeilToInt() <= 0 )
 				return "";
 
-			return $"{nextUse.Floor()}";
+			return $"{nextUse.CeilToInt()}";
 		}
 	}
 
@@ -41,10 +41,10 @@ public partial class BaseAbilityPanel : Panel
 
 	protected virtual void UpdateAbility()
 	{
-		if ( AbilityRef is not null )
+		if ( Ability is not null )
 		{
-			SetClass( "in-use", AbilityRef.TimeSinceLastUse < 1f || AbilityRef.InProgress );
-			Style.SetBackgroundImage( AbilityRef.GetIcon() );
+			SetClass( "in-use", Ability.InProgress );
+			Style.SetBackgroundImage( Ability.GetIcon() );
 		}
 		else
 		{
@@ -52,8 +52,16 @@ public partial class BaseAbilityPanel : Panel
 			Style.SetBackgroundImage( "" );
 		}
 
-		SetClass( "no-ability", AbilityRef is null );
-		SetClass( "on-cooldown", AbilityRef?.TimeUntilNextUse > 0f );
+		var character = GetCharacter();
+		if ( character.IsValid() )
+		{
+			SetClass( "character-cooldown", !character.CanUseAbility() || !character.CanUseAbilityInteract() );
+			SetClass( "interacting-self", character.InteractingAbility == Ability );
+			SetClass( "interacting", character.InteractingAbility is not null && character.InteractingAbility != Ability );
+		}
+
+		SetClass( "no-ability", Ability is null );
+		SetClass( "on-cooldown", Ability?.TimeUntilNextUse > 0f );
 
 		InputHint.SetButton( GetButton() );
 	}
@@ -72,7 +80,7 @@ public partial class BaseAbilityPanel : Panel
 	{
 		var ability = GetAbility();
 
-		if ( AbilityRef == ability )
+		if ( Ability == ability )
 		{
 			UpdateAbility();
 			return;
@@ -81,7 +89,7 @@ public partial class BaseAbilityPanel : Panel
 		if ( ability is not null )
 		{
 			UpdateAbility();
-			AbilityRef = ability;
+			Ability = ability;
 		}
 	}
 }
