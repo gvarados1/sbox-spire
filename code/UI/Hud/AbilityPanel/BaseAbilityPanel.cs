@@ -17,6 +17,10 @@ public partial class BaseAbilityPanel : Panel
 				return "";
 
 			var nextUse = (float)Ability.TimeUntilNextUse;
+
+			if ( nextUse <= 2 && nextUse >= 0 )
+				return $"{nextUse:F1}";
+
 			if ( nextUse.CeilToInt() <= 0 )
 				return "";
 
