@@ -46,18 +46,24 @@ public partial class InputHint : Panel
 
 		if ( IsSet )
 		{
-			Texture glyphTexture = Input.GetGlyph( Button, InputGlyphSize.Small, GlyphStyle.Dark.WithSolidABXY().WithNeutralColorABXY() );
-			if ( glyphTexture != null )
+			Texture glyphTexture = Input.GetGlyph( Button, InputGlyphSize.Medium, GlyphStyle.Dark.WithSolidABXY().WithNeutralColorABXY() );
+			if ( glyphTexture is null )
+				return;
+
+			Glyph.Texture = glyphTexture;
+
+
+			// @TODO: sort this out, it's pretty shitty
+			if ( glyphTexture.Width > glyphTexture.Height )
 			{
-				Glyph.Texture = glyphTexture;
+				Glyph.Style.Width = Length.Pixels( 64f );
+				Glyph.Style.Height = Length.Pixels( 32f );
 			}
 			else
 			{
-				Glyph.Texture = Texture.Load( FileSystem.Mounted, "/ui/Input/invalid_glyph.png" );
+				Glyph.Style.Width = Length.Pixels( 32f );
+				Glyph.Style.Height = Length.Pixels( 32f );
 			}
-
-			Glyph.Style.Width = glyphTexture.Width;
-			Glyph.Style.Height = glyphTexture.Height;
 		}
 	}
 }

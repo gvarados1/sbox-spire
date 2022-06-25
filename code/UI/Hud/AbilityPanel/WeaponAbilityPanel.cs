@@ -28,6 +28,7 @@ public partial class WeaponAbilityPanel : Panel
 
 	public WeaponAbilityPanel()
 	{
+		AddClass( "abilitypanel" );
 	}
 
 	public override void SetProperty( string name, string value )

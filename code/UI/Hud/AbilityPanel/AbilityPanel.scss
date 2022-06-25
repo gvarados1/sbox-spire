@@ -1,10 +1,10 @@
 @import "/UI/Theme.scss";
 
-PlayerAbilityPanel {
+.abilitypanel {
     width: 64px;
     height: 64px;
     background-color: rgba( black, 0.5 );
-    border-radius: 8px;
+    border-radius: 0px;
     justify-content: center;
     align-items: center;
     align-content: center;
@@ -12,11 +12,12 @@ PlayerAbilityPanel {
     background-repeat: no-repeat;
     background-size: contain;
     transition: all 0.1s ease;
-    box-shadow: 0px 0px 20px rgba(grey, 0.5 );
+
+    border: 1px solid black;
 
     > InputHint {
         position: absolute;
-        bottom: -36px;
+        bottom: -40px;
     }
 
     > .cooldown-label {
@@ -58,7 +59,7 @@ PlayerAbilityPanel {
         > .on-cooldown-panel {
             opacity: 1;
             background-color: rgba( black, 0.6 );
-            border-radius: 8px;
+            border-radius: 0px;
         }
     }
 
@@ -75,7 +76,7 @@ PlayerAbilityPanel {
         > .on-cooldown-panel {
             opacity: 1;
             background-color: rgba( black, 0.6 );
-            border-radius: 8px;
+            border-radius: 0px;
         }
     }
 }

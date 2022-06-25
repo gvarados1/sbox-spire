@@ -28,6 +28,7 @@ public partial class PlayerAbilityPanel : Panel
 
 	public PlayerAbilityPanel()
 	{
+		AddClass( "abilitypanel" );
 	}
 
 	public override void SetProperty( string name, string value )
