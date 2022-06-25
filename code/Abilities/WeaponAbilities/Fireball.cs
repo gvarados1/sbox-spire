@@ -75,7 +75,7 @@ public partial class FireballAbility : BaseMeleeAttackAbility
 	{
 		if ( !hitEntity.IsValid() ) return;
 
-		CreateParticles( "projectile_hit" );
+		CreateParticles( "projectile_hit", projectile );
 
 		hitEntity.TakeDamage( DamageInfo.FromBullet( hitEntity.Position, Vector3.Zero, CalculateDamage( hitEntity ) ) );
 
