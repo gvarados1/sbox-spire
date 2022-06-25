@@ -8,7 +8,6 @@ public enum DangerType
 
 public partial class DangerAreaEntity : AnimatedEntity
 {
-
 	[Net, Change]
 	public string ParticlePath { get; set; }
 
@@ -63,6 +62,7 @@ public partial class DangerAreaEntity : AnimatedEntity
 	protected override void OnDestroy()
 	{
 		Particles?.Destroy();
+
 		base.OnDestroy();
 	}
 
@@ -71,9 +71,7 @@ public partial class DangerAreaEntity : AnimatedEntity
 	{
 		if ( UntilRemoved )
 		{
-			Log.State( "delete deez" );
 			Delete();
-
 		}
 	}
 }
