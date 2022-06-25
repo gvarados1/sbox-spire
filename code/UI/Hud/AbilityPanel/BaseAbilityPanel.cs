@@ -85,9 +85,6 @@ public partial class BaseAbilityPanel : Panel
 	public virtual void Update()
 	{
 		var ability = GetAbility();
-
-		if ( ability == Ability )
-			return;
 		
 		UpdateAbility( ability );
 	}
