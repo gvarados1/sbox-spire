@@ -16,6 +16,10 @@ SpireHud {
         padding: $safe-zone-y $safe-zone-x $safe-zone-x $safe-zone-y;
         bottom: 0;
         flex-direction: column;
+
+        inputhint {
+            margin-top: 4px;
+        }
     }
 }
 
