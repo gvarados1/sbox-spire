@@ -27,6 +27,7 @@ public class HurtEntityInfo
 }
 
 [HammerEntity]
+[AutoApplyMaterial( "materials/tools/toolskill.vmat" )]
 [Solid]
 [Title( "Hurt Trigger" ), Category( "Triggers" ), Icon( "personal_injury" )]
 public partial class GenericHurtEntity : BaseTrigger
